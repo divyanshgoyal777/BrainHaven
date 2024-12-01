@@ -26,7 +26,7 @@ function Signup() {
   }, []);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-gray-100">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-gray-100 p-2">
       <div className="max-w-md w-full bg-gray-800 p-8 rounded-lg shadow-2xl border-2 border-transparent bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-20 border-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
         <h2 className="text-2xl font-semibold text-center mb-6">
           Create New Account
