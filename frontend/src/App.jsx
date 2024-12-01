@@ -9,9 +9,9 @@ import { Toaster } from "react-hot-toast";
 import Signup from "./components/auth/Signup/Signup";
 import Login from "./components/auth/Login/Login";
 import Home from "./components/home/Home";
-import Resources from "./components/Resources/Resources";
-import Roadmaps from "./components/Roadmaps/Roadmaps";
-import Hackmate from "./components/Hackmate/Hackmate";
+import Resources from "./components/resources/Resources";
+import Roadmaps from "./components/roadmaps/Roadmaps";
+import Hackmate from "./components/hackmate/Hackmate";
 import PageNotFound from "./components/PageNotFound";
 
 function AppRoutes() {
