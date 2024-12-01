@@ -8,17 +8,23 @@ import {
 import { Toaster } from "react-hot-toast";
 import Signup from "./components/auth/Signup/Signup";
 import Login from "./components/auth/Login/Login";
+import Home from "./components/home/Home";
+import Resources from "./components/Resources/Resources";
+import Roadmaps from "./components/Roadmaps/Roadmaps";
+import Hackmate from "./components/Hackmate/Hackmate";
 import PageNotFound from "./components/PageNotFound";
-import Home from "./components/Home/Home";
 
 function AppRoutes() {
   return (
     <>
       <Toaster position="top-center" reverseOrder={false} />
       <Routes>
-         <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/resources" element={<Resources />} />
+        <Route path="/roadmaps" element={<Roadmaps />} />
+        <Route path="/hackmate" element={<Hackmate />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </>
