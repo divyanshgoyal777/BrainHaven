@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import logo from "../../../assets/img/BrainWaveFaviconNoBackground.png";
 
 const Navbar = () => {
@@ -13,7 +13,9 @@ const Navbar = () => {
     <nav className="fixed top-0 w-full py-5 px-8 bg-[#100924] z-50">
       <div className="flex justify-between items-center max-w-screen-xl mx-auto">
         <div className="md:flex hidden">
-          <img src={logo} alt="Logo" className="w-10" />
+          <Link to="/">
+            <img src={logo} alt="Logo" className="w-10" />
+          </Link>
         </div>
         <div className="md:hidden flex items-center">
           <button onClick={toggleMenu} className="text-white">
@@ -93,7 +95,9 @@ const Navbar = () => {
         </div>
         <div className="md:hidden flex items-center">
           <div>
-            <img src={logo} alt="Logo" className="w-10" />
+            <Link to="/">
+              <img src={logo} alt="Logo" className="w-10" />
+            </Link>
           </div>
         </div>
         <div className="flex gap-4">

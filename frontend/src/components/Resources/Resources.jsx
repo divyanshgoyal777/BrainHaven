@@ -17,13 +17,31 @@ const Resources = () => {
   return (
     <div>
       <Navbar />
-      <div className="mt-40">
-        <h1 className="bg-gradient-to-tl from-indigo-600 to-purple-600 bg-clip-text text-transparent text-4xl md:text-5xl font-bold text-center sm:text-4xl">Notes</h1>
+      <div className="mt-32 px-8">
+        <h1 className="bg-gradient-to-tl from-indigo-600 to-purple-600 bg-clip-text text-transparent text-4xl md:text-5xl font-bold text-center sm:text-4xl">
+          Resources
+        </h1>
         <div className="my-16 w-[80%] m-auto flex flex-col items-center">
           <div className="">
-            <form action="" onSubmit={(e) => e.preventDefault()} className="flex gap-6">
-              <input type="text" placeholder="Search" name="" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="w-[60vw] py-3 px-3 rounded-md" />
-              <button className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium py-2 px-4 rounded-md shadow-md" type="submit">Search</button>
+            <form
+              action=""
+              onSubmit={(e) => e.preventDefault()}
+              className="flex gap-6"
+            >
+              <input
+                type="text"
+                placeholder="Search"
+                name=""
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-[60vw] py-3 px-3 rounded-md"
+              />
+              <button
+                className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium py-2 px-4 rounded-md shadow-md"
+                type="submit"
+              >
+                Search
+              </button>
             </form>
           </div>
           <div className="grid grid-cols-2 grid-rows-2 my-20 gap-10">
@@ -37,14 +55,14 @@ const Resources = () => {
                 </button>
               ))
             ) : (
-              <p className="text-gray-500 text-center col-span-2">
-                No resources found.
-              </p>
+              <div className="col-span-full flex items-center justify-center text-gray-500 text-xl">
+                No resource found.
+              </div>
             )}
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

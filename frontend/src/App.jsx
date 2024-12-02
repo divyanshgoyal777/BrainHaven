@@ -11,6 +11,7 @@ import Login from "./components/auth/Login/Login";
 import Home from "./components/home/Home";
 import Resources from "./components/resources/Resources";
 import Roadmaps from "./components/roadmaps/Roadmaps";
+import RoadmapDetails from "./components/roadmaps/RoadmapDetail";
 import Hackmate from "./components/hackmate/Hackmate";
 import PageNotFound from "./components/PageNotFound";
 
@@ -24,6 +25,7 @@ function AppRoutes() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/resources" element={<Resources />} />
         <Route path="/roadmaps" element={<Roadmaps />} />
+        <Route path="/roadmaps/:roadmapId" element={<RoadmapDetails />} />
         <Route path="/hackmate" element={<Hackmate />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
