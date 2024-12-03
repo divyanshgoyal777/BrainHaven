@@ -17,10 +17,6 @@ const Roadmaps = () => {
     "Blockchain",
     "AI and Machine Learning",
     "Cybersecurity",
-    "Game Development",
-    "UI/UX Design",
-    "Mobile App Development",
-    "AR/VR Development",
   ];
 
   const programmingLanguages = [
