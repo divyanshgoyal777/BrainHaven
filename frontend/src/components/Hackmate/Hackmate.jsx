@@ -112,7 +112,7 @@ const Hackathon = () => {
   );
 
   return (
-    <div className="text-white min-h-screen font-sans">
+    <div className="text-white min-h-screen">
       <Navbar />
       <div className="container mx-auto px-8 mt-32">
         <h1 className="bg-gradient-to-tl from-indigo-600 to-purple-600 bg-clip-text text-transparent text-3xl md:text-4xl font-extrabold text-center drop-shadow-lg">
