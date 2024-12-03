@@ -23,7 +23,7 @@
       "Focus on UI/UX Design: Understand the importance of user experience design, including principles of interaction design, accessibility, and responsive design.",
       "Work with APIs: Learn how to consume RESTful APIs and work with GraphQL for fetching data from a server."
     ],
-    "poster" : null
+    "poster" : "img/Frontend Roadmap.png"
   },
   "backend-development": {
     "title": "Backend Development Roadmap",
@@ -47,7 +47,7 @@
       "Understand WebSockets: Learn WebSockets for real-time communication in your web applications (e.g., chat applications, live updates).",
       "Master API Documentation: Learn to document APIs using tools like Swagger and Postman to make your APIs more understandable for users and developers."
     ],
-    "poster" : null
+    "poster": "img/Backend Roadmap.png"
   },
   "full-stack-development": {
     "title": "Full Stack Development Roadmap",
@@ -71,7 +71,7 @@
       "Focus on Performance Optimization: Optimize both frontend (lazy loading, image compression) and backend (caching, database queries) for better performance.",
       "Explore Progressive Web Apps (PWA): Learn how to make your full-stack apps installable on devices and work offline."
     ],
-    "poster" : null
+    "poster": "img/Full Stack Roadmap.png"
   },
   "devops": {
     "title": "DevOps Roadmap",
@@ -94,7 +94,7 @@
       "Explore Serverless: Learn serverless architecture and platforms like AWS Lambda or Google Cloud Functions for managing backend services without managing the servers directly.",
       "Learn Deployment Strategies: Understand deployment strategies like blue/green deployment, canary releases, and rolling updates for safe and scalable releases."
     ],
-    "poster" : null
+    "poster": "img/DevOps Roadmap.png"
   },
   "data-science": {
     "title": "Data Science Roadmap",
@@ -117,7 +117,7 @@
       "Deploy Machine Learning Models: Understand how to deploy ML models into production using tools like Flask, FastAPI, or cloud-based services like AWS SageMaker or Google AI Platform.",
       "Understand Ethics in Data Science: Learn the ethical considerations in data science, including privacy issues, bias in data, and ethical AI practices."
     ],
-    "poster" : null
+    "poster": "img/Data Science Roadmap.png"
   },
   "blockchain": {
     "title": "Blockchain Development Roadmap",
@@ -140,7 +140,7 @@
       "Learn about Non-Fungible Tokens (NFTs): Understand what NFTs are, how they work, and how to create and trade them on blockchain platforms like Ethereum.",
       "Work with Blockchain APIs: Get familiar with blockchain APIs like Infura, Alchemy, or Chainlink to interact with blockchain networks and integrate data into your applications."
     ],
-    "poster" : null
+    "poster": "img/Blockchain Roadmap.png"
   },
   "ai-and-machine-learning": {
     "title": "AI and Machine Learning Roadmap",
@@ -159,7 +159,7 @@
       "Deploy Machine Learning Models: Learn to deploy models in production using Flask, FastAPI, or cloud services like AWS SageMaker, Google Cloud AI, or Azure ML.",
       "Focus on Advanced Topics: Explore Generative Adversarial Networks (GANs), Autoencoders, neural architecture search, and other cutting-edge advancements in deep learning."
     ],
-    "poster" : null
+    "poster": "img/AI and Machine Learning Roadmap.png"
   },
   "cybersecurity": {
     "title": "Cybersecurity Roadmap",
@@ -176,7 +176,7 @@
       "Work with Security Tools: Master tools like Wireshark (network monitoring), Metasploit (exploitation), Nmap (network scanning), Burp Suite (web application security), and others.",
       "Stay Updated: Follow cybersecurity news, threat intelligence feeds, and trends to keep your knowledge up to date and respond to emerging threats."
     ],
-    "poster" : null
+    "poster": "img/Cybersecurity Roadmap.png"
   },
   "python": {
     "title": "Python Programming Roadmap",
