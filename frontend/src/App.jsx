@@ -18,6 +18,7 @@ import PageNotFound from "./components/PageNotFound";
 import PrivacyPolicy from "./components/policy/policy";
 import FAQs from "./components/faqs/faqs";
 import TermsAndConditions from "./components/terms/Terms";
+import ResourcesDetail from "./components/resources/ResourcesDetail";
 
 function AppRoutes() {
   return (
@@ -29,6 +30,7 @@ function AppRoutes() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/resources" element={<Resources />} />
+        <Route path="/resources/:resourceId" element={<ResourcesDetail />} />
         <Route path="/roadmaps" element={<Roadmaps />} />
         <Route path="/roadmaps/:roadmapId" element={<RoadmapDetails />} />
         <Route path="/hackmate" element={<Hackmate />} />
