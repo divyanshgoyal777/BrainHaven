@@ -33,7 +33,7 @@ function AppRoutes() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/resources" element={<Resources />} />
         <Route path="/resources/:resourceId" element={<ResourcesDetail />} />
-        <Route path="/resources/:resourceId/:activeSection/:selectedSemester" element={<ResourcePdf />} />
+        <Route path="/resources/:resourceId/:section/:activeSemester/:selectedSubject" element={<ResourcePdf />} />
         <Route path="/roadmaps" element={<Roadmaps />} />
         <Route path="/roadmaps/:roadmapId" element={<RoadmapDetails />} />
         <Route path="/hackmate" element={<Hackmate />} />

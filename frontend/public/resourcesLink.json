@@ -1,0 +1,201 @@
+{
+    "diploma": {
+      "Notes": {
+        "1st Semester": {
+          "Subject 1": "https://drive.google.com/file/d/1B7LhVpVj39C8MrMWkhBvw4nGclt9-gG6/preview",
+          "Subject 2": null,
+          "Subject 3": null
+        },
+        "2nd Semester": {
+          "Subject 1": null,
+          "Subject 2": null,
+          "Subject 3": null
+        }
+      },
+      "Assignment": {
+        "1st Semester": {
+          "Subject 1": null,
+          "Subject 2": null,
+          "Subject 3": null
+        },
+        "2nd Semester": {
+          "Subject 1": null,
+          "Subject 2": null,
+          "Subject 3": null
+        }
+      },
+      "Books": {
+        "1st Semester": {
+          "Subject 1": null,
+          "Subject 2": null,
+          "Subject 3": null
+        },
+        "2nd Semester": {
+          "Subject 1": null,
+          "Subject 2": null,
+          "Subject 3": null
+        }
+      },
+      "Playlist": {
+        "1st Semester": {
+          "Subject 1": null,
+          "Subject 2": null,
+          "Subject 3": null
+        },
+        "2nd Semester": {
+          "Subject 1": null,
+          "Subject 2": null,
+          "Subject 3": null
+        }
+      },
+      "Papers": {
+        "1st Semester": {
+          "Subject 1": null,
+          "Subject 2": null,
+          "Subject 3": null
+        },
+        "2nd Semester": {
+          "Subject 1": null,
+          "Subject 2": null,
+          "Subject 3": null
+        }
+      },
+      "Practical": {
+        "1st Semester": {
+          "Subject 1": null,
+          "Subject 2": null,
+          "Subject 3": null
+        },
+        "2nd Semester": {
+          "Subject 1": null,
+          "Subject 2": null,
+          "Subject 3": null
+        }
+      }
+    },
+    "btech": {
+      "Notes": {
+        "1st Semester": {
+          "Subject 1": null,
+          "Subject 2": null,
+          "Subject 3": null
+        },
+        "2nd Semester": {
+          "Subject 1": null,
+          "Subject 2": null,
+          "Subject 3": null
+        }
+      },
+      "Assignment": {
+        "1st Semester": {
+          "Subject 1": null,
+          "Subject 2": null,
+          "Subject 3": null
+        },
+        "2nd Semester": {
+          "Subject 1": null,
+          "Subject 2": null,
+          "Subject 3": null
+        }
+      },
+      "Books": {
+        "1st Semester": {
+          "Subject 1": null,
+          "Subject 2": null,
+          "Subject 3": null
+        },
+        "2nd Semester": {
+          "Subject 1": null,
+          "Subject 2": null,
+          "Subject 3": null
+        }
+      },
+      "Playlist": {
+        "1st Semester": {
+          "Subject 1": null,
+          "Subject 2": null,
+          "Subject 3": null
+        },
+        "2nd Semester": {
+          "Subject 1": null,
+          "Subject 2": null,
+          "Subject 3": null
+        }
+      },
+      "Papers": {
+        "1st Semester": {
+          "Subject 1": null,
+          "Subject 2": null,
+          "Subject 3": null
+        },
+        "2nd Semester": {
+          "Subject 1": null,
+          "Subject 2": null,
+          "Subject 3": null
+        }
+      },
+      "Practical": {
+        "1st Semester": {
+          "Subject 1": null,
+          "Subject 2": null,
+          "Subject 3": null
+        },
+        "2nd Semester": {
+          "Subject 1": null,
+          "Subject 2": null,
+          "Subject 3": null
+        }
+      }
+    },
+    "web-developing": {
+      "Notes": {
+        "1st Semester": {
+          "Subject 1": null,
+          "Subject 2": null,
+          "Subject 3": null
+        },
+        "2nd Semester": {
+          "Subject 1": null,
+          "Subject 2": null,
+          "Subject 3": null
+        }
+      },
+      "Assignment": {
+        "1st Semester": {
+          "Subject 1": null,
+          "Subject 2": null,
+          "Subject 3": null
+        },
+        "2nd Semester": {
+          "Subject 1": null,
+          "Subject 2": null,
+          "Subject 3": null
+        }
+      },
+      "Books": {
+        "1st Semester": {
+          "Subject 1": null,
+          "Subject 2": null,
+          "Subject 3": null
+        },
+        "2nd Semester": {
+          "Subject 1": null,
+          "Subject 2": null,
+          "Subject 3": null
+        }
+      },
+      "Playlist": {
+        "1st Semester": {
+          "Subject 1": null,
+          "Subject 2": null,
+          "Subject 3": null
+        },
+        "2nd Semester": {
+          "Subject 1": null,
+          "Subject 2": null,
+          "Subject 3": null
+        }
+      }
+    }
+  }
+  
