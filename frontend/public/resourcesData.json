@@ -47,101 +47,101 @@
           "Units": ["Unit1", "Unit2", "Unit3"]
         }
       }
-    }
-  },
-  "Books": {
-    "1st Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+    },
+    "Books": {
+      "1st Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+      "2nd Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       }
     },
-    "2nd Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+    "Playlist": {
+      "1st Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      }
-    }
-  },
-  "Playlist": {
-    "1st Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      }
-    },
-    "2nd Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      }
-    }
-  },
-  "Papers": {
-    "1st Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+      "2nd Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       }
     },
-    "2nd Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+    "Papers": {
+      "1st Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      }
-    }
-  },
-  "Practical": {
-    "1st Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+      "2nd Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       }
     },
-    "2nd Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+    "Practical": {
+      "1st Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+      "2nd Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       }
     }
   },
@@ -193,101 +193,101 @@
           "Units": ["Unit1", "Unit2", "Unit3"]
         }
       }
-    }
-  },
-  "Books": {
-    "1st Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+    },
+    "Books": {
+      "1st Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+      "2nd Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       }
     },
-    "2nd Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+    "Playlist": {
+      "1st Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      }
-    }
-  },
-  "Playlist": {
-    "1st Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      }
-    },
-    "2nd Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      }
-    }
-  },
-  "Papers": {
-    "1st Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+      "2nd Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       }
     },
-    "2nd Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+    "Papers": {
+      "1st Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      }
-    }
-  },
-  "Practical": {
-    "1st Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+      "2nd Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       }
     },
-    "2nd Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+    "Practical": {
+      "1st Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+      "2nd Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       }
     }
   },
@@ -339,101 +339,101 @@
           "Units": ["Unit1", "Unit2", "Unit3"]
         }
       }
-    }
-  },
-  "Books": {
-    "1st Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+    },
+    "Books": {
+      "1st Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+      "2nd Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       }
     },
-    "2nd Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+    "Playlist": {
+      "1st Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      }
-    }
-  },
-  "Playlist": {
-    "1st Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      }
-    },
-    "2nd Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      }
-    }
-  },
-  "Papers": {
-    "1st Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+      "2nd Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       }
     },
-    "2nd Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+    "Papers": {
+      "1st Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      }
-    }
-  },
-  "Practical": {
-    "1st Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+      "2nd Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       }
     },
-    "2nd Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+    "Practical": {
+      "1st Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+      "2nd Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       }
     }
   },
@@ -485,101 +485,101 @@
           "Units": ["Unit1", "Unit2", "Unit3"]
         }
       }
-    }
-  },
-  "Books": {
-    "1st Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+    },
+    "Books": {
+      "1st Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+      "2nd Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       }
     },
-    "2nd Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+    "Playlist": {
+      "1st Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      }
-    }
-  },
-  "Playlist": {
-    "1st Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      }
-    },
-    "2nd Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      }
-    }
-  },
-  "Papers": {
-    "1st Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+      "2nd Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       }
     },
-    "2nd Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+    "Papers": {
+      "1st Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      }
-    }
-  },
-  "Practical": {
-    "1st Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+      "2nd Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       }
     },
-    "2nd Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+    "Practical": {
+      "1st Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+      "2nd Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       }
     }
   },
@@ -631,101 +631,101 @@
           "Units": ["Unit1", "Unit2", "Unit3"]
         }
       }
-    }
-  },
-  "Books": {
-    "1st Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+    },
+    "Books": {
+      "1st Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+      "2nd Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       }
     },
-    "2nd Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+    "Playlist": {
+      "1st Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      }
-    }
-  },
-  "Playlist": {
-    "1st Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      }
-    },
-    "2nd Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      }
-    }
-  },
-  "Papers": {
-    "1st Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+      "2nd Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       }
     },
-    "2nd Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+    "Papers": {
+      "1st Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      }
-    }
-  },
-  "Practical": {
-    "1st Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+      "2nd Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       }
     },
-    "2nd Semester": {
-      "Subject 1": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+    "Practical": {
+      "1st Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       },
-      "Subject 2": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
-      },
-      "Subject 3": {
-        "Units": ["Unit1", "Unit2", "Unit3"]
+      "2nd Semester": {
+        "Subject 1": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 2": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        },
+        "Subject 3": {
+          "Units": ["Unit1", "Unit2", "Unit3"]
+        }
       }
     }
   }
