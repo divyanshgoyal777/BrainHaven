@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FaEye, FaEyeSlash, FaEnvelope, FaUser, FaKey } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
-import axios from 'axios'
+import axios from "axios";
 
 function Signup() {
   const [email, setEmail] = useState("");
@@ -12,32 +12,33 @@ function Signup() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
 
-  const handleSignup = async(e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      // Create a payload object
       const userData = {
         firstName,
         lastName,
         email,
-        password
+        password,
       };
-
-      // Send POST request to the backend
-      const response = await axios.post("http://localhost:5000/signup", userData);
-
-      // Handle the response from the backend
-      toast.success(response.data.message); // Show success toast message
-      setLoading(false); // Stop loading state
+      const response = await axios.post(
+        "http://localhost:3000/api/auth/signup",
+        userData
+      );
+      toast.success(response.data.message);
+      setLoading(false);
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setPassword("");
+      window.location.href = "/login";
     } catch (error) {
       setLoading(false);
       if (error.response) {
-        // Backend error response
         toast.error(error.response.data.message);
       } else {
-        // Frontend error (network, CORS, etc.)
         toast.error("An error occurred while signing up.");
       }
     }

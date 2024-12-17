@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -21,6 +21,47 @@ import TermsAndConditions from "./components/terms/Terms";
 import ResourcesDetail from "./components/resources/ResourcesDetail";
 import ResourcePdf from "./components/resources/ResourcePdf";
 
+const AuthContext = createContext();
+
+export const useAuth = () => {
+  return useContext(AuthContext);
+};
+
+const AuthProvider = ({ children }) => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
+  const login = (token) => {
+    localStorage.setItem("token", token);
+    setIsAuthenticated(true);
+  };
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    setIsAuthenticated(false);
+  };
+
+  return (
+    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+const ProtectedRoute = ({ element }) => {
+  const { isAuthenticated } = useAuth();
+  return isAuthenticated ? element : <Navigate to="/login" replace />;
+};
+
+const AuthOnlyRoute = ({ element }) => {
+  const { isAuthenticated } = useAuth();
+  return isAuthenticated ? <Navigate to="/" replace /> : element;
+};
 
 function AppRoutes() {
   return (
@@ -29,17 +70,44 @@ function AppRoutes() {
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/resources" element={<Resources />} />
-        <Route path="/resources/:resourceId" element={<ResourcesDetail />} />
-        <Route path="/resources/:resourceId/:section/:activeSemester/:selectedSubject" element={<ResourcePdf />} />
-        <Route path="/roadmaps" element={<Roadmaps />} />
-        <Route path="/roadmaps/:roadmapId" element={<RoadmapDetails />} />
-        <Route path="/hackmate" element={<Hackmate />} />
-        <Route path="/faqs" element={<FAQs />} />
-        <Route path="/policy" element={<PrivacyPolicy />} />
-        <Route path="/terms" element={<TermsAndConditions />} />
+        <Route path="/login" element={<AuthOnlyRoute element={<Login />} />} />
+        <Route
+          path="/signup"
+          element={<AuthOnlyRoute element={<Signup />} />}
+        />
+        <Route
+          path="/resources"
+          element={<ProtectedRoute element={<Resources />} />}
+        />
+        <Route
+          path="/resources/:resourceId"
+          element={<ProtectedRoute element={<ResourcesDetail />} />}
+        />
+        <Route
+          path="/resources/:resourceId/:section/:activeSemester/:selectedSubject"
+          element={<ProtectedRoute element={<ResourcePdf />} />}
+        />
+        <Route
+          path="/roadmaps"
+          element={<ProtectedRoute element={<Roadmaps />} />}
+        />
+        <Route
+          path="/roadmaps/:roadmapId"
+          element={<ProtectedRoute element={<RoadmapDetails />} />}
+        />
+        <Route
+          path="/hackmate"
+          element={<ProtectedRoute element={<Hackmate />} />}
+        />
+        <Route path="/faqs" element={<ProtectedRoute element={<FAQs />} />} />
+        <Route
+          path="/policy"
+          element={<ProtectedRoute element={<PrivacyPolicy />} />}
+        />
+        <Route
+          path="/terms"
+          element={<ProtectedRoute element={<TermsAndConditions />} />}
+        />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </>
@@ -48,9 +116,11 @@ function AppRoutes() {
 
 function App() {
   return (
-    <Router>
-      <AppRoutes />
-    </Router>
+    <AuthProvider>
+      <Router>
+        <AppRoutes />
+      </Router>
+    </AuthProvider>
   );
 }
 

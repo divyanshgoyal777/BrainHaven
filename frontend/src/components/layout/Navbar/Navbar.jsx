@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 import logo from "../../../assets/img/BrainWaveFaviconNoBackground.png";
+import { useAuth } from "../../../App";
 
 const Navbar = () => {
+  const { isAuthenticated, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -101,16 +103,27 @@ const Navbar = () => {
           </div>
         </div>
         <div className="flex gap-4">
-          <NavLink to="/signup" aria-label="Sign Up">
-            <button className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium py-2 px-4 rounded-md shadow-md transition-all duration-300 hover:scale-105">
-              Sign Up
+          {!isAuthenticated ? (
+            <>
+              <NavLink to="/signup" aria-label="Sign Up">
+                <button className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium py-2 px-4 rounded-md shadow-md transition-all duration-300 hover:scale-105">
+                  Sign Up
+                </button>
+              </NavLink>
+              <NavLink to="/login" aria-label="Log In">
+                <button className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium py-2 px-4 rounded-md shadow-md transition-all duration-300 hover:scale-105">
+                  Log In
+                </button>
+              </NavLink>
+            </>
+          ) : (
+            <button
+              onClick={logout}
+              className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium py-2 px-4 rounded-md shadow-md transition-all duration-300 hover:scale-105"
+            >
+              Log Out
             </button>
-          </NavLink>
-          <NavLink to="/login" aria-label="Log In">
-            <button className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium py-2 px-4 rounded-md shadow-md transition-all duration-300 hover:scale-105">
-              Log In
-            </button>
-          </NavLink>
+          )}
         </div>
       </div>
       {isMenuOpen && (

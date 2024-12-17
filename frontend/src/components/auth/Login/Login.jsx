@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { FaEye, FaEyeSlash, FaEnvelope, FaKey } from "react-icons/fa";
 import toast from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../../App";
 import axios from "axios";
 
 const Login = () => {
@@ -9,30 +10,26 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      // Make API call to backend login endpoint
-      const response = await axios.post("http://localhost:5000/api/login", {
-        email,
-        password,
-      });
-
-      // Assuming backend returns success and a token
+      const response = await axios.post(
+        "http://localhost:3000/api/auth/login",
+        {
+          email,
+          password,
+        }
+      );
       const { success, token } = response.data;
-
       if (success) {
-        // Store token in localStorage (or cookies)
-        localStorage.setItem("token", token);
-
-        // Show success message
+        login(token);  
         toast.success("Login successful!");
-
-        // Navigate to another page (e.g., dashboard)
-        navigate("/dashboard");
+        navigate("/");
       } else {
         toast.error("Invalid email or password.");
       }
@@ -45,7 +42,6 @@ const Login = () => {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     document.title = "BrainWave - Log In";
   }, []);

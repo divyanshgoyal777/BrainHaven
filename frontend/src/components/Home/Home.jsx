@@ -1,11 +1,13 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../App";
 import Navbar from "../layout/Navbar/Navbar";
 import Footer from "../layout/Footer/Footer";
 import logo from "../../assets/img/BrainWaveFaviconNoBackground.png";
 import "./Home.css";
 
 const Home = () => {
+  const { isAuthenticated } = useAuth();
   useEffect(() => {
     document.title = "BrainWave - Home";
   }, []);
@@ -77,26 +79,45 @@ const Home = () => {
             </button>
           </Link>
         </section>
-        <section className="Page-4 my-24 flex flex-col justify-center items-center text-center">
+        <section className="roadmap-section my-24 flex flex-col justify-center items-center text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-5">
-            Join BrainWave Today
+            Unlock Your Coding Roadmap
           </h2>
           <p className="text-lg md:text-xl text-gray-300 leading-relaxed max-w-3xl">
-            Ready to kick-start your tech journey or enhance your skills? Join
-            BrainWave today and unlock access to a wealth of resources, coding
-            roadmaps, and expert advice tailored just for you.
+            Ready to level up your skills? Dive into curated coding roadmaps
+            tailored to your learning goals. Follow expert paths and stay on
+            track to become a tech professional.
           </p>
           <div className="mt-6">
-            <p className="text-gray-400 mb-4">
-              Sign up for free and start exploring.
-            </p>
-            <Link to="/signup">
+            <Link to="/roadmaps">
               <button className="px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-md hover:scale-105 hover:shadow-lg transform transition duration-300 ease-in-out">
-                Get Started
+                Roadmaps
               </button>
             </Link>
           </div>
         </section>
+        {!isAuthenticated && (
+          <section className="Page-4 my-24 flex flex-col justify-center items-center text-center">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-5">
+              Join BrainWave Today
+            </h2>
+            <p className="text-lg md:text-xl text-gray-300 leading-relaxed max-w-3xl">
+              Ready to kick-start your tech journey or enhance your skills? Join
+              BrainWave today and unlock access to a wealth of resources, coding
+              roadmaps, and expert advice tailored just for you.
+            </p>
+            <div className="mt-6">
+              <p className="text-gray-400 mb-4">
+                Sign up for free and start exploring.
+              </p>
+              <Link to="/signup">
+                <button className="px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-md hover:scale-105 hover:shadow-lg transform transition duration-300 ease-in-out">
+                  Get Started
+                </button>
+              </Link>
+            </div>
+          </section>
+        )}
       </main>
       <Footer />
     </>
