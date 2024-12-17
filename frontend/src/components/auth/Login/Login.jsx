@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FaEye, FaEyeSlash, FaEnvelope, FaKey } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -9,14 +10,40 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    setTimeout(() => {
+    try {
+      // Make API call to backend login endpoint
+      const response = await axios.post("http://localhost:5000/api/login", {
+        email,
+        password,
+      });
+
+      // Assuming backend returns success and a token
+      const { success, token } = response.data;
+
+      if (success) {
+        // Store token in localStorage (or cookies)
+        localStorage.setItem("token", token);
+
+        // Show success message
+        toast.success("Login successful!");
+
+        // Navigate to another page (e.g., dashboard)
+        navigate("/dashboard");
+      } else {
+        toast.error("Invalid email or password.");
+      }
+    } catch (error) {
+      console.error("Login Error:", error);
+      toast.error(
+        error.response?.data?.message || "Something went wrong. Try again."
+      );
+    } finally {
       setLoading(false);
-      toast.success("Login successful!");
-    }, 2000);
+    }
   };
 
   useEffect(() => {
