@@ -5,7 +5,7 @@ import Footer from "../layout/Footer/Footer";
 
 const ResourcesDetail = () => {
   const { resourceId } = useParams();
-  const [activeCategory, setActiveCategory] = useState("Notes"); // Default category
+  const [activeCategory, setActiveCategory] = useState("Books"); // Default category
   const [data, setData] = useState(null); // State to store fetched data
   const [searchQuery, setSearchQuery] = useState(""); // Search query state
 
@@ -68,7 +68,7 @@ const ResourcesDetail = () => {
         </div>
         <div className="my-8">
           <nav>
-            <ul className="flex text-white gap-10 font-semibold">
+            <ul className="flex text-white gap-10 font-semibold overflow-x-scroll sm:overflow-hidden m-auto w-[60%] sm:w-fit">
               {[
                 "Books",
                 "Notes",
