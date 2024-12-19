@@ -29,18 +29,18 @@ const userSchema = new mongoose.Schema(
       minlength: [6, "Password must be at least 6 characters long"],
     },
     profilePhoto: {
-      type: String, 
+      type: String,
       default: "",
     },
     bio: {
       type: String,
       default: "",
-      trim: true, 
+      trim: true,
     },
     phoneNumber: {
-      type: String,
+      type: Number,
       default: "",
-      match: [/^\d{10,15}$/, "Please enter a valid phone number"], 
+      match: [/^\d{10,15}$/, "Please enter a valid phone number"],
     },
     address: {
       type: String,
@@ -51,6 +51,35 @@ const userSchema = new mongoose.Schema(
       facebook: { type: String, default: "" },
       instagram: { type: String, default: "" },
       linkedIn: { type: String, default: "" },
+    },
+    collegeName: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+    degree: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+    branch: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+    semester: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+    rollNumber: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+    dateOfBirth: {
+      type: Date,
+      default: "",
     },
   },
   { timestamps: true }

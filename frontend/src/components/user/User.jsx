@@ -1,50 +1,77 @@
-import {React, useEffect, useState} from 'react'
-import axios from 'axios'
-import { useAuth } from '../../App';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useAuth } from "../../App";
 
 const User = () => {
   const [userData, setUserData] = useState(null);
-   const {userEmail}= useAuth();
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const { userEmail } = useAuth();
 
-   useEffect(()=>{
-    const fetchData=async()=>{
-      try{
-        const response= await axios.get("http://localhost:3000/api/auth/profile",{
-          params:{email: userEmail},
-        });
-        console.log(response.data)
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (!userEmail) return;
+
+        console.log("Fetching user details with email:", userEmail);
+        const response = await axios.get(
+          "http://localhost:3000/api/user/profile",
+          {
+            headers: {
+              userEmail: userEmail,
+            },
+          }
+        );
+
         setUserData(response.data);
+        setError(null);
+      } catch (err) {
+        console.error("Error fetching user details:", err);
+        setError("Failed to fetch user details. Please try again.");
+      } finally {
+        setIsLoading(false);
       }
-      catch(error){
-        console.error("Error fetching user details:", error);
-      }
-      if(userEmail){
-        fetchData();
-      }
-    }
-   },[userEmail]);
+    };
 
-   useEffect(()=>{
-    console.log(userEmail);
-    console.log(userData);
-   },[userEmail,userData]);
+    fetchData();
+  }, [userEmail]);
 
-  
-  return (
-    <div>
-      <div className='text-white'>
-        {userData ? (
-          <div>
-            <p>First Name: {userData.firstName}</p>
-            <p>Last Name: {userData.lastName}</p>
-            <p>Email: {userData.email}</p>
-          </div>
-        ) : (
-          <p>Loading user details...</p>
-        )}
+  if (isLoading) {
+    return (
+      <div className="text-white text-center">
+        <p>Loading user details...</p>
       </div>
-    </div>
-  )
-}
+    );
+  }
 
-export default User
+  if (error) {
+    return (
+      <div className="text-red-500 text-center">
+        <p>{error}</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="text-white p-6 max-w-md mx-auto bg-gray-800 rounded shadow-md">
+      {userData ? (
+        <div>
+          <h1 className="text-xl font-bold mb-4">User Profile</h1>
+          <p>
+            <strong>First Name:</strong> {userData.firstName}
+          </p>
+          <p>
+            <strong>Last Name:</strong> {userData.lastName}
+          </p>
+          <p>
+            <strong>Email:</strong> {userData.email}
+          </p>
+        </div>
+      ) : (
+        <p>No user data available.</p>
+      )}
+    </div>
+  );
+};
+
+export default User;

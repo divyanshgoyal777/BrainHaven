@@ -20,56 +20,55 @@ import FAQs from "./components/faqs/faqs";
 import TermsAndConditions from "./components/terms/Terms";
 import ResourcesDetail from "./components/resources/ResourcesDetail";
 import ResourcePdf from "./components/resources/ResourcePdf";
-import User from "./components/user/User"
+import User from "./components/user/User";
 
 const AuthContext = createContext();
 
-export const useAuth = () => {
-  return useContext(AuthContext);
-};
+export const useAuth = () => useContext(AuthContext);
 
 const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userEmail, setUserEmail]= useState("");
+  const [token, setToken] = useState(null);
+  const [userEmail, setUserEmail] = useState(null);
+
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const email = localStorage.getItem("userEmail");
-    if (token) {
+    const storedToken = localStorage.getItem("token");
+    const storedEmail = localStorage.getItem("email");
+    if (storedToken && storedEmail) {
       setIsAuthenticated(true);
-      if (email) setUserEmail(email);
+      setToken(storedToken);
+      setUserEmail(storedEmail);
     }
   }, []);
 
-  const login = (token, email) => {
-    localStorage.setItem("token", token);
-    localStorage.setItem("userEmail", email); 
+  const login = (token, userEmail) => {
+    localStorage.setItem("token", token.replace("Bearer ", ""));
+    setToken(token);
+    setUserEmail(userEmail);
     setIsAuthenticated(true);
-    setUserEmail(email);
-    
   };
 
   const logout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("userEmail");
+    setToken(null);
+    setUserEmail(null);
     setIsAuthenticated(false);
-    setUserEmail("");
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, userEmail, login, logout }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, token, userEmail, login, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );
 };
 
-const ProtectedRoute = ({ element }) => {
+const RouteGuard = ({ element, authOnly }) => {
   const { isAuthenticated } = useAuth();
-  return isAuthenticated ? element : <Navigate to="/login" replace />;
-};
-
-const AuthOnlyRoute = ({ element }) => {
-  const { isAuthenticated } = useAuth();
-  return isAuthenticated ? <Navigate to="/" replace /> : element;
+  if (authOnly && isAuthenticated) return <Navigate to="/" replace />;
+  if (!authOnly && !isAuthenticated) return <Navigate to="/login" replace />;
+  return element;
 };
 
 function AppRoutes() {
@@ -79,48 +78,42 @@ function AppRoutes() {
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<AuthOnlyRoute element={<Login />} />} />
+        <Route
+          path="/login"
+          element={<RouteGuard element={<Login />} authOnly />}
+        />
         <Route
           path="/signup"
-          element={<AuthOnlyRoute element={<Signup />} />}
+          element={<RouteGuard element={<Signup />} authOnly />}
         />
         <Route
           path="/resources"
-          element={<ProtectedRoute element={<Resources />} />}
+          element={<RouteGuard element={<Resources />} />}
         />
         <Route
           path="/resources/:resourceId"
-          element={<ProtectedRoute element={<ResourcesDetail />} />}
+          element={<RouteGuard element={<ResourcesDetail />} />}
         />
         <Route
           path="/resources/:resourceId/:section/:activeSemester/:selectedSubject"
-          element={<ProtectedRoute element={<ResourcePdf />} />}
+          element={<RouteGuard element={<ResourcePdf />} />}
         />
         <Route
           path="/roadmaps"
-          element={<ProtectedRoute element={<Roadmaps />} />}
+          element={<RouteGuard element={<Roadmaps />} />}
         />
         <Route
           path="/roadmaps/:roadmapId"
-          element={<ProtectedRoute element={<RoadmapDetails />} />}
+          element={<RouteGuard element={<RoadmapDetails />} />}
         />
         <Route
           path="/hackmate"
-          element={<ProtectedRoute element={<Hackmate />} />}
+          element={<RouteGuard element={<Hackmate />} />}
         />
-        <Route path="/faqs" element={<ProtectedRoute element={<FAQs />} />} />
-        <Route
-          path="/policy"
-          element={<ProtectedRoute element={<PrivacyPolicy />} />}
-        />
-         <Route
-          path="/user"
-          element={<ProtectedRoute element={<User />} />}
-        />
-        <Route
-          path="/terms"
-          element={<ProtectedRoute element={<TermsAndConditions />} />}
-        />
+        <Route path="/faqs" element={<FAQs />} />
+        <Route path="/policy" element={<PrivacyPolicy />} />
+        <Route path="/user" element={<RouteGuard element={<User />} />} />
+        <Route path="/terms" element={<TermsAndConditions />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </>
