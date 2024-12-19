@@ -20,6 +20,7 @@ import FAQs from "./components/faqs/faqs";
 import TermsAndConditions from "./components/terms/Terms";
 import ResourcesDetail from "./components/resources/ResourcesDetail";
 import ResourcePdf from "./components/resources/ResourcePdf";
+import User from "./components/user/User"
 
 const AuthContext = createContext();
 
@@ -29,25 +30,33 @@ export const useAuth = () => {
 
 const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userEmail, setUserEmail]= useState("");
   useEffect(() => {
     const token = localStorage.getItem("token");
+    const email = localStorage.getItem("userEmail");
     if (token) {
       setIsAuthenticated(true);
+      if (email) setUserEmail(email);
     }
   }, []);
 
-  const login = (token) => {
+  const login = (token, email) => {
     localStorage.setItem("token", token);
+    localStorage.setItem("userEmail", email); 
     setIsAuthenticated(true);
+    setUserEmail(email);
+    
   };
 
   const logout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("userEmail");
     setIsAuthenticated(false);
+    setUserEmail("");
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, userEmail, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
@@ -103,6 +112,10 @@ function AppRoutes() {
         <Route
           path="/policy"
           element={<ProtectedRoute element={<PrivacyPolicy />} />}
+        />
+         <Route
+          path="/user"
+          element={<ProtectedRoute element={<User />} />}
         />
         <Route
           path="/terms"

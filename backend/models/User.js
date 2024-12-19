@@ -28,6 +28,30 @@ const userSchema = new mongoose.Schema(
       required: [true, "Password is required"],
       minlength: [6, "Password must be at least 6 characters long"],
     },
+    profilePhoto: {
+      type: String, 
+      default: "",
+    },
+    bio: {
+      type: String,
+      default: "",
+      trim: true, 
+    },
+    phoneNumber: {
+      type: String,
+      default: "",
+      match: [/^\d{10,15}$/, "Please enter a valid phone number"], 
+    },
+    address: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+    socialLinks: {
+      facebook: { type: String, default: "" },
+      instagram: { type: String, default: "" },
+      linkedIn: { type: String, default: "" },
+    },
   },
   { timestamps: true }
 );

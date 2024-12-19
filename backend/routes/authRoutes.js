@@ -63,16 +63,29 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/profile", authenticateToken, async (req, res) => {
+router.get('/profile', async (req, res) => {
   try {
-    const user = await User.findById(req.userId);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    res.status(200).json({ message: "Profile found", user });
+     const {email} =req.query;
+     console.log(email);
+     if(!email) return res.status(400).json({message: "Email is Required"});
+
+     const user= await User.findOne({email});
+     console.log(user);
+     if(!user) return res.status(404).json({message: "User not Found"});
+      
+     res.json({
+      firstName:user.firstName,
+      lastName:user.lastName,
+      email:user.email
+     })
+
   } catch (error) {
-    res.status(500).json({ error: "Server error" });
+    res.status(500).send('Error fetching user details');
   }
 });
+
+
+
+
 
 module.exports = router;

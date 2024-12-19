@@ -13,6 +13,7 @@ const Login = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
 
+   
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -27,7 +28,7 @@ const Login = () => {
       );
       const { success, token } = response.data;
       if (success) {
-        login(token);  
+        login(token, email);  
         toast.success("Login successful!");
         navigate("/");
       } else {
