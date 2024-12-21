@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema(
       default: "",
     },
     phoneNumber: {
-      type: String, // Changed to String to accommodate validation regex
+      type: String,
       default: "",
       match: [/^\d{10,15}$/, "Please enter a valid phone number"],
     },

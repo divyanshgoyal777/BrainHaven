@@ -54,7 +54,7 @@ const Navbar = () => {
             {["Home", "Resources", "Roadmaps", "Hackmate"].map((item) => (
               <li key={item}>
                 <NavLink
-                  to={`/${item.toLowerCase()}`}
+                  to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
                   className={({ isActive }) =>
                     isActive
                       ? "text-white"
@@ -129,7 +129,7 @@ const Navbar = () => {
               {["Home", "Resources", "Roadmaps", "Hackmate"].map((item) => (
                 <li key={item}>
                   <NavLink
-                    to={`/${item.toLowerCase()}`}
+                    to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
                     className={({ isActive }) =>
                       isActive
                         ? "text-white"

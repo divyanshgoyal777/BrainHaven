@@ -9,9 +9,6 @@ const User = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const { userEmail } = useAuth();
-  const [personal, setPersonal] = useState(true);
-  const [activeCategory, setActiveCategory] = useState("Personal Information");
-
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -32,24 +29,18 @@ const User = () => {
     },
   });
 
-  const hiddenFields = [
-    "password",
-    "_id",
-    "profilePhoto",
-    "createdAt",
-    "updatedAt",
-    "__v",
-  ];
+  const hiddenFields = ["password", "_id", "createdAt", "updatedAt", "__v"];
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         if (!userEmail) return;
-
-        console.log("Fetching user details with email:", userEmail);
-        const response = await axios.get("http://localhost:3000/api/user/profile", {
-          headers: { userEmail },
-        });
+        const response = await axios.get(
+          "http://localhost:3000/api/user/profile",
+          {
+            headers: { userEmail },
+          }
+        );
 
         setUserData(response.data);
 
@@ -63,8 +54,8 @@ const User = () => {
         setFormData(filteredData);
         setError(null);
       } catch (err) {
-        console.error("Error fetching user details:", err);
         setError("Failed to fetch user details. Please try again.");
+        toast.error("Failed to fetch user details.");
       } finally {
         setIsLoading(false);
       }
@@ -73,17 +64,11 @@ const User = () => {
     fetchData();
   }, [userEmail]);
 
-  const handleTabChange = (category) => {
-    setActiveCategory(category);
-    setPersonal(category === "Personal Information");
-  };
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
     if (name.startsWith("socialLinks.")) {
       const [_, key] = name.split(".");
-
       setFormData((prev) => ({
         ...prev,
         socialLinks: {
@@ -99,34 +84,56 @@ const User = () => {
     }
   };
 
+  const validateForm = () => {
+    const errors = [];
+
+    if (!formData.firstName.trim()) errors.push("First name is required.");
+    if (!formData.lastName.trim()) errors.push("Last name is required.");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
+      errors.push("Invalid email format.");
+    if (formData.phoneNumber && !/^\d{10,15}$/.test(formData.phoneNumber))
+      errors.push("Phone number must be between 10 and 15 digits.");
+   if (
+     formData.dateOfBirth &&
+     !/^\d{2}-\d{2}-\d{4}$/.test(formData.dateOfBirth)
+   ) {
+     errors.push("Date of birth must be in DD-MM-YYYY format.");
+   }
+    return errors;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const errors = validateForm();
+    if (errors.length > 0) {
+      errors.forEach((err) => toast.error(err));
+      return;
+    }
+
     try {
       const response = await axios.post(
         "http://localhost:3000/api/user/information",
         formData
       );
-      console.log("User details updated:", response.data);
-      toast.success("Save Changes Successfull");
 
-      // Update the userData state immediately with the new formData
+      toast.success("Save Changes Successful");
       setUserData((prevData) => ({
         ...prevData,
         ...formData,
-        socialLinks: { ...prevData.socialLinks, ...formData.socialLinks }
+        socialLinks: { ...prevData.socialLinks, ...formData.socialLinks },
       }));
     } catch (error) {
-      console.error("Error updating user details:", error);
-      const errorMessage = error.response?.data?.message || "An unexpected error occurred";
+      const errorMessage =
+        error.response?.data?.message || "An unexpected error occurred";
       toast.error(`Error: ${errorMessage}`);
-
       setError("Failed to update user details. Please try again.");
     }
   };
 
   if (isLoading) {
     return (
-      <div className="text-white text-center">
+      <div className="text-white text-center mt-10">
         <p>Loading user details...</p>
       </div>
     );
@@ -138,149 +145,108 @@ const User = () => {
   };
 
   return (
-    <div className="flex justify-center items-center">
-      <div className="flex flex-col md:flex-row gap-10 justify-center items-center my-10">
-        <div className="h-[90vh] md:h-[75vh] lg:h-[140vh] bg-[#100924] w-[90vw] md:w-[32vw] text-gray-400 rounded-xl flex flex-col items-center justify-center px-8">
-          <div className="w-28 h-28 rounded-full border-white border-2">
-            <ImageUpload/>
+    <div className="flex flex-col lg:flex-row gap-10 items-center justify-center px-5 py-10">
+      <div className="bg-[#100924] text-gray-400 rounded-xl p-5 w-full lg:w-1/3">
+        <div className="flex flex-col items-center">
+          <div className="w-28 h-28 rounded-full border-white border-2 overflow-hidden">
+            <img
+              src={userData.profilePhoto || "/default-avatar.png"}
+              alt="Profile"
+              className="w-full h-full object-cover"
+            />
           </div>
-          <div className="flex flex-col items-center my-5">
-            <h1 className=" text-2xl lg:text-3xl text-white font-semibold">
-              {userData.firstName} {userData.lastName}
-            </h1>
-            <h2>{userData.email}</h2>
-            <div className="bg-gradient-to-r from-transparent via-white to-transparent w-full my-3 m-auto h-[1px]"></div>
-            <div className="flex flex-col w-full justify-start my-3 gap-1">
-              <div className=" w-full flex justify-between ">
-                <div className="text-white">Phone: <span className="text-gray-400">{userData.phoneNumber}</span></div>
-                <div className="text-white">DOB: <span className="text-gray-400">{userData.dateOfBirth}</span></div>
-              </div>
-              <div className=" w-full flex flex-col justify-start gap-1 my-3">
-                <div className="text-white w-full flex justify-start gap-1">
-                  <div className="min-w-[75px]">Address:</div>
-                  <div
-                    className="text-gray-400 break-words overflow-hidden text-ellipsis max-h-20 w-full"
-                    style={{ wordBreak: "break-word", overflowWrap: "break-word", whiteSpace: "normal" }}
-                  >
-                    {userData.address}
-                  </div>
-                </div>
-                <div className="text-white w-full flex justify-start gap-1">
-                  <div className="min-w-[75px]">Bio:</div>
-                  <div
-                    className="text-gray-400 break-words overflow-hidden text-ellipsis max-h-20 w-full"
-                    style={{ wordBreak: "break-word", overflowWrap: "break-word", whiteSpace: "normal" }}
-                  >
-                    {userData.bio}
-                  </div>
-                </div>
-              </div>
+          <ImageUpload />
+          <h1 className="text-2xl lg:text-3xl text-white font-semibold mt-4">
+            {userData.firstName} {userData.lastName}
+          </h1>
+          <h2 className="mt-1">{userData.email}</h2>
+          <div className="bg-gradient-to-r from-transparent via-white to-transparent w-full h-[1px] my-4"></div>
+
+          <div className="space-y-3 text-sm">
+            <div>
+              <span className="text-white">Phone:</span>{" "}
+              <span className="text-gray-400">{userData.phoneNumber}</span>
             </div>
-            <div className="flex flex-col w-full">
-              <h1 className="text-white text-lg font-semibold">Education :</h1>
-              <div className=" flex flex-col justify-start gap-1 w-full my-1">
-                <div className="text-white">Degree: <span className="text-gray-400">{userData.degree}</span></div>
-                <div className="text-white flex justify-center gap-1"><div className="min-w-[130px]">College Name:</div> <div className="text-gray-400">{userData.collegeName}</div></div>
-                <div className="text-white">Semester: <span className="text-gray-400">{userData.semester}</span></div>
-                <div className="text-white">Branch: <span className="text-gray-400">{userData.branch}</span></div>
-                <div className="text-white">Roll no: <span className="text-gray-400">{userData.rollNumber}</span></div>
-              </div>
+            <div>
+              <span className="text-white">DOB:</span>{" "}
+              <span className="text-gray-400">{userData.dateOfBirth}</span>
             </div>
-            <div className="bg-gradient-to-r from-transparent via-white to-transparent w-full my-6 m-auto h-[1px]"></div>
-            <div className="flex flex-col justify-start space-y-2">
-              <div className="text-white flex justify-start items-start">
-                <div className="min-w-[100px]">LinkedIn:</div>
-                <div
-                  className="text-gray-400 break-words overflow-hidden text-ellipsis max-h-20 w-full"
-                  style={{ wordBreak: "break-word", overflowWrap: "break-word", whiteSpace: "normal" }}
-                >
-                  {userData.socialLinks.linkedIn}
-                </div>
-              </div>
-              <div className="text-white flex justify-start items-start">
-                <div className="min-w-[100px]">GitHub:</div>
-                <div
-                  className="text-gray-400 break-words overflow-hidden text-ellipsis max-h-20 w-full"
-                  style={{ wordBreak: "break-word", overflowWrap: "break-word", whiteSpace: "normal" }}
-                >
-                  {userData.socialLinks.github}
-                </div>
-              </div>
-              <div className="text-white flex justify-start items-start">
-                <div className="min-w-[100px]">Instagram:</div>
-                <div
-                  className="text-gray-400 break-words overflow-hidden text-ellipsis max-h-20 w-full"
-                  style={{ wordBreak: "break-word", overflowWrap: "break-word", whiteSpace: "normal" }}
-                >
-                  {userData.socialLinks.instagram}
-                </div>
-              </div>
+            <div>
+              <span className="text-white">Address:</span>{" "}
+              <span className="text-gray-400">{userData.address}</span>
+            </div>
+            <div>
+              <span className="text-white">Bio:</span>{" "}
+              <span className="text-gray-400">{userData.bio}</span>
+            </div>
+          </div>
+
+          <div className="bg-gradient-to-r from-transparent via-white to-transparent w-full h-[1px] my-4"></div>
+
+          <h3 className="text-lg font-semibold text-white">Education:</h3>
+          <div className="text-sm space-y-1">
+            <div>
+              <span className="text-white">Degree:</span>{" "}
+              <span className="text-gray-400">{userData.degree}</span>
+            </div>
+            <div>
+              <span className="text-white">College:</span>{" "}
+              <span className="text-gray-400">{userData.collegeName}</span>
+            </div>
+            <div>
+              <span className="text-white">Semester:</span>{" "}
+              <span className="text-gray-400">{userData.semester}</span>
             </div>
           </div>
         </div>
+      </div>
 
-        <div className="h-[148vh] md:h-[75vh] lg:h-[140vh] bg-[#100924] w-[90vw] md:w-[60vw] text-white rounded-xl px-5 md:px-10">
-          <div className="flex flex-col justify-center">
-            <form onSubmit={handleSubmit} className="p-4 space-y-4 ">
-              <div className="flex justify-between w-full mt-5">
-                <h1 className="text-3xl font-bold py-1">Edit Here</h1>
-                <button
-                  type="submit"
-                  className="px-6 py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-center font-medium rounded-lg shadow-md hover:shadow-purple-500/50 transform hover:scale-105 transition-all duration-300"
-                >
-                  Save Changes
-                </button>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-5">
-                {Object.keys(formData).map((key) => {
-                  if(key === "socialLinks") {
-                    return null;
-                  }
-                  return (
-                    <div key={key} className="space-y-1">
-                      <label className="block">
-                        {capitalizeFirstLetter(key.replace(/([A-Z])/g, " $1"))}
-                      </label>
-                      <input
-                        name={key}
-                        value={formData[key]}
-                        onChange={handleInputChange}
-                        className="border rounded-lg p-2 text-white bg-gray-800 border-gray-600 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white focus:border-white w-full"
-                        style={{ userSelect: "text" }}
-                        type="text"
-                      />
-                    </div>
-                  );
-                })}
-              </div>
-              {Object.keys(formData).map((key) => {
-                if (key === "socialLinks") {
-                  return (
-                    <div key={key} className="space-y-3">
-                      <h3 className="text-lg font-semibold">Social Links</h3>
-                      {Object.keys(formData.socialLinks).map((platform) => (
-                        <div
-                          key={platform}
-                          className="flex items-center flex-col md:flex-row md:space-x-[-30px]"
-                        >
-                          <label className="w-1/4 capitalize">{platform}</label>
-                          <input
-                            name={`socialLinks.${platform}`}
-                            value={formData.socialLinks[platform]}
-                            onChange={handleInputChange}
-                            className="text-white rounded-lg bg-[#100924] border-2  w-full py-2 px-4 focus:outline-none focus:ring-2 "
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  );
-                }
-                return null;
-              })}
-            </form>
+      <div className="bg-[#100924] text-white rounded-xl p-5 w-full lg:w-2/3">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="flex justify-between items-center">
+            <h1 className="text-3xl font-bold">Edit Here</h1>
+            <button
+              type="submit"
+              className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition duration-300"
+            >
+              Save Changes
+            </button>
           </div>
-        </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {Object.keys(formData).map((key) => {
+              if (key === "socialLinks") return null;
+              return (
+                <div key={key} className="space-y-1">
+                  <label className="block text-sm">
+                    {capitalizeFirstLetter(key.replace(/([A-Z])/g, " $1"))}
+                  </label>
+                  <input
+                    name={key}
+                    value={formData[key]}
+                    onChange={handleInputChange}
+                    className="w-full p-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="space-y-2">
+            <h3 className="text-lg font-semibold">Social Links</h3>
+            {Object.keys(formData.socialLinks).map((key) => (
+              <div key={key} className="space-y-1">
+                <label className="block text-sm capitalize">{key}</label>
+                <input
+                  name={`socialLinks.${key}`}
+                  value={formData.socialLinks[key]}
+                  onChange={handleInputChange}
+                  className="w-full p-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
+              </div>
+            ))}
+          </div>
+        </form>
       </div>
     </div>
   );
