@@ -48,8 +48,8 @@ const ImageUpload = () => {
 
   return (
     <div className="image-upload flex items-center justify-center">
-        <form onSubmit={handleSubmit} className="flex flex-col items-center">
-          <input type="file" name="image" onChange={handleImageChange} />
+        <form onSubmit={handleSubmit} className="flex flex-col items-center w-fit m-auto">
+          <input type="file" name="image" onChange={handleImageChange} className="w-max m-auto"/>
           <button
             type="submit"
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"

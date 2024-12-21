@@ -198,6 +198,22 @@ const User = () => {
               <span className="text-gray-400">{userData.semester}</span>
             </div>
           </div>
+          <div className="bg-gradient-to-r from-transparent via-white to-transparent w-full h-[1px] my-4"></div>
+           <h3 className="text-lg font-semibold text-white">Social Links</h3>
+           <div className="text-sm space-y-1">
+            <div>
+              <span className="text-white">Instagram:</span>{" "}
+              <span className="text-gray-400">{userData.socialLinks.instagram}</span>
+            </div>
+            <div>
+              <span className="text-white">Linkedin:</span>{" "}
+              <span className="text-gray-400">{userData.socialLinks.linkedIn}</span>
+            </div>
+            <div>
+              <span className="text-white">Github:</span>{" "}
+              <span className="text-gray-400">{userData.socialLinks.github}</span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -225,7 +241,7 @@ const User = () => {
                     name={key}
                     value={formData[key]}
                     onChange={handleInputChange}
-                    className="w-full p-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full p-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-white"
                   />
                 </div>
               );
@@ -241,7 +257,8 @@ const User = () => {
                   name={`socialLinks.${key}`}
                   value={formData.socialLinks[key]}
                   onChange={handleInputChange}
-                  className="w-full p-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full p-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-white"
+                  placeholder={`Enter Your ${capitalizeFirstLetter(key)} links`}
                 />
               </div>
             ))}
