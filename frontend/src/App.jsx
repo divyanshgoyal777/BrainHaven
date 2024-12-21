@@ -42,7 +42,8 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   const login = (token, userEmail) => {
-    localStorage.setItem("token", token.replace("Bearer ", ""));
+    localStorage.setItem("token", token);
+    localStorage.setItem("email", userEmail);
     setToken(token);
     setUserEmail(userEmail);
     setIsAuthenticated(true);
@@ -50,6 +51,7 @@ const AuthProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("email");
     setToken(null);
     setUserEmail(null);
     setIsAuthenticated(false);

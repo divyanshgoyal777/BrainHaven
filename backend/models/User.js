@@ -32,13 +32,8 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-    bio: {
-      type: String,
-      default: "",
-      trim: true,
-    },
     phoneNumber: {
-      type: Number,
+      type: String, // Changed to String to accommodate validation regex
       default: "",
       match: [/^\d{10,15}$/, "Please enter a valid phone number"],
     },
@@ -47,10 +42,36 @@ const userSchema = new mongoose.Schema(
       default: "",
       trim: true,
     },
+    bio: {
+      type: String,
+      default: "",
+      trim: true,
+    },
     socialLinks: {
-      facebook: { type: String, default: "" },
-      instagram: { type: String, default: "" },
-      linkedIn: { type: String, default: "" },
+      instagram: {
+        type: String,
+        default: "",
+        match: [
+          /^(https?:\/\/)?(www\.)?instagram\.com\/[a-zA-Z0-9_.]+\/?$/,
+          "Please enter a valid Instagram URL",
+        ],
+      },
+      linkedIn: {
+        type: String,
+        default: "",
+        match: [
+          /^(https?:\/\/)?(www\.)?linkedin\.com\/in\/[a-zA-Z0-9-]+\/?$/,
+          "Please enter a valid LinkedIn URL",
+        ],
+      },
+      github: {
+        type: String,
+        default: "",
+        match: [
+          /^(https?:\/\/)?(www\.)?github\.com\/[a-zA-Z0-9_.-]+\/?$/,
+          "Please enter a valid GitHub URL",
+        ],
+      },
     },
     collegeName: {
       type: String,
@@ -70,16 +91,20 @@ const userSchema = new mongoose.Schema(
     semester: {
       type: String,
       default: "",
-      trim: true,
+      match: [/^\d{1,2}$/, "Semester must be a valid number (e.g., 1-12)"],
     },
     rollNumber: {
       type: String,
       default: "",
-      trim: true,
+      match: [/^\d{4,10}$/, "Roll number must be between 4 and 10 digits"],
     },
     dateOfBirth: {
-      type: Date,
+      type: String,
       default: "",
+      match: [
+        /^\d{4}-\d{2}-\d{2}$/,
+        "Date of birth must be in the format YYYY-MM-DD",
+      ],
     },
   },
   { timestamps: true }
