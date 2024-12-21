@@ -10,7 +10,7 @@ const { v4: uuidv4 } = require('uuid');
 const path = require('path')
 
 cloudinary.config({
-  cloud_name: 'dbsngpiqe', 
+  cloud_name: 'brainwave-profile-pic', 
   api_key: '191562688573332', 
   api_secret: 'WnVh8Ta8iRKDwcCFmbl3kyyV7To', 
 });
