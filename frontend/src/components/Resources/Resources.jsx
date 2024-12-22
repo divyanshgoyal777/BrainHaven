@@ -25,7 +25,7 @@ const Resources = () => {
           Resources
         </h1>
         <div className="flex flex-col items-center gap-16 py-16 w-[90%] lg:w-[75%] mx-auto">
-          <ResourceCategory title="Choose Your Class" items={resources} />
+          <ResourceCategory title="Choose Your Resource" items={resources} />
         </div>
       </div>
       <Footer />
