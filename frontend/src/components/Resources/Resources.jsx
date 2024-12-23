@@ -38,11 +38,11 @@ const Resources = () => {
           <h1 className="bg-gradient-to-tl from-indigo-600 to-purple-600 bg-clip-text text-transparent text-3xl md:text-4xl font-extrabold text-center drop-shadow-lg">
             Resources
           </h1>
-          <div className="flex flex-col items-center gap-16 py-5 w-[90%] lg:w-[60%] mx-auto">
+          <div className="flex flex-col bg-gray-800 p-6 rounded-lg items-center gap-16 py-5 w-[90%] lg:w-[60%] my-10 mx-auto">
             <ResourceCategory />
             <button
               onClick={handleSubmit}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded"
+              className="flex items-center px-6 py-3 text-sm md:text-base lg:text-lg cursor-pointer rounded-lg  transition-all duration-300 bg-indigo-600 text-white shadow-lg"
             >
               Submit
             </button>
@@ -115,7 +115,7 @@ const ResourceCategory = () => {
             <select
               value={selectedOptions[key]}
               onChange={(e) => handleDropdownChange(key, e.target.value)}
-              className="p-2 bg-gray-800 border border-gray-600 rounded-lg text-white"
+              className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             >
               <option value="">Select an option</option>
               {dropdownOptions[key]?.map((option, i) => (
@@ -132,7 +132,7 @@ const ResourceCategory = () => {
           <select
             value={selectedOptions.Semester}
             onChange={(e) => handleDropdownChange("Semester", e.target.value)}
-            className="p-2 bg-gray-800 border border-gray-600 rounded-lg text-white"
+            className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             disabled={!selectedOptions.Degree}
           >
             <option value="">Select a semester</option>
@@ -149,7 +149,7 @@ const ResourceCategory = () => {
           <select
             value={selectedOptions.Subject}
             onChange={(e) => handleDropdownChange("Subject", e.target.value)}
-            className="p-2 bg-gray-800 border border-gray-600 rounded-lg text-white"
+            className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             disabled={!filteredSubjects.length}
           >
             <option value="">Select a subject</option>
@@ -166,7 +166,7 @@ const ResourceCategory = () => {
           <select
             value={selectedOptions.Type}
             onChange={(e) => handleDropdownChange("Type", e.target.value)}
-            className="p-2 bg-gray-800 border border-gray-600 rounded-lg text-white"
+            className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             disabled={!selectedOptions.Subject}
           >
             <option value="">Select a type</option>
