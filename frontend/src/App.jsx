@@ -18,9 +18,8 @@ import PageNotFound from "./components/PageNotFound";
 import PrivacyPolicy from "./components/policy/policy";
 import FAQs from "./components/faqs/faqs";
 import TermsAndConditions from "./components/terms/Terms";
-import ResourcesDetail from "./components/resources/ResourcesDetail";
-import ResourcePdf from "./components/resources/ResourcePdf";
 import User from "./components/user/User";
+import Admin from "./components/admin/Admin";
 
 const AuthContext = createContext();
 
@@ -73,6 +72,16 @@ const RouteGuard = ({ element, authOnly }) => {
   return element;
 };
 
+const AdminRoute = ({ element }) => {
+  const { userEmail } = useAuth();
+  const adminOne = "tonisha24680@gmail.com";
+  const adminTwo = "animeshp1607@gmail.com";
+  if (userEmail !== adminOne && userEmail !== adminTwo) {
+    return <Navigate to="/" replace />;
+  }
+  return element;
+};
+
 function AppRoutes() {
   return (
     <>
@@ -93,14 +102,6 @@ function AppRoutes() {
           element={<RouteGuard element={<Resources />} />}
         />
         <Route
-          path="/resources/:resourceId"
-          element={<RouteGuard element={<ResourcesDetail />} />}
-        />
-        <Route
-          path="/resources/:resourceId/:section/:activeSemester/:selectedSubject"
-          element={<RouteGuard element={<ResourcePdf />} />}
-        />
-        <Route
           path="/roadmaps"
           element={<RouteGuard element={<Roadmaps />} />}
         />
@@ -116,6 +117,7 @@ function AppRoutes() {
         <Route path="/policy" element={<PrivacyPolicy />} />
         <Route path="/user" element={<RouteGuard element={<User />} />} />
         <Route path="/terms" element={<TermsAndConditions />} />
+        <Route path="/admin" element={<AdminRoute element={<Admin />} />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </>

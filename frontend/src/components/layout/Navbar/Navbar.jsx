@@ -4,6 +4,7 @@ import logo from "../../../assets/img/BrainWaveFaviconNoBackground.png";
 import { useAuth } from "../../../App";
 import axios from "axios";
 import logOut from "../../../assets/svg/logout.svg";
+import admin from "../../../assets/svg/admin.svg";
 import profile from "../../../assets/svg/newAccount.svg";
 import road from "../../../assets/svg/road.svg";
 import hand from "../../../assets/svg/hand.svg";
@@ -229,6 +230,23 @@ const Navbar = () => {
             </div>
             <div className="bg-gradient-to-r from-transparent via-white to-transparent w-full h-[1px] mt-6 my-4"></div>
             <ul className=" text-gray-400 flex  flex-col gap-3  my-5">
+              {userEmail === "tonisha24680@gmail.com" && (
+                <li className="flex gap-5 items-center">
+                  <div>
+                    <img
+                      src={admin}
+                      alt=""
+                      className="ml-1 w-6 min-w-[24px]"
+                    />
+                  </div>
+                  <NavLink
+                    to="/admin"
+                    className="hover:text-white -ml-1 transition-all duration-300"
+                  >
+                    Admin
+                  </NavLink>
+                </li>
+              )}
               <li className="flex gap-5 items-center">
                 <div>
                   <img
