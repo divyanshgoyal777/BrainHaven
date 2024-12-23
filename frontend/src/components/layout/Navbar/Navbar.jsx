@@ -230,7 +230,7 @@ const Navbar = () => {
             </div>
             <div className="bg-gradient-to-r from-transparent via-white to-transparent w-full h-[1px] mt-6 my-4"></div>
             <ul className=" text-gray-400 flex  flex-col gap-3  my-5">
-              {userEmail === "tonisha24680@gmail.com" && (
+              {userEmail === "tonisha24680@gmail.com" || userEmail === "animeshp1607@gmail.com" && (
                 <li className="flex gap-5 items-center">
                   <div>
                     <img
