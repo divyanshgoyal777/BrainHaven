@@ -15,3 +15,5 @@ cloudinary.config({
 
 router.post("/upload", async (req, res) => { }); // Admin can upload resources
 router.get("/search", async (req, res) => { }); // User can search resources
+
+module.exports = router;
