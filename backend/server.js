@@ -14,6 +14,7 @@ connectDB();
 
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/user", require("./routes/userRoutes"));
+app.use("/api/resource", require("./routes/resourceRoutes"));
 
 const PORT = process.env.PORT || 5000;
 
