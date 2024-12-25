@@ -60,7 +60,7 @@ const Resources = () => {
         if (cloudinaryUrl) {
           const modifiedUrl = cloudinaryUrl.replace(
             "/upload",
-            "/upload/f_auto"
+            "/upload/f_auto/pg_1"
           );
           console.log("Modified Cloudinary URL:", modifiedUrl);
 
