@@ -1,4 +1,23 @@
 import React, { useState } from "react";
+import axios from "axios";
+
+const options = {
+  degrees: {
+    BTech: { name: "B.Tech", semesters: 8 },
+    Diploma: { name: "Diploma", semesters: 6 },
+  },
+  branches: {
+    CSE: "Computer Science",
+    ECE: "Electronics",
+    Mechanical: "Mechanical",
+    Civil: "Civil",
+  },
+  types: {
+    Practical: "Practical",
+    Assignment: "Assignment",
+    Exam: "Exam",
+  },
+};
 
 const ResourcesUpload = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +28,9 @@ const ResourcesUpload = () => {
     type: "",
     resourceFile: null,
   });
+
+  const [uploadStatus, setUploadStatus] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,128 +47,165 @@ const ResourcesUpload = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    alert("Resource uploaded successfully!");
+    setUploadStatus("");
+    setIsLoading(true);
+
+    const { degree, branch, subject, semester, type, resourceFile } = formData;
+
+    const formDataToSend = new FormData();
+    formDataToSend.append("degree", degree);
+    formDataToSend.append("branch", branch);
+    formDataToSend.append("subject", subject);
+    formDataToSend.append("semester", semester);
+    formDataToSend.append("type", type);
+    formDataToSend.append("resourceFile", resourceFile);
+
+    try {
+      const response = await axios.post("http://localhost:3000/api/resource/upload", formDataToSend, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      setIsLoading(false);
+      setUploadStatus("File uploaded successfully!");
+      console.log("Response:", response.data);
+    } catch (error) {
+      setIsLoading(false);
+      console.error("Error uploading file:", error);
+      setUploadStatus("Failed to upload file. Please try again.");
+    }
   };
 
   return (
-    <>
-      <div className="min-h-screen text-white">
-        <div className="container mx-auto px-4 py-6">
-          <h1 className="text-4xl font-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600">
-            Resources Upload
-          </h1>
-          <form
-            onSubmit={handleSubmit}
-            className="max-w-3xl mx-auto bg-gray-800 p-6 rounded-lg shadow-lg space-y-6"
-          >
-            <div>
-              <label className="block text-sm font-medium mb-2">Degree</label>
-              <select
-                name="degree"
-                value={formData.degree}
-                onChange={handleChange}
-                className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                required
-              >
-                <option value="">Select Degree</option>
-                <option value="BTech">B.Tech</option>
-                <option value="Diploma">Diploma</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-2">Branch</label>
-              <select
-                name="branch"
-                value={formData.branch}
-                onChange={handleChange}
-                className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
-                required
-              >
-                <option value="">Select Branch</option>
-                <option value="CSE">Computer Science</option>
-                <option value="ECE">Electronics</option>
-                <option value="Mechanical">Mechanical</option>
-                <option value="Civil">Civil</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-2">Subject</label>
-              <input
-                type="text"
-                name="subject"
-                value={formData.subject}
-                onChange={handleChange}
-                className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Enter Subject"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-2">Semester</label>
-              <select
-                name="semester"
-                value={formData.semester}
-                onChange={handleChange}
-                className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
-                required
-              >
-                <option value="">Select Semester</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-2">Type</label>
-              <select
-                name="type"
-                value={formData.type}
-                onChange={handleChange}
-                className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                required
-              >
-                <option value="">Select Type</option>
-                <option value="Practical">Practical</option>
-                <option value="Assignment">Assignment</option>
-                <option value="Exam">Exam</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-2">
-                Upload File
-              </label>
-              <input
-                type="file"
-                name="resourceFile"
-                onChange={handleFileChange}
-                className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
-                required
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="w-full py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg font-semibold text-lg hover:from-blue-600 hover:to-purple-700 transition-all"
+    <div className="min-h-screen text-white">
+      <div className="container mx-auto px-4 py-6">
+        <h1 className="text-4xl font-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600">
+          Resources Upload
+        </h1>
+        <form
+          onSubmit={handleSubmit}
+          className="max-w-3xl mx-auto bg-gray-800 p-6 rounded-lg shadow-lg space-y-6"
+        >
+          <div>
+            <label className="block text-sm font-medium mb-2">Degree</label>
+            <select
+              name="degree"
+              value={formData.degree}
+              onChange={handleChange}
+              className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              required
             >
-              Upload Resource
-            </button>
-          </form>
-        </div>
+              <option value="">Select Degree</option>
+              {Object.entries(options.degrees).map(([key, value]) => (
+                <option key={key} value={key}>
+                  {value.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-2">Branch</label>
+            <select
+              name="branch"
+              value={formData.branch}
+              onChange={handleChange}
+              className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+              required
+            >
+              <option value="">Select Branch</option>
+              {Object.entries(options.branches).map(([key, value]) => (
+                <option key={key} value={key}>
+                  {value}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-2">Subject</label>
+            <input
+              type="text"
+              name="subject"
+              value={formData.subject}
+              onChange={handleChange}
+              className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              placeholder="Enter Subject"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-2">Semester</label>
+            <select
+              name="semester"
+              value={formData.semester}
+              onChange={handleChange}
+              className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+              required
+              disabled={!formData.degree}
+            >
+              <option value="">Select Semester</option>
+              {formData.degree &&
+                Array.from(
+                  { length: options.degrees[formData.degree].semesters },
+                  (_, i) => i + 1
+                ).map((sem) => (
+                  <option key={sem} value={sem}>
+                    {sem}
+                  </option>
+                ))}
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-2">Type</label>
+            <select
+              name="type"
+              value={formData.type}
+              onChange={handleChange}
+              className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              required
+            >
+              <option value="">Select Type</option>
+              {Object.entries(options.types).map(([key, value]) => (
+                <option key={key} value={key}>
+                  {value}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-2">Upload File</label>
+            <input
+              type="file"
+              name="resourceFile"
+              onChange={handleFileChange}
+              className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="w-full py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg font-semibold text-lg hover:from-blue-600 hover:to-purple-700 transition-all"
+            disabled={isLoading}
+          >
+            {isLoading ? "Uploading..." : "Upload Resource"}
+          </button>
+        </form>
+
+        {uploadStatus && (
+          <div className="mt-4 text-center text-lg font-semibold">
+            {uploadStatus}
+          </div>
+        )}
       </div>
-    </>
+    </div>
   );
 };
 
