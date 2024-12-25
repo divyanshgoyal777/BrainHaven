@@ -6,8 +6,8 @@ require("dotenv").config();
 
 const app = express();
 
+app.use(cors({ origin: "*" }));
 app.use(helmet());
-app.use(cors());
 app.use(express.json());
 
 connectDB();

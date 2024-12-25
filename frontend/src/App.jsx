@@ -41,7 +41,8 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   const login = (token, userEmail) => {
-    localStorage.setItem("token", token);
+    const tokenWithoutBearer = token.split(" ")[1];
+    localStorage.setItem("token", tokenWithoutBearer);
     localStorage.setItem("email", userEmail);
     setToken(token);
     setUserEmail(userEmail);
@@ -128,7 +129,7 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <AppRoutes />
+          <AppRoutes />
       </Router>
     </AuthProvider>
   );

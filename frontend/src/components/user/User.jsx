@@ -51,13 +51,14 @@ const User = () => {
   ];
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
     const fetchData = async () => {
       try {
         if (!userEmail) return;
         const response = await axios.get(
           "http://localhost:3000/api/user/profile",
           {
-            headers: { userEmail },
+            headers: { userEmail, Authorization: `Bearer ${token}` },
           }
         );
 
@@ -123,6 +124,7 @@ const User = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const token = localStorage.getItem("token");
 
     const errors = validateForm();
     if (errors.length > 0) {
@@ -133,7 +135,10 @@ const User = () => {
     try {
       const response = await axios.post(
         "http://localhost:3000/api/user/information",
-        formData
+        formData,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
 
       toast.success("Save Changes Successful");

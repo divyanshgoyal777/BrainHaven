@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
+const authenticateToken = require("../middleware/authenticateToken");
 require("dotenv").config();
 const multer = require("multer");
 const { v2: cloudinary } = require("cloudinary");
@@ -14,7 +15,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-router.get("/profile", async (req, res) => {
+router.get("/profile", authenticateToken, async (req, res) => {
   try {
     const userEmail = req.header("userEmail");
     if (!userEmail) {
@@ -32,7 +33,7 @@ router.get("/profile", async (req, res) => {
   }
 });
 
-router.post("/information", async (req, res) => {
+router.post("/information", authenticateToken, async (req, res) => {
   const userData = req.body;
 
   try {
@@ -71,21 +72,26 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({ storage });
 
-router.post("/upload", upload.single("image"), async (req, res) => {
-  try {
-    if (!req.file) {
-      return res.status(400).send({ message: "No file uploaded" });
+router.post(
+  "/upload",
+  authenticateToken,
+  upload.single("image"),
+  async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).send({ message: "No file uploaded" });
+      }
+      const imageUrl = req.file.path;
+      await User.updateOne(
+        { email: req.headers.email },
+        { profilePhoto: imageUrl }
+      );
+      res.status(200).json({ url: imageUrl });
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      res.status(500).json({ error: "Failed to upload image" });
     }
-    const imageUrl = req.file.path;
-    await User.updateOne(
-      { email: req.headers.email },
-      { profilePhoto: imageUrl }
-    );
-    res.status(200).json({ url: imageUrl });
-  } catch (error) {
-    console.error("Error uploading image:", error);
-    res.status(500).json({ error: "Failed to upload image" });
   }
-});
+);
 
 module.exports = router;

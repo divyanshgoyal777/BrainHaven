@@ -60,6 +60,7 @@ const Navbar = () => {
   };
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
     const fetchData = async () => {
       try {
         if (!userEmail) return;
@@ -67,12 +68,12 @@ const Navbar = () => {
         const response = await axios.get(
           "http://localhost:3000/api/user/profile",
           {
-            headers: { userEmail },
+            headers: { userEmail, Authorization: `Bearer ${token}` },
           }
         );
 
         setUserData(response.data);
-        setFormData(response.data); // Directly set formData with the fetched user data
+        setFormData(response.data);
       } catch (err) {
         console.error("Failed to fetch user details:", err);
       } finally {
@@ -230,14 +231,11 @@ const Navbar = () => {
             </div>
             <div className="bg-gradient-to-r from-transparent via-white to-transparent w-full h-[1px] mt-6 my-4"></div>
             <ul className=" text-gray-400 flex  flex-col gap-3  my-5">
-              {userEmail === "tonisha24680@gmail.com" || userEmail === "animeshp1607@gmail.com" && (
+              {(userEmail === "tonisha24680@gmail.com" ||
+                userEmail === "animeshp1607@gmail.com") && (
                 <li className="flex gap-5 items-center">
                   <div>
-                    <img
-                      src={admin}
-                      alt=""
-                      className="ml-1 w-6 min-w-[24px]"
-                    />
+                    <img src={admin} alt="" className="ml-1 w-6 min-w-[24px]" />
                   </div>
                   <NavLink
                     to="/admin"

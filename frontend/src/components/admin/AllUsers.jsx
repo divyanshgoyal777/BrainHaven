@@ -1,22 +1,59 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 
 const AllUsers = () => {
+  const [users, setUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const users = [
-    { id: 1, name: "John Doe", email: "johndoe@example.com" },
-    { id: 2, name: "Jane Smith", email: "janesmith@example.com" },
-    { id: 3, name: "Alice Brown", email: "alicebrown@example.com" },
-  ];
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    axios
+      .get("http://localhost:3000/api/admin/allUsers", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setUsers(res.data);
+        toast.success("Users fetched successfully!");
+      })
+      .catch((error) => {
+        console.error("Error fetching users:", error);
+        toast.error("Failed to fetch users.");
+      });
+  }, []);
 
-  const filteredUsers = users.filter(
-    (user) =>
-      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredUsers = users.filter((user) => {
+    const name = `${user.firstName || ""} ${user.lastName || ""}`.trim();
+    const email = user.email || "";
+
+    return (
+      name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      email.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  });
 
   const handleDelete = (id) => {
-    console.log(`User with ID ${id} deleted.`);
+    const userToDelete = users.find((user) => user._id === id);
+    const userName = `${userToDelete?.firstName || ""} ${
+      userToDelete?.lastName || ""
+    }`.trim();
+    const token = localStorage.getItem("token");
+    axios
+      .delete(`http://localhost:3000/api/admin/deleteUser/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(() => {
+        setUsers(users.filter((user) => user._id !== id));
+        toast.success(`User ${userName} deleted successfully!`);
+      })
+      .catch((error) => {
+        console.error("Error deleting user:", error);
+        toast.error("Failed to delete user.");
+      });
   };
 
   return (
@@ -40,7 +77,7 @@ const AllUsers = () => {
             <table className="min-w-full bg-gray-800 rounded-lg shadow-lg">
               <thead>
                 <tr className="bg-gray-700 text-left text-sm uppercase text-gray-300">
-                  <th className="px-4 py-3">ID</th>
+                  <th className="px-4 py-3">#</th>
                   <th className="px-4 py-3">Name</th>
                   <th className="px-4 py-3">Email</th>
                   <th className="px-4 py-3">Actions</th>
@@ -49,17 +86,19 @@ const AllUsers = () => {
               <tbody>
                 {filteredUsers.map((user, index) => (
                   <tr
-                    key={user.id}
+                    key={user._id}
                     className={`border-b border-gray-700 ${
                       index % 2 === 0 ? "bg-gray-900" : "bg-gray-800"
                     } hover:bg-gray-700 transition-all`}
                   >
-                    <td className="px-4 py-4">{user.id}</td>
-                    <td className="px-4 py-4">{user.name}</td>
+                    <td className="px-4 py-4">{index + 1}</td>{" "}
+                    <td className="px-4 py-4">
+                      {user.firstName} {user.lastName}
+                    </td>
                     <td className="px-4 py-4">{user.email}</td>
                     <td className="px-4 py-4">
                       <button
-                        onClick={() => handleDelete(user.id)}
+                        onClick={() => handleDelete(user._id)}
                         className="bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded-lg text-sm shadow-md transition-all"
                       >
                         Delete
@@ -72,17 +111,18 @@ const AllUsers = () => {
           </div>
         </div>
         <div className="block md:hidden mt-6">
-          {filteredUsers.map((user) => (
+          {filteredUsers.map((user, index) => (
             <div
-              key={user.id}
+              key={user._id}
               className="bg-gray-800 rounded-lg shadow-lg mb-4 p-4"
             >
               <div className="flex justify-between mb-4">
                 <p className="text-sm">
-                  <span className="font-bold text-gray-300">ID:</span> {user.id}
+                  <span className="font-bold text-gray-300">#:</span>{" "}
+                  {index + 1}
                 </p>
                 <button
-                  onClick={() => handleDelete(user.id)}
+                  onClick={() => handleDelete(user._id)}
                   className="bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded-lg text-sm shadow-md"
                 >
                   Delete
@@ -90,7 +130,7 @@ const AllUsers = () => {
               </div>
               <p className="text-sm mb-2">
                 <span className="font-bold text-gray-300">Name:</span>{" "}
-                {user.name}
+                {user.firstName} {user.lastName}
               </p>
               <p className="text-sm mb-2">
                 <span className="font-bold text-gray-300">Email:</span>{" "}

@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
 
 const ImageUpload = () => {
   const [image, setImage] = useState(null);
   const [imageName, setImageName] = useState("");
   const [isUploading, setIsUploading] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
-
-  const navigate = useNavigate();
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -30,6 +27,7 @@ const ImageUpload = () => {
 
     const formData = new FormData();
     formData.append("image", image);
+    const token = localStorage.getItem("token");
 
     try {
       setIsUploading(true);
@@ -38,6 +36,7 @@ const ImageUpload = () => {
         formData,
         {
           headers: {
+            Authorization: `Bearer ${token}`,
             email: localStorage.getItem("email"),
             "Content-Type": "multipart/form-data",
           },
@@ -51,7 +50,7 @@ const ImageUpload = () => {
       console.error("Error uploading image:", error);
       toast.error("Error uploading image!");
     } finally {
-      setIsUploading(false); 
+      setIsUploading(false);
     }
   };
 
@@ -89,7 +88,7 @@ const ImageUpload = () => {
                   ? "bg-gray-500 cursor-not-allowed"
                   : "bg-blue-500 hover:bg-blue-700"
               } text-white font-bold py-2 px-6 rounded-lg shadow-lg transition duration-300 transform hover:scale-105`}
-              disabled={isUploading} 
+              disabled={isUploading}
             >
               {isUploading ? "Uploading..." : "Upload"}{" "}
             </button>
