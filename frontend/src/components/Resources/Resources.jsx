@@ -50,7 +50,7 @@ const Resources = () => {
 
   const handleSubmit = () => {
     axios
-      .get('http://localhost:3000/api/resource/search', {
+      .get("http://localhost:3000/api/resource/search", {
         params: selectedOptions,
       })
       .then((response) => {
@@ -58,7 +58,10 @@ const Resources = () => {
         const cloudinaryUrl = response.data[0]?.cloudinary_url;
 
         if (cloudinaryUrl) {
-          const modifiedUrl = cloudinaryUrl.replace('/upload', '/upload/f_auto');
+          const modifiedUrl = cloudinaryUrl.replace(
+            "/upload",
+            "/upload/f_auto"
+          );
           console.log("Modified Cloudinary URL:", modifiedUrl);
 
           setPdfUrl(modifiedUrl);
@@ -66,12 +69,10 @@ const Resources = () => {
         }
       })
       .catch((error) => {
-        console.error('Error submitting search:', error);
-        toast.error('Failed to fetch resources.');
+        console.error("Error submitting search:", error);
+        toast.error("Failed to fetch resources.");
       });
   };
-
-
 
   return (
     <GlobalOptionsContext.Provider
@@ -80,12 +81,12 @@ const Resources = () => {
       <div className="text-white">
         <Navbar />
         <div className="mt-32 px-8">
-
-
           {pdfShow ? (
             pdfUrl ? (
               <div className="pdf-container mt-10 px-1">
-                <h2 className="bg-gradient-to-tl from-indigo-600 to-purple-600 bg-clip-text text-transparent text-3xl md:text-4xl font-extrabold text-center drop-shadow-lg my-10">Resource PDF</h2>
+                <h2 className="bg-gradient-to-tl from-indigo-600 to-purple-600 bg-clip-text text-transparent text-3xl md:text-4xl font-extrabold text-center drop-shadow-lg my-10">
+                  Resource PDF
+                </h2>
                 <div className="w-[95%] sm:w-[70%] m-auto flex justify-center">
                   <iframe
                     src={pdfUrl}
@@ -102,9 +103,11 @@ const Resources = () => {
               </p>
             )
           ) : (
-            <div> <h1 className="bg-gradient-to-tl from-indigo-600 to-purple-600 bg-clip-text text-transparent text-3xl md:text-4xl font-extrabold text-center drop-shadow-lg">
-              Resources
-            </h1>
+            <div>
+              {" "}
+              <h1 className="bg-gradient-to-tl from-indigo-600 to-purple-600 bg-clip-text text-transparent text-3xl md:text-4xl font-extrabold text-center drop-shadow-lg">
+                Resources
+              </h1>
               <div className="flex flex-col bg-gray-800 p-6 rounded-lg items-center gap-16 py-5 w-[90%] lg:w-[60%] my-10 mx-auto">
                 {loading ? (
                   <p className="text-gray-400">Loading options...</p>
@@ -126,16 +129,22 @@ const Resources = () => {
       </div>
     </GlobalOptionsContext.Provider>
   );
-
 };
 
 const ResourceCategory = () => {
-  const { selectedOptions, setSelectedOptions, dropdownData } = useContext(GlobalOptionsContext);
+  const { selectedOptions, setSelectedOptions, dropdownData } =
+    useContext(GlobalOptionsContext);
 
   const clearSelections = (key) => {
     const updatedState = { ...selectedOptions, [key]: "" };
-    if (key === "degree") updatedState.branch = updatedState.semester = updatedState.subject = updatedState.type = "";
-    if (key === "branch") updatedState.semester = updatedState.subject = updatedState.type = "";
+    if (key === "degree")
+      updatedState.branch =
+        updatedState.semester =
+        updatedState.subject =
+        updatedState.type =
+          "";
+    if (key === "branch")
+      updatedState.semester = updatedState.subject = updatedState.type = "";
     if (key === "semester") updatedState.subject = updatedState.type = "";
     if (key === "subject") updatedState.type = "";
     return updatedState;
@@ -147,14 +156,14 @@ const ResourceCategory = () => {
   };
 
   const filteredBranches = dropdownData.branches[selectedOptions.degree] || [];
-  const filteredSemesters = dropdownData.semesters[selectedOptions.degree] || [];
+  const filteredSemesters =
+    dropdownData.semesters[selectedOptions.degree] || [];
   const filteredSubjects = dropdownData.subjects[selectedOptions.branch] || [];
   const filteredTypes = dropdownData.types || [];
 
   return (
     <div className="w-full">
       <div className="flex flex-col justify-center gap-6 flex-wrap">
-
         <div className="flex flex-col">
           <label className="mb-2">Degree:</label>
           <select
