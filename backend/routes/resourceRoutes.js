@@ -25,11 +25,11 @@ const storage = new CloudinaryStorage({
 const upload = multer({ storage });
 
 router.post("/upload", upload.single("resourceFile"), async (req, res) => {
-  const { degree, branch, semester, subject, type } = req.body;
+  const { degree, branch, semester, subject, type, pages } = req.body;
   const file = req.file;
 
   if (!file) return res.status(400).send("No File Uploaded.");
-  if (!degree || !branch || !semester || !subject || !type) {
+  if (!degree || !branch || !semester || !subject || !type || !pages) {
     return res.status(400).send("All Categories are Required.");
   }
 
@@ -40,6 +40,7 @@ router.post("/upload", upload.single("resourceFile"), async (req, res) => {
       semester,
       subject,
       type,
+      pages,
       cloudinary_url: file.path,
     });
 

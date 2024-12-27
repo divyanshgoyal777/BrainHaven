@@ -32,6 +32,7 @@ const Resources = () => {
 
   const [loading, setLoading] = useState(true);
   const [pdfUrl, setPdfUrl] = useState(null);
+  const [pdfPages, setPdfPages] = useState(0); // Number of pages
   const [pdfShow, setPdfShow] = useState(false);
 
   useEffect(() => {
@@ -49,30 +50,44 @@ const Resources = () => {
   }, []);
 
   const handleSubmit = () => {
+    // Check if all options are selected
+    const { degree, branch, semester, subject, type } = selectedOptions;
+    if (!degree || !branch || !semester || !subject || !type) {
+      toast.error("Please fill in all the options.");
+      return;
+    }
+  
     axios
       .get("http://localhost:3000/api/resource/search", {
         params: selectedOptions,
       })
       .then((response) => {
-        console.log("Response:", response.data);
         const cloudinaryUrl = response.data[0]?.cloudinary_url;
-
-        if (cloudinaryUrl) {
+        const pages = response.data[0]?.pages;
+  
+        if (!cloudinaryUrl || !pages) {
+          toast.error("No valid PDF or pages information found.");
+          return;
+        }
+  
+        const modifiedUrls = [];
+        for (let i = 1; i <= pages; i++) {
           const modifiedUrl = cloudinaryUrl.replace(
             "/upload",
-            "/upload/f_auto/pg_1"
+            `/upload/f_auto/pg_${i}`
           );
-          console.log("Modified Cloudinary URL:", modifiedUrl);
-
-          setPdfUrl(modifiedUrl);
-          setPdfShow(true);
+          modifiedUrls.push(modifiedUrl);
         }
+        setPdfUrl(modifiedUrls);
+        setPdfPages(pages); // Store the number of pages
+        setPdfShow(true);
       })
       .catch((error) => {
         console.error("Error submitting search:", error);
         toast.error("Failed to fetch resources.");
       });
   };
+  
 
   return (
     <GlobalOptionsContext.Provider
@@ -82,20 +97,26 @@ const Resources = () => {
         <Navbar />
         <div className="mt-32 px-8">
           {pdfShow ? (
-            pdfUrl ? (
+            pdfUrl && pdfUrl.length > 0 ? (
               <div className="pdf-container mt-10 px-1">
                 <h2 className="bg-gradient-to-tl from-indigo-600 to-purple-600 bg-clip-text text-transparent text-3xl md:text-4xl font-extrabold text-center drop-shadow-lg my-10">
                   Resource PDF
                 </h2>
-                <div className="w-[95%] sm:w-[70%] m-auto flex justify-center">
-                  <iframe
-                    src={pdfUrl}
-                    width="100%"
-                    height="600px"
-                    frameBorder="0"
-                    title="Resource PDF"
-                  />
-                </div>
+                <div className="pdf-pages-container overflow-y-auto" style={{ maxHeight: '100vh' }}>
+  {pdfUrl.map((url, index) => (
+    <div key={index} className="pdf-page-wrapper">
+      <iframe
+        src={url}
+        width="100%"
+        height="60vh"  // Set the height of the iframe to 60vh
+        frameBorder="0"
+        title={`Resource PDF - Page ${index + 1}`}
+        style={{ marginBottom: '20px' }}
+      />
+    </div>
+  ))}
+</div>
+
               </div>
             ) : (
               <p className="text-gray-400 text-center mt-4">
@@ -104,7 +125,6 @@ const Resources = () => {
             )
           ) : (
             <div>
-              {" "}
               <h1 className="bg-gradient-to-tl from-indigo-600 to-purple-600 bg-clip-text text-transparent text-3xl md:text-4xl font-extrabold text-center drop-shadow-lg">
                 Resources
               </h1>
