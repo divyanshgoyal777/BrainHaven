@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 const AllUsers = () => {
   const [users, setUsers] = useState([]);
@@ -93,9 +94,22 @@ const AllUsers = () => {
                   >
                     <td className="px-4 py-4">{index + 1}</td>{" "}
                     <td className="px-4 py-4">
-                      {user.firstName} {user.lastName}
+                      <Link
+                        to={`/user/${user._id}`}
+                        className="text-blue-400 hover:underline"
+                      >
+                        {user.firstName} {user.lastName}
+                      </Link>
                     </td>
-                    <td className="px-4 py-4">{user.email}</td>
+                    <td className="px-4 py-4">
+                      {" "}
+                      <Link
+                        to={`/user/${user._id}`}
+                        className="text-blue-400 hover:underline"
+                      >
+                        {user.email}
+                      </Link>
+                    </td>
                     <td className="px-4 py-4">
                       <button
                         onClick={() => handleDelete(user._id)}

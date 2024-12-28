@@ -4,6 +4,7 @@ import {
   Route,
   Routes,
   Navigate,
+  useLocation,
 } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import ScrollToTop from "./components/ScrollToTop";
@@ -20,6 +21,8 @@ import FAQs from "./components/faqs/faqs";
 import TermsAndConditions from "./components/terms/Terms";
 import User from "./components/user/User";
 import Admin from "./components/admin/Admin";
+import ChatButton from "./components/chat/ChatButton";
+import UserProfile from "./components/user/UserProfile";
 
 const AuthContext = createContext();
 
@@ -117,6 +120,7 @@ function AppRoutes() {
         <Route path="/faqs" element={<FAQs />} />
         <Route path="/policy" element={<PrivacyPolicy />} />
         <Route path="/user" element={<RouteGuard element={<User />} />} />
+        <Route path="/user/:id" element={<UserProfile />} />
         <Route path="/terms" element={<TermsAndConditions />} />
         <Route path="/admin" element={<AdminRoute element={<Admin />} />} />
         <Route path="*" element={<PageNotFound />} />
@@ -126,13 +130,30 @@ function AppRoutes() {
 }
 
 function App() {
+  const location = useLocation();
+  const { isAuthenticated } = useAuth();
+  const excludedPaths = ["/login", "/signup", "*"];
+  const conditionallyVisiblePaths = ["/faqs", "/policy", "/terms"];
+  const isChatButtonVisible =
+    !excludedPaths.includes(location.pathname) &&
+    (!conditionallyVisiblePaths.includes(location.pathname) || isAuthenticated);
+
+  return (
+    <>
+      <Toaster position="top-center" reverseOrder={false} />
+      <ScrollToTop />
+      <AppRoutes />
+      {isChatButtonVisible && <ChatButton />}
+    </>
+  );
+}
+
+export default function AppWrapper() {
   return (
     <AuthProvider>
       <Router>
-          <AppRoutes />
+        <App />
       </Router>
     </AuthProvider>
   );
 }
-
-export default App;

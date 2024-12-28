@@ -56,7 +56,7 @@ const Resources = () => {
       toast.error("Please fill in all the options.");
       return;
     }
-  
+
     axios
       .get("http://localhost:3000/api/resource/search", {
         params: selectedOptions,
@@ -64,12 +64,12 @@ const Resources = () => {
       .then((response) => {
         const cloudinaryUrl = response.data[0]?.cloudinary_url;
         const pages = response.data[0]?.pages;
-  
+
         if (!cloudinaryUrl || !pages) {
           toast.error("No valid PDF or pages information found.");
           return;
         }
-  
+
         const modifiedUrls = [];
         for (let i = 1; i <= pages; i++) {
           const modifiedUrl = cloudinaryUrl.replace(
@@ -87,7 +87,6 @@ const Resources = () => {
         toast.error("Failed to fetch resources.");
       });
   };
-  
 
   return (
     <GlobalOptionsContext.Provider
@@ -102,21 +101,23 @@ const Resources = () => {
                 <h2 className="bg-gradient-to-tl from-indigo-600 to-purple-600 bg-clip-text text-transparent text-3xl md:text-4xl font-extrabold text-center drop-shadow-lg my-10">
                   Resource PDF
                 </h2>
-                <div className="pdf-pages-container overflow-y-auto" style={{ maxHeight: '100vh' }}>
-  {pdfUrl.map((url, index) => (
-    <div key={index} className="pdf-page-wrapper">
-      <iframe
-        src={url}
-        width="100%"
-        height="60vh"  // Set the height of the iframe to 60vh
-        frameBorder="0"
-        title={`Resource PDF - Page ${index + 1}`}
-        style={{ marginBottom: '20px' }}
-      />
-    </div>
-  ))}
-</div>
-
+                <div
+                  className="pdf-pages-container overflow-y-auto"
+                  style={{ maxHeight: "100vh" }}
+                >
+                  {pdfUrl.map((url, index) => (
+                    <div key={index} className="pdf-page-wrapper">
+                      <iframe
+                        src={url}
+                        width="100%"
+                        height="60vh" // Set the height of the iframe to 60vh
+                        frameBorder="0"
+                        title={`Resource PDF - Page ${index + 1}`}
+                        style={{ marginBottom: "20px" }}
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
             ) : (
               <p className="text-gray-400 text-center mt-4">

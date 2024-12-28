@@ -54,6 +54,18 @@ const Navbar = () => {
       ? userData.firstName.charAt(0).toUpperCase()
       : "";
 
+  const userProfileImage = userData?.profilePhoto ? (
+    <img
+      src={userData.profilePhoto}
+      alt="User Profile"
+      className="w-14 h-14 rounded-full object-cover"
+    />
+  ) : (
+    <span className="text-2xl font-semibold rounded-full py-2 px-5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
+      {firstLetter}
+    </span>
+  );
+
   const handleLogout = () => {
     logout();
     setIsLogoMenu(false);
@@ -155,11 +167,8 @@ const Navbar = () => {
               </NavLink>
             </>
           ) : (
-            <span
-              onClick={toggleLogoMenu}
-              className="text-2xl font-semibold rounded-full py-2 px-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white cursor-pointer transition-all duration-300 hover:scale-105"
-            >
-              {firstLetter}
+            <span onClick={toggleLogoMenu} className="cursor-pointer">
+              {userProfileImage}
             </span>
           )}
         </div>
@@ -219,14 +228,14 @@ const Navbar = () => {
           />
           <div className="fixed top-[6%] right-[5%] sm:w-[350px] bg-[#100924] p-6 z-50 rounded-2xl overflow-y-auto max-h-[90vh]">
             <div className="flex justify-evenly items-center gap-1 ">
-              <div className="text-xl rounded-full py-2 px-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
-                {firstLetter}
-              </div>
+              <Link to={`/user/${userData._id}`}>{userProfileImage}</Link>
               <div className="text-white flex flex-col justify-start text-center sm:text-start">
                 <div className="font-semibold">
                   {userData.firstName} {userData.lastName}
                 </div>
-                <div className="text-[14px] sm:text-base">{userData.email}</div>
+                <div className="text-[14px] sm:text-base">
+                  <Link to={`/user/${userData._id}`}>{userData.email}</Link>
+                </div>
               </div>
             </div>
             <div className="bg-gradient-to-r from-transparent via-white to-transparent w-full h-[1px] mt-6 my-4"></div>
