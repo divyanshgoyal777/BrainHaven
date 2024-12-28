@@ -3,9 +3,6 @@ import toast from "react-hot-toast";
 import Navbar from "../layout/Navbar/Navbar";
 import Footer from "../layout/Footer/Footer";
 import axios from "axios";
-import { Document, Page, pdfjs } from "react-pdf";
-
-pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.js";
 
 export const GlobalOptionsContext = createContext();
 
@@ -32,13 +29,14 @@ const Resources = () => {
 
   const [loading, setLoading] = useState(true);
   const [pdfUrl, setPdfUrl] = useState(null);
-  const [pdfPages, setPdfPages] = useState(0); // Number of pages
+  const [pdfPages, setPdfPages] = useState(0);
   const [pdfShow, setPdfShow] = useState(false);
 
   useEffect(() => {
     axios
       .get("http://localhost:3000/api/resource/options")
       .then((response) => {
+        console.log(response.data)
         setDropdownData(response.data);
         setLoading(false);
       })
@@ -50,26 +48,23 @@ const Resources = () => {
   }, []);
 
   const handleSubmit = () => {
-    // Check if all options are selected
     const { degree, branch, semester, subject, type } = selectedOptions;
     if (!degree || !branch || !semester || !subject || !type) {
       toast.error("Please fill in all the options.");
       return;
     }
-  
+
     axios
-      .get("http://localhost:3000/api/resource/search", {
-        params: selectedOptions,
-      })
+      .get("http://localhost:3000/api/resource/search", { params: selectedOptions })
       .then((response) => {
         const cloudinaryUrl = response.data[0]?.cloudinary_url;
         const pages = response.data[0]?.pages;
-  
+
         if (!cloudinaryUrl || !pages) {
           toast.error("No valid PDF or pages information found.");
           return;
         }
-  
+
         const modifiedUrls = [];
         for (let i = 1; i <= pages; i++) {
           const modifiedUrl = cloudinaryUrl.replace(
@@ -79,7 +74,7 @@ const Resources = () => {
           modifiedUrls.push(modifiedUrl);
         }
         setPdfUrl(modifiedUrls);
-        setPdfPages(pages); // Store the number of pages
+        setPdfPages(pages);
         setPdfShow(true);
       })
       .catch((error) => {
@@ -87,12 +82,9 @@ const Resources = () => {
         toast.error("Failed to fetch resources.");
       });
   };
-  
 
   return (
-    <GlobalOptionsContext.Provider
-      value={{ selectedOptions, setSelectedOptions, dropdownData }}
-    >
+    <GlobalOptionsContext.Provider value={{ selectedOptions, setSelectedOptions, dropdownData }}>
       <div className="text-white">
         <Navbar />
         <div className="mt-32 px-8">
@@ -102,26 +94,23 @@ const Resources = () => {
                 <h2 className="bg-gradient-to-tl from-indigo-600 to-purple-600 bg-clip-text text-transparent text-3xl md:text-4xl font-extrabold text-center drop-shadow-lg my-10">
                   Resource PDF
                 </h2>
-                <div className="pdf-pages-container overflow-y-auto" style={{ maxHeight: '100vh' }}>
-  {pdfUrl.map((url, index) => (
-    <div key={index} className="pdf-page-wrapper">
-      <iframe
-        src={url}
-        width="100%"
-        height="60vh"  // Set the height of the iframe to 60vh
-        frameBorder="0"
-        title={`Resource PDF - Page ${index + 1}`}
-        style={{ marginBottom: '20px' }}
-      />
-    </div>
-  ))}
-</div>
-
+                <div className="pdf-pages-container overflow-y-auto" style={{ maxHeight: "100vh" }}>
+                  {pdfUrl.map((url, index) => (
+                    <div key={index} className="pdf-page-wrapper">
+                      <iframe
+                        src={url}
+                        width="100%"
+                        height="60vh"
+                        frameBorder="0"
+                        title={`Resource PDF - Page ${index + 1}`}
+                        style={{ marginBottom: "20px" }}
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
             ) : (
-              <p className="text-gray-400 text-center mt-4">
-                No PDF available to display.
-              </p>
+              <p className="text-gray-400 text-center mt-4">No PDF available to display.</p>
             )
           ) : (
             <div>
@@ -144,7 +133,6 @@ const Resources = () => {
             </div>
           )}
         </div>
-
         <Footer />
       </div>
     </GlobalOptionsContext.Provider>
@@ -152,19 +140,12 @@ const Resources = () => {
 };
 
 const ResourceCategory = () => {
-  const { selectedOptions, setSelectedOptions, dropdownData } =
-    useContext(GlobalOptionsContext);
+  const { selectedOptions, setSelectedOptions, dropdownData } = useContext(GlobalOptionsContext);
 
   const clearSelections = (key) => {
     const updatedState = { ...selectedOptions, [key]: "" };
-    if (key === "degree")
-      updatedState.branch =
-        updatedState.semester =
-        updatedState.subject =
-        updatedState.type =
-          "";
-    if (key === "branch")
-      updatedState.semester = updatedState.subject = updatedState.type = "";
+    if (key === "degree") updatedState.branch = updatedState.semester = updatedState.subject = updatedState.type = "";
+    if (key === "branch") updatedState.semester = updatedState.subject = updatedState.type = "";
     if (key === "semester") updatedState.subject = updatedState.type = "";
     if (key === "subject") updatedState.type = "";
     return updatedState;
@@ -176,10 +157,12 @@ const ResourceCategory = () => {
   };
 
   const filteredBranches = dropdownData.branches[selectedOptions.degree] || [];
-  const filteredSemesters =
-    dropdownData.semesters[selectedOptions.degree] || [];
-  const filteredSubjects = dropdownData.subjects[selectedOptions.branch] || [];
-  const filteredTypes = dropdownData.types || [];
+  const semesterKey = `${selectedOptions.degree}_${selectedOptions.branch}`;
+  const filteredSemesters = dropdownData.semesters[semesterKey] || [];
+  const subjectKey = `${semesterKey}_${selectedOptions.semester}`;
+  const filteredSubjects = dropdownData.subjects[subjectKey] || [];
+  const typeKey = `${subjectKey}_${selectedOptions.subject}`;
+  const filteredTypes = dropdownData.types[typeKey] || [];
 
   return (
     <div className="w-full">
@@ -227,7 +210,7 @@ const ResourceCategory = () => {
             value={selectedOptions.semester}
             onChange={(e) => handleDropdownChange("semester", e.target.value)}
             className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            disabled={!selectedOptions.degree}
+            disabled={!selectedOptions.branch}
           >
             <option value="">Select a semester</option>
             {filteredSemesters.length === 0 ? (
@@ -248,7 +231,7 @@ const ResourceCategory = () => {
             value={selectedOptions.subject}
             onChange={(e) => handleDropdownChange("subject", e.target.value)}
             className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            disabled={!selectedOptions.branch}
+            disabled={!selectedOptions.semester}
           >
             <option value="">Select a subject</option>
             {filteredSubjects.length === 0 ? (
@@ -264,7 +247,7 @@ const ResourceCategory = () => {
         </div>
 
         <div className="flex flex-col">
-          <label className="mb-2">Type:</label>
+          <label className="mb-2">Resource Type:</label>
           <select
             value={selectedOptions.type}
             onChange={(e) => handleDropdownChange("type", e.target.value)}
@@ -273,7 +256,7 @@ const ResourceCategory = () => {
           >
             <option value="">Select a type</option>
             {filteredTypes.length === 0 ? (
-              <option disabled>No options available</option>
+              <option disabled>No resource types available</option>
             ) : (
               filteredTypes.map((type, i) => (
                 <option key={i} value={type}>
@@ -287,5 +270,6 @@ const ResourceCategory = () => {
     </div>
   );
 };
+
 
 export default Resources;
