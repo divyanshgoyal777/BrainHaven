@@ -32,6 +32,7 @@ const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [token, setToken] = useState(null);
   const [userEmail, setUserEmail] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -41,6 +42,7 @@ const AuthProvider = ({ children }) => {
       setToken(storedToken);
       setUserEmail(storedEmail);
     }
+    setLoading(false);
   }, []);
 
   const login = (token, userEmail) => {
@@ -64,24 +66,28 @@ const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{ isAuthenticated, token, userEmail, login, logout }}
     >
-      {children}
+      {!loading && children}
     </AuthContext.Provider>
   );
 };
 
 const RouteGuard = ({ element, authOnly }) => {
   const { isAuthenticated } = useAuth();
-  if (authOnly && isAuthenticated) return <Navigate to="/" replace />;
-  if (!authOnly && !isAuthenticated) return <Navigate to="/login" replace />;
+  const location = useLocation();
+  if (authOnly && isAuthenticated)
+    return <Navigate to={location.state?.from || "/"} replace />;
+  if (!authOnly && !isAuthenticated)
+    return <Navigate to="/login" state={{ from: location }} replace />;
   return element;
 };
 
 const AdminRoute = ({ element }) => {
   const { userEmail } = useAuth();
+  const location = useLocation();
   const adminOne = "tonisha24680@gmail.com";
   const adminTwo = "animeshp1607@gmail.com";
   if (userEmail !== adminOne && userEmail !== adminTwo) {
-    return <Navigate to="/" replace />;
+    return <Navigate to={location.state?.from || "/"} replace />;
   }
   return element;
 };
