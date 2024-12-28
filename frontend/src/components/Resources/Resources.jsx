@@ -36,7 +36,6 @@ const Resources = () => {
     axios
       .get("http://localhost:3000/api/resource/options")
       .then((response) => {
-        console.log(response.data);
         setDropdownData(response.data);
         setLoading(false);
       })
@@ -98,19 +97,13 @@ const Resources = () => {
                 <h2 className="bg-gradient-to-tl from-indigo-600 to-purple-600 bg-clip-text text-transparent text-3xl md:text-4xl font-extrabold text-center drop-shadow-lg my-10">
                   Resource PDF
                 </h2>
-                <div
-                  className="pdf-pages-container overflow-y-auto"
-                  style={{ maxHeight: "100vh" }}
-                >
+                <div className="flex flex-col items-center gap-5">
                   {pdfUrl.map((url, index) => (
-                    <div key={index} className="pdf-page-wrapper">
-                      <iframe
+                    <div key={index} className="w-full max-w-4xl">
+                      <img
                         src={url}
-                        width="100%"
-                        height="60vh"
-                        frameBorder="0"
                         title={`Resource PDF - Page ${index + 1}`}
-                        style={{ marginBottom: "20px" }}
+                        className="w-full h-auto rounded-lg shadow-lg"
                       />
                     </div>
                   ))}
