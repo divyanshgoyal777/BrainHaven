@@ -3,9 +3,6 @@ import toast from "react-hot-toast";
 import Navbar from "../layout/Navbar/Navbar";
 import Footer from "../layout/Footer/Footer";
 import axios from "axios";
-import { Document, Page, pdfjs } from "react-pdf";
-
-pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.js";
 
 export const GlobalOptionsContext = createContext();
 
@@ -32,13 +29,14 @@ const Resources = () => {
 
   const [loading, setLoading] = useState(true);
   const [pdfUrl, setPdfUrl] = useState(null);
-  const [pdfPages, setPdfPages] = useState(0); // Number of pages
+  const [pdfPages, setPdfPages] = useState(0);
   const [pdfShow, setPdfShow] = useState(false);
 
   useEffect(() => {
     axios
       .get("http://localhost:3000/api/resource/options")
       .then((response) => {
+        console.log(response.data);
         setDropdownData(response.data);
         setLoading(false);
       })
@@ -50,7 +48,6 @@ const Resources = () => {
   }, []);
 
   const handleSubmit = () => {
-    // Check if all options are selected
     const { degree, branch, semester, subject, type } = selectedOptions;
     if (!degree || !branch || !semester || !subject || !type) {
       toast.error("Please fill in all the options.");
@@ -79,7 +76,7 @@ const Resources = () => {
           modifiedUrls.push(modifiedUrl);
         }
         setPdfUrl(modifiedUrls);
-        setPdfPages(pages); // Store the number of pages
+        setPdfPages(pages);
         setPdfShow(true);
       })
       .catch((error) => {
@@ -110,7 +107,7 @@ const Resources = () => {
                       <iframe
                         src={url}
                         width="100%"
-                        height="60vh" // Set the height of the iframe to 60vh
+                        height="60vh"
                         frameBorder="0"
                         title={`Resource PDF - Page ${index + 1}`}
                         style={{ marginBottom: "20px" }}
@@ -145,7 +142,6 @@ const Resources = () => {
             </div>
           )}
         </div>
-
         <Footer />
       </div>
     </GlobalOptionsContext.Provider>
@@ -177,10 +173,12 @@ const ResourceCategory = () => {
   };
 
   const filteredBranches = dropdownData.branches[selectedOptions.degree] || [];
-  const filteredSemesters =
-    dropdownData.semesters[selectedOptions.degree] || [];
-  const filteredSubjects = dropdownData.subjects[selectedOptions.branch] || [];
-  const filteredTypes = dropdownData.types || [];
+  const semesterKey = `${selectedOptions.degree}_${selectedOptions.branch}`;
+  const filteredSemesters = dropdownData.semesters[semesterKey] || [];
+  const subjectKey = `${semesterKey}_${selectedOptions.semester}`;
+  const filteredSubjects = dropdownData.subjects[subjectKey] || [];
+  const typeKey = `${subjectKey}_${selectedOptions.subject}`;
+  const filteredTypes = dropdownData.types[typeKey] || [];
 
   return (
     <div className="w-full">
@@ -228,7 +226,7 @@ const ResourceCategory = () => {
             value={selectedOptions.semester}
             onChange={(e) => handleDropdownChange("semester", e.target.value)}
             className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            disabled={!selectedOptions.degree}
+            disabled={!selectedOptions.branch}
           >
             <option value="">Select a semester</option>
             {filteredSemesters.length === 0 ? (
@@ -249,7 +247,7 @@ const ResourceCategory = () => {
             value={selectedOptions.subject}
             onChange={(e) => handleDropdownChange("subject", e.target.value)}
             className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            disabled={!selectedOptions.branch}
+            disabled={!selectedOptions.semester}
           >
             <option value="">Select a subject</option>
             {filteredSubjects.length === 0 ? (
@@ -265,7 +263,7 @@ const ResourceCategory = () => {
         </div>
 
         <div className="flex flex-col">
-          <label className="mb-2">Type:</label>
+          <label className="mb-2">Resource Type:</label>
           <select
             value={selectedOptions.type}
             onChange={(e) => handleDropdownChange("type", e.target.value)}
@@ -274,7 +272,7 @@ const ResourceCategory = () => {
           >
             <option value="">Select a type</option>
             {filteredTypes.length === 0 ? (
-              <option disabled>No options available</option>
+              <option disabled>No resource types available</option>
             ) : (
               filteredTypes.map((type, i) => (
                 <option key={i} value={type}>

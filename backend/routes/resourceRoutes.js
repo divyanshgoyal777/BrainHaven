@@ -34,6 +34,21 @@ router.post("/upload", upload.single("resourceFile"), async (req, res) => {
   }
 
   try {
+    const resource = await Resource.findOne({
+      degree,
+      branch,
+      subject,
+      semester,
+      type,
+    });
+
+    if (resource) {
+      return res.status(400).json({
+        message: "Resource with the same details already exists.",
+        exists: true,
+      });
+    }
+
     const newResource = new Resource({
       degree,
       branch,
@@ -45,33 +60,172 @@ router.post("/upload", upload.single("resourceFile"), async (req, res) => {
     });
 
     await newResource.save();
-    res.status(200).send({ message: "File Uploaded Successfully", file: newResource });
+    res.status(200).send({
+      message: "File Uploaded Successfully",
+      file: newResource,
+    });
   } catch (err) {
     console.error(err);
     res.status(500).send("Server Error: Unable to Save File.");
   }
 });
 
+router.post("/replace", upload.single("resourceFile"), async (req, res) => {
+  const { degree, branch, semester, subject, type, pages } = req.body;
+  const file = req.file;
+
+  // Validate inputs
+  if (!file) return res.status(400).send("No File Uploaded.");
+  if (!degree || !branch || !semester || !subject || !type || !pages) {
+    return res.status(400).send("All Categories are Required.");
+  }
+
+  try {
+    const resource = await Resource.findOne({
+      degree,
+      branch,
+      subject,
+      semester,
+      type,
+    });
+
+    if (resource) {
+      await resource.deleteOne();
+      console.log("Existing resource deleted.");
+    }
+
+    const newResource = new Resource({
+      degree,
+      branch,
+      subject,
+      semester,
+      type,
+      pages,
+      cloudinary_url: file.path,
+    });
+
+    await newResource.save();
+
+    res.status(200).send("Resource replaced successfully!");
+  } catch (error) {
+    console.error("Error in replacing resource:", error);
+    res.status(500).send("Failed to replace resource. Please try again.");
+  }
+});
+
 router.get("/options", async (req, res) => {
   try {
-    const degrees = await Resource.distinct('degree');
-    const branches = await Resource.aggregate([
-      { $group: { _id: '$degree', branches: { $addToSet: '$branch' } } }
+    const { degree, branch, semester, subject } = req.query;
+
+    const degrees = await Resource.distinct("degree");
+
+    const branches = degree
+      ? await Resource.aggregate([
+          { $match: { degree } },
+          { $group: { _id: "$degree", branches: { $addToSet: "$branch" } } },
+        ])
+      : await Resource.aggregate([
+          { $group: { _id: "$degree", branches: { $addToSet: "$branch" } } },
+        ]);
+
+    const branchesByDegree = branches.reduce(
+      (acc, curr) => ({ ...acc, [curr._id]: curr.branches }),
+      {}
+    );
+
+    const semesters =
+      degree && branch
+        ? await Resource.aggregate([
+            { $match: { degree, branch } },
+            {
+              $group: {
+                _id: { degree: "$degree", branch: "$branch" },
+                semesters: { $addToSet: "$semester" },
+              },
+            },
+          ])
+        : await Resource.aggregate([
+            {
+              $group: {
+                _id: { degree: "$degree", branch: "$branch" },
+                semesters: { $addToSet: "$semester" },
+              },
+            },
+          ]);
+
+    const semestersByDegreeBranch = semesters.reduce(
+      (acc, curr) => ({
+        ...acc,
+        [`${curr._id.degree}_${curr._id.branch}`]: curr.semesters,
+      }),
+      {}
+    );
+
+    const subjects =
+      degree && branch && semester
+        ? await Resource.aggregate([
+            { $match: { degree, branch, semester } },
+            {
+              $group: {
+                _id: {
+                  degree: "$degree",
+                  branch: "$branch",
+                  semester: "$semester",
+                },
+                subjects: { $addToSet: "$subject" },
+              },
+            },
+          ])
+        : await Resource.aggregate([
+            {
+              $group: {
+                _id: {
+                  degree: "$degree",
+                  branch: "$branch",
+                  semester: "$semester",
+                },
+                subjects: { $addToSet: "$subject" },
+              },
+            },
+          ]);
+
+    const subjectsByDegreeBranchSemester = subjects.reduce(
+      (acc, curr) => ({
+        ...acc,
+        [`${curr._id.degree}_${curr._id.branch}_${curr._id.semester}`]:
+          curr.subjects,
+      }),
+      {}
+    );
+
+    const types = await Resource.aggregate([
+      {
+        $group: {
+          _id: {
+            degree: "$degree",
+            branch: "$branch",
+            semester: "$semester",
+            subject: "$subject",
+          },
+          types: { $addToSet: "$type" },
+        },
+      },
     ]);
-    const semesters = await Resource.aggregate([
-      { $group: { _id: '$degree', semesters: { $addToSet: '$semester' } } }
-    ]);
-    const subjects = await Resource.aggregate([
-      { $group: { _id: '$branch', subjects: { $addToSet: '$subject' } } }
-    ]);
-    const types = await Resource.distinct('type');
+
+    const typesByDegreeBranchSemesterSubject = types.reduce((acc, curr) => {
+      const key = `${curr._id.degree || "all"}_${curr._id.branch || "all"}_${
+        curr._id.semester || "all"
+      }_${curr._id.subject || "all"}`;
+      acc[key] = curr.types;
+      return acc;
+    }, {});
 
     res.status(200).json({
       degrees,
-      branches: branches.reduce((acc, curr) => ({ ...acc, [curr._id]: curr.branches }), {}),
-      semesters: semesters.reduce((acc, curr) => ({ ...acc, [curr._id]: curr.semesters }), {}),
-      subjects: subjects.reduce((acc, curr) => ({ ...acc, [curr._id]: curr.subjects }), {}),
-      types
+      branches: branchesByDegree,
+      semesters: semestersByDegreeBranch,
+      subjects: subjectsByDegreeBranchSemester,
+      types: typesByDegreeBranchSemesterSubject,
     });
   } catch (err) {
     console.error("Error fetching options:", err);
