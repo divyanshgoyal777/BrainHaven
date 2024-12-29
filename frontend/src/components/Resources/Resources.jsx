@@ -3,10 +3,13 @@ import toast from "react-hot-toast";
 import Navbar from "../layout/Navbar/Navbar";
 import Footer from "../layout/Footer/Footer";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export const GlobalOptionsContext = createContext();
 
 const Resources = () => {
+  const navigate = useNavigate();
+
   useEffect(() => {
     document.title = "BrainWave - Resource";
   }, []);
@@ -52,37 +55,59 @@ const Resources = () => {
       toast.error("Please fill in all the options.");
       return;
     }
-
+  
     axios
       .get("http://localhost:3000/api/resource/search", {
         params: selectedOptions,
       })
       .then((response) => {
-        const cloudinaryUrl = response.data[0]?.cloudinary_url;
-        const pages = response.data[0]?.pages;
-
-        if (!cloudinaryUrl || !pages) {
-          toast.error("No valid PDF or pages information found.");
-          return;
+        if (type === "Tutorials") {
+          const videoLinks = response.data[0]?.videoLinks;
+  
+          if (!videoLinks || videoLinks.length === 0) {
+            toast.error("No video links found.");
+            return;
+          }
+  
+          // Redirect to a page showing the video links
+          const urlPath = `/resources/${degree}/${branch}/${semester}/${subject}/${type}/videos?videoLinks=${encodeURIComponent(
+            JSON.stringify(videoLinks)
+          )}`;
+          navigate(urlPath);
+        } else {
+          const cloudinaryUrl = response.data[0]?.cloudinary_url;
+          const pages = response.data[0]?.pages;
+  
+          if (!cloudinaryUrl || !pages) {
+            toast.error("No valid PDF or pages information found.");
+            return;
+          }
+  
+          const modifiedUrls = [];
+          for (let i = 1; i <= pages; i++) {
+            const modifiedUrl = cloudinaryUrl.replace(
+              "/upload",
+              `/upload/f_auto/pg_${i}`
+            );
+            modifiedUrls.push(modifiedUrl);
+          }
+  
+          const urlPath = `/resources/${degree}/${branch}/${semester}/${subject}/${type}?pdfUrls=${encodeURIComponent(
+            JSON.stringify(modifiedUrls)
+          )}&pdfPages=${pages}`;
+  
+          navigate(urlPath);
+          setPdfUrl(modifiedUrls);
+          setPdfPages(pages);
+          setPdfShow(true);
         }
-
-        const modifiedUrls = [];
-        for (let i = 1; i <= pages; i++) {
-          const modifiedUrl = cloudinaryUrl.replace(
-            "/upload",
-            `/upload/f_auto/pg_${i}`
-          );
-          modifiedUrls.push(modifiedUrl);
-        }
-        setPdfUrl(modifiedUrls);
-        setPdfPages(pages);
-        setPdfShow(true);
       })
       .catch((error) => {
         console.error("Error submitting search:", error);
         toast.error("Failed to fetch resources.");
       });
   };
+  
 
   return (
     <GlobalOptionsContext.Provider
@@ -161,8 +186,11 @@ const ResourceCategory = () => {
   };
 
   const handleDropdownChange = (dropdownKey, value) => {
-    setSelectedOptions(clearSelections(dropdownKey));
-    setSelectedOptions((prev) => ({ ...prev, [dropdownKey]: value }));
+    setSelectedOptions((prev) => ({
+      ...clearSelections(dropdownKey),
+      ...prev,
+      [dropdownKey]: value,
+    }));
   };
 
   const filteredBranches = dropdownData.branches[selectedOptions.degree] || [];
@@ -176,108 +204,66 @@ const ResourceCategory = () => {
   return (
     <div className="w-full">
       <div className="flex flex-col justify-center gap-6 flex-wrap">
-        <div className="flex flex-col">
-          <label className="mb-2">Degree:</label>
-          <select
-            value={selectedOptions.degree}
-            onChange={(e) => handleDropdownChange("degree", e.target.value)}
-            className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          >
-            <option value="">Select a degree</option>
-            {dropdownData.degrees.map((degree, i) => (
-              <option key={i} value={degree}>
-                {degree}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="flex flex-col">
-          <label className="mb-2">Branch:</label>
-          <select
-            value={selectedOptions.branch}
-            onChange={(e) => handleDropdownChange("branch", e.target.value)}
-            className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            disabled={!selectedOptions.degree}
-          >
-            <option value="">Select a branch</option>
-            {filteredBranches.length === 0 ? (
-              <option disabled>No options available</option>
-            ) : (
-              filteredBranches.map((branch, i) => (
-                <option key={i} value={branch}>
-                  {branch}
-                </option>
-              ))
-            )}
-          </select>
-        </div>
-
-        <div className="flex flex-col">
-          <label className="mb-2">Semester:</label>
-          <select
-            value={selectedOptions.semester}
-            onChange={(e) => handleDropdownChange("semester", e.target.value)}
-            className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            disabled={!selectedOptions.branch}
-          >
-            <option value="">Select a semester</option>
-            {filteredSemesters.length === 0 ? (
-              <option disabled>No options available</option>
-            ) : (
-              filteredSemesters.map((semester, i) => (
-                <option key={i} value={semester}>
-                  Semester {semester}
-                </option>
-              ))
-            )}
-          </select>
-        </div>
-
-        <div className="flex flex-col">
-          <label className="mb-2">Subject:</label>
-          <select
-            value={selectedOptions.subject}
-            onChange={(e) => handleDropdownChange("subject", e.target.value)}
-            className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            disabled={!selectedOptions.semester}
-          >
-            <option value="">Select a subject</option>
-            {filteredSubjects.length === 0 ? (
-              <option disabled>No subjects available</option>
-            ) : (
-              filteredSubjects.map((subject, i) => (
-                <option key={i} value={subject}>
-                  {subject}
-                </option>
-              ))
-            )}
-          </select>
-        </div>
-
-        <div className="flex flex-col">
-          <label className="mb-2">Resource Type:</label>
-          <select
-            value={selectedOptions.type}
-            onChange={(e) => handleDropdownChange("type", e.target.value)}
-            className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            disabled={!selectedOptions.subject}
-          >
-            <option value="">Select a type</option>
-            {filteredTypes.length === 0 ? (
-              <option disabled>No resource types available</option>
-            ) : (
-              filteredTypes.map((type, i) => (
-                <option key={i} value={type}>
-                  {type}
-                </option>
-              ))
-            )}
-          </select>
-        </div>
+        <Dropdown
+          label="Degree"
+          options={dropdownData.degrees}
+          value={selectedOptions.degree}
+          onChange={(value) => handleDropdownChange("degree", value)}
+        />
+        <Dropdown
+          label="Branch"
+          options={filteredBranches}
+          value={selectedOptions.branch}
+          onChange={(value) => handleDropdownChange("branch", value)}
+          disabled={!selectedOptions.degree}
+        />
+        <Dropdown
+          label="Semester"
+          options={filteredSemesters}
+          value={selectedOptions.semester}
+          onChange={(value) => handleDropdownChange("semester", value)}
+          disabled={!selectedOptions.branch}
+        />
+        <Dropdown
+          label="Subject"
+          options={filteredSubjects}
+          value={selectedOptions.subject}
+          onChange={(value) => handleDropdownChange("subject", value)}
+          disabled={!selectedOptions.semester}
+        />
+        <Dropdown
+          label="Resource Type"
+          options={filteredTypes}
+          value={selectedOptions.type}
+          onChange={(value) => handleDropdownChange("type", value)}
+          disabled={!selectedOptions.subject}
+        />
       </div>
     </div>
   );
 };
+
+const Dropdown = ({ label, options, value, onChange, disabled }) => (
+  <div className="flex flex-col">
+    <label className="mb-2">{label}:</label>
+    <select
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+      disabled={disabled}
+    >
+      <option value="">Select an option</option>
+      {options.length === 0 ? (
+        <option disabled>No options available</option>
+      ) : (
+        options.map((option, i) => (
+          <option key={i} value={option}>
+            {option}
+          </option>
+        ))
+      )}
+    </select>
+  </div>
+);
 
 export default Resources;
