@@ -12,6 +12,7 @@ import Signup from "./components/auth/Signup/Signup";
 import Login from "./components/auth/Login/Login";
 import Home from "./components/home/Home";
 import Resources from "./components/resources/Resources";
+import PdfViewer from "./components/Resources/PdfViewer";
 import Roadmaps from "./components/roadmaps/Roadmaps";
 import RoadmapDetails from "./components/roadmaps/RoadmapDetail";
 import Hackmate from "./components/hackmate/Hackmate";
@@ -19,8 +20,9 @@ import PageNotFound from "./components/PageNotFound";
 import PrivacyPolicy from "./components/policy/policy";
 import FAQs from "./components/faqs/faqs";
 import TermsAndConditions from "./components/terms/Terms";
-import User from "./components/user/User";
+import User from "./components/user/Dashboard";
 import Admin from "./components/admin/Admin";
+import UrlViewer from "./components/Resources/UrlViewer";
 import ChatButton from "./components/chat/ChatButton";
 import UserProfile from "./components/user/UserProfile";
 
@@ -123,6 +125,8 @@ function AppRoutes() {
           path="/hackmate"
           element={<RouteGuard element={<Hackmate />} />}
         />
+        <Route path="/resources/:degree/:branch/:semester/:subject/:type" element={<PdfViewer />} />
+        <Route path="/resources/:degree/:branch/:semester/:subject/:type/videos" element={<UrlViewer />} />
         <Route path="/faqs" element={<FAQs />} />
         <Route path="/policy" element={<PrivacyPolicy />} />
         <Route path="/user" element={<RouteGuard element={<User />} />} />
