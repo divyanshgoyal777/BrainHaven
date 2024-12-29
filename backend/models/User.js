@@ -18,10 +18,7 @@ const userSchema = new mongoose.Schema(
       unique: true,
       lowercase: true,
       trim: true,
-      match: [
-        /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-        "Please enter a valid email address",
-      ],
+      match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
     },
     password: {
       type: String,
@@ -35,7 +32,7 @@ const userSchema = new mongoose.Schema(
     phoneNumber: {
       type: String,
       default: "",
-      match: [/^\d{10,15}$/, "Please enter a valid phone number"],
+      match: /^\d{10,15}$/,
     },
     address: {
       type: String,
@@ -51,26 +48,17 @@ const userSchema = new mongoose.Schema(
       instagram: {
         type: String,
         default: "",
-        match: [
-          /^(https?:\/\/)?(www\.)?instagram\.com\/[a-zA-Z0-9_.]+\/?$/,
-          "Please enter a valid Instagram URL",
-        ],
+        match: /^(https?:\/\/)?(www\.)?instagram\.com\/[a-zA-Z0-9_.]+\/?$/,
       },
       linkedIn: {
         type: String,
         default: "",
-        match: [
-          /^(https?:\/\/)?(www\.)?linkedin\.com\/in\/[a-zA-Z0-9-]+\/?$/,
-          "Please enter a valid LinkedIn URL",
-        ],
+        match: /^(https?:\/\/)?(www\.)?linkedin\.com\/in\/[a-zA-Z0-9-]+\/?$/,
       },
       github: {
         type: String,
         default: "",
-        match: [
-          /^(https?:\/\/)?(www\.)?github\.com\/[a-zA-Z0-9_.-]+\/?$/,
-          "Please enter a valid GitHub URL",
-        ],
+        match: /^(https?:\/\/)?(www\.)?github\.com\/[a-zA-Z0-9_.-]+\/?$/,
       },
     },
     collegeName: {
@@ -91,21 +79,41 @@ const userSchema = new mongoose.Schema(
     semester: {
       type: String,
       default: "",
-      match: [/^\d{1,2}$/, "Semester must be a valid number (e.g., 1-12)"],
+      match: /^\d{1,2}$/,
     },
     rollNumber: {
       type: String,
       default: "",
-      match: [/^\d{4,10}$/, "Roll number must be between 4 and 10 digits"],
+      match: /^\d{4,10}$/,
     },
     dateOfBirth: {
       type: String,
       default: "",
-      match: [
-        /^\d{4}-\d{2}-\d{2}$/,
-        "Date of birth must be in the format YYYY-MM-DD",
-      ],
+      match: /^\d{4}-\d{2}-\d{2}$/,
     },
+    skills: {
+      type: [String],
+      default: [],
+    },
+    achievements: {
+      type: [String],
+      default: [],
+    },
+    experience: [
+      {
+        companyName: { type: String, trim: true },
+        role: { type: String, trim: true },
+        duration: { type: String, trim: true },
+        description: { type: String, trim: true, default: "" },
+      },
+    ],
+    projects: [
+      {
+        title: { type: String, trim: true },
+        description: { type: String, trim: true, default: "" },
+        link: { type: String, trim: true, default: "" },
+      },
+    ],
   },
   { timestamps: true }
 );

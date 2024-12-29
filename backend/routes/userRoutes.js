@@ -22,7 +22,7 @@ router.get("/profile", authenticateToken, async (req, res) => {
       return res.status(400).json({ message: "Email is required" });
     }
 
-    const user = await User.findOne({ email: userEmail });
+    const user = await User.findOne({ email: userEmail }).select("-password");
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -35,7 +35,7 @@ router.get("/profile", authenticateToken, async (req, res) => {
 
 router.get("/profile/:id", async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.id).select("-password");
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }

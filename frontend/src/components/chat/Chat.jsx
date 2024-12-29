@@ -5,6 +5,7 @@ import { useAuth } from "../../App";
 import io from "socket.io-client";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import BrainWaveFaviconNoBackground from "../../assets/img/BrainWaveFaviconNoBackground.png";
 
 const socket = io("http://localhost:3000");
 
@@ -119,8 +120,13 @@ const Chat = ({ isOpen, toggleChat }) => {
         isOpen ? "translate-y-0" : "translate-y-full"
       }`}
     >
-      <div className="bg-blue-600 text-white p-4 flex items-center justify-between rounded-t-lg">
-        <h3 className="text-lg font-semibold">Chat</h3>
+      <div className="bg-gray-800 text-white p-4 flex items-center justify-between rounded-t-lg">
+        <img
+          src={BrainWaveFaviconNoBackground}
+          alt="BrainWave Logo"
+          width={30}
+        />
+        <h3 className="text-lg font-semibold">BrainWave Chat</h3>
         <IoMdClose
           size={24}
           className="cursor-pointer hover:text-gray-300"

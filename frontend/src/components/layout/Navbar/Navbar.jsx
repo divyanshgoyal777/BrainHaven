@@ -9,6 +9,7 @@ import profile from "../../../assets/svg/newAccount.svg";
 import road from "../../../assets/svg/road.svg";
 import hand from "../../../assets/svg/hand.svg";
 import book from "../../../assets/svg/book.svg";
+import faqs from "../../../assets/svg/faqs.svg";
 import policy from "../../../assets/svg/policy.svg";
 import terms from "../../../assets/svg/terms.svg";
 
@@ -226,7 +227,7 @@ const Navbar = () => {
             onClick={toggleLogoMenu}
             className="fixed inset-0 bg-black opacity-50 z-40"
           />
-          <div className="fixed top-[6%] right-[5%] sm:w-[350px] bg-[#100924] p-6 z-50 rounded-2xl overflow-y-auto max-h-[90vh]">
+          <div className="fixed top-[6%] right-[5%] sm:w-[350px] bg-[#100924] p-6 z-50 rounded-2xl overflow-y-auto max-h-[95vh]">
             <div className="flex justify-evenly items-center gap-1 ">
               <Link to={`/user/${userData._id}`}>{userProfileImage}</Link>
               <div className="text-white flex flex-col justify-start text-center sm:text-start">
@@ -266,7 +267,7 @@ const Navbar = () => {
                   to="/user"
                   className="hover:text-white transition-all duration-300"
                 >
-                  Profile Details
+                  Dashboard
                 </NavLink>
               </li>
               <li className="flex gap-5 items-center">
@@ -313,6 +314,17 @@ const Navbar = () => {
             </ul>
             <div className="bg-gradient-to-r from-transparent via-white to-transparent w-full h-[1px] mt-6 my-4"></div>
             <ul className=" text-gray-400 flex  flex-col gap-3  my-5">
+              <li className="flex gap-5 items-center">
+                <div className="min-w-[23px]">
+                  <img src={faqs} alt="" className="ml-[1px] w-6 " />
+                </div>
+                <NavLink
+                  to="/faqs"
+                  className="hover:text-white transition-all duration-300"
+                >
+                  FAQs
+                </NavLink>
+              </li>
               <li className="flex gap-5 items-center">
                 <div className="min-w-[23px]">
                   <img src={policy} alt="" className="ml-[1px] w-5 " />
