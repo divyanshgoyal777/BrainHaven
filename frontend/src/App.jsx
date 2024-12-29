@@ -20,7 +20,7 @@ import PageNotFound from "./components/PageNotFound";
 import PrivacyPolicy from "./components/policy/policy";
 import FAQs from "./components/faqs/faqs";
 import TermsAndConditions from "./components/terms/Terms";
-import User from "./components/user/User";
+import User from "./components/user/Dashboard";
 import Admin from "./components/admin/Admin";
 import UrlViewer from "./components/Resources/UrlViewer";
 import ChatButton from "./components/chat/ChatButton";
