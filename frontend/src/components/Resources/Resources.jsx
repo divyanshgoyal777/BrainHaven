@@ -36,8 +36,13 @@ const Resources = () => {
   const [pdfShow, setPdfShow] = useState(false);
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
     axios
-      .get("http://localhost:3000/api/resource/options")
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/resource/options`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         setDropdownData(response.data);
         setLoading(false);
@@ -55,21 +60,23 @@ const Resources = () => {
       toast.error("Please fill in all the options.");
       return;
     }
-  
+    const token = localStorage.getItem("token");
     axios
-      .get("http://localhost:3000/api/resource/search", {
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/resource/search`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         params: selectedOptions,
       })
       .then((response) => {
         if (type === "Tutorials") {
           const videoLinks = response.data[0]?.videoLinks;
-  
+
           if (!videoLinks || videoLinks.length === 0) {
             toast.error("No video links found.");
             return;
           }
-  
-          // Redirect to a page showing the video links
+
           const urlPath = `/resources/${degree}/${branch}/${semester}/${subject}/${type}/videos?videoLinks=${encodeURIComponent(
             JSON.stringify(videoLinks)
           )}`;
@@ -77,12 +84,12 @@ const Resources = () => {
         } else {
           const cloudinaryUrl = response.data[0]?.cloudinary_url;
           const pages = response.data[0]?.pages;
-  
+
           if (!cloudinaryUrl || !pages) {
             toast.error("No valid PDF or pages information found.");
             return;
           }
-  
+
           const modifiedUrls = [];
           for (let i = 1; i <= pages; i++) {
             const modifiedUrl = cloudinaryUrl.replace(
@@ -91,11 +98,11 @@ const Resources = () => {
             );
             modifiedUrls.push(modifiedUrl);
           }
-  
+
           const urlPath = `/resources/${degree}/${branch}/${semester}/${subject}/${type}?pdfUrls=${encodeURIComponent(
             JSON.stringify(modifiedUrls)
           )}&pdfPages=${pages}`;
-  
+
           navigate(urlPath);
           setPdfUrl(modifiedUrls);
           setPdfPages(pages);
@@ -107,7 +114,6 @@ const Resources = () => {
         toast.error("Failed to fetch resources.");
       });
   };
-  
 
   return (
     <GlobalOptionsContext.Provider

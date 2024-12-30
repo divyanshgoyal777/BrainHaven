@@ -21,7 +21,7 @@ const Dashboard = () => {
         if (!userEmail) return;
 
         const response = await axios.get(
-          "http://localhost:3000/api/user/profile",
+          `${import.meta.env.VITE_API_BASE_URL}/api/user/profile`,
           {
             headers: { userEmail, Authorization: `Bearer ${token}` },
           }

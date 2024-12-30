@@ -10,7 +10,7 @@ const AllUsers = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     axios
-      .get("http://localhost:3000/api/admin/allUsers", {
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/admin/allUsers`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -42,11 +42,14 @@ const AllUsers = () => {
     }`.trim();
     const token = localStorage.getItem("token");
     axios
-      .delete(`http://localhost:3000/api/admin/deleteUser/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .delete(
+        `${import.meta.env.VITE_API_BASE_URL}/api/admin/deleteUser/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then(() => {
         setUsers(users.filter((user) => user._id !== id));
         toast.success(`User ${userName} deleted successfully!`);

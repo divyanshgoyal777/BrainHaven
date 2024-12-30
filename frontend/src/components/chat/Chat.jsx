@@ -5,9 +5,10 @@ import { useAuth } from "../../App";
 import io from "socket.io-client";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { format } from "date-fns";
 import BrainWaveFaviconNoBackground from "../../assets/img/BrainWaveFaviconNoBackground.png";
 
-const socket = io("http://localhost:3000");
+const socket = io(`${import.meta.env.VITE_API_BASE_URL}`);
 
 const Chat = ({ isOpen, toggleChat }) => {
   const { userEmail } = useAuth();
@@ -23,9 +24,12 @@ const Chat = ({ isOpen, toggleChat }) => {
 
     const fetchMessages = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/messages", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_BASE_URL}/api/messages`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         setUserMessages(response.data);
         scrollToBottom();
       } catch (error) {
@@ -36,7 +40,7 @@ const Chat = ({ isOpen, toggleChat }) => {
     const fetchUserProfile = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/user/profile",
+          `${import.meta.env.VITE_API_BASE_URL}/api/user/profile`,
           {
             headers: { userEmail, Authorization: `Bearer ${token}` },
           }
@@ -66,6 +70,12 @@ const Chat = ({ isOpen, toggleChat }) => {
     };
   }, [userEmail]);
 
+  useEffect(() => {
+    if (isOpen) {
+      scrollToBottom();
+    }
+  }, [isOpen]);
+
   const handleSendMessage = () => {
     if (message.trim() === "") return;
 
@@ -75,6 +85,7 @@ const Chat = ({ isOpen, toggleChat }) => {
       userPic: userPic || userEmail.charAt(0).toUpperCase(),
       chatType: "group",
       userId: userId,
+      createdAt: new Date().toISOString(),
     };
 
     socket.emit("group chat message", newMessage);
@@ -148,7 +159,7 @@ const Chat = ({ isOpen, toggleChat }) => {
             >
               {msg.user !== userName && (
                 <div className="mr-2">
-                  {renderUserPic(msg.userPic, msg.userId)}{" "}
+                  {renderUserPic(msg.userPic, msg.userId)}
                 </div>
               )}
               <div
@@ -158,10 +169,13 @@ const Chat = ({ isOpen, toggleChat }) => {
               >
                 <p className="font-semibold text-sm">{msg.user}</p>
                 <p className="text-sm">{msg.msg}</p>
+                <p className="text-xs text-gray-400 mt-1">
+                  {format(new Date(msg.createdAt), "MMM dd, yyyy hh:mm a")}
+                </p>
               </div>
               {msg.user === userName && (
                 <div className="ml-2">
-                  {renderUserPic(msg.userPic, msg.userId)}{" "}
+                  {renderUserPic(msg.userPic, msg.userId)}
                 </div>
               )}
             </div>

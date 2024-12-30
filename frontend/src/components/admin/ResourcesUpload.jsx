@@ -1,4 +1,4 @@
-import React, { useState } from "react";  
+import React, { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
@@ -77,12 +77,12 @@ const ResourcesUpload = () => {
     type: "",
     pages: "",
     resourceFile: null,
-    videoLinks: [""], 
+    videoLinks: [""],
   });
 
   const [uploadStatus, setUploadStatus] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [option, setOption] =useState(false);
+  const [option, setOption] = useState(false);
   const [yes, setYes] = useState(false);
   const [no, setNo] = useState(false);
 
@@ -113,7 +113,7 @@ const ResourcesUpload = () => {
   const addVideoLink = () => {
     setFormData((prev) => ({
       ...prev,
-      videoLinks: [...prev.videoLinks, ""], 
+      videoLinks: [...prev.videoLinks, ""],
     }));
   };
 
@@ -122,8 +122,16 @@ const ResourcesUpload = () => {
     setUploadStatus("");
     setIsLoading(true);
 
-    const { degree, branch, subject, semester, type, pages, resourceFile, videoLinks } =
-      formData;
+    const {
+      degree,
+      branch,
+      subject,
+      semester,
+      type,
+      pages,
+      resourceFile,
+      videoLinks,
+    } = formData;
 
     if (type !== "Tutorials" && (isNaN(pages) || pages <= 0)) {
       setIsLoading(false);
@@ -131,7 +139,11 @@ const ResourcesUpload = () => {
       return;
     }
 
-    if (type !== "Tutorials" && resourceFile && resourceFile.type !== "application/pdf") {
+    if (
+      type !== "Tutorials" &&
+      resourceFile &&
+      resourceFile.type !== "application/pdf"
+    ) {
       setIsLoading(false);
       toast.error("Please upload a PDF file.");
       return;
@@ -145,15 +157,17 @@ const ResourcesUpload = () => {
     formDataToSend.append("type", type);
     formDataToSend.append("pages", pages);
     formDataToSend.append("resourceFile", resourceFile);
-    formDataToSend.append("videoLinks", JSON.stringify(videoLinks)); // Sending as JSON string
+    formDataToSend.append("videoLinks", JSON.stringify(videoLinks));
 
     try {
+      const token = localStorage.getItem("token");
       const response = await axios.post(
-        "http://localhost:3000/api/resource/upload",
+        `${import.meta.env.VITE_API_BASE_URL}/api/resource/upload`,
         formDataToSend,
         {
           headers: {
             "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -170,11 +184,11 @@ const ResourcesUpload = () => {
         type: "",
         pages: "",
         resourceFile: null,
-        videoLinks: [""], 
+        videoLinks: [""],
       });
     } catch (error) {
-      if(error.response.status===400){
-          setOption(true)
+      if (error.response.status === 400) {
+        setOption(true);
       }
       setIsLoading(false);
       if (error.response) {
@@ -190,8 +204,16 @@ const ResourcesUpload = () => {
   const sameResources = async (e, response) => {
     e.preventDefault();
     if (response === "yes") {
-      const { degree, branch, subject, semester, type, pages, resourceFile ,videoLinks} =
-        formData;
+      const {
+        degree,
+        branch,
+        subject,
+        semester,
+        type,
+        pages,
+        resourceFile,
+        videoLinks,
+      } = formData;
 
       setYes(true);
 
@@ -203,7 +225,7 @@ const ResourcesUpload = () => {
       formDataToSend.append("type", type);
       formDataToSend.append("pages", pages);
       formDataToSend.append("resourceFile", resourceFile);
-      formDataToSend.append("videoLinks", JSON.stringify(videoLinks))
+      formDataToSend.append("videoLinks", JSON.stringify(videoLinks));
 
       for (let [key, value] of formDataToSend.entries()) {
         console.log(key, value);
@@ -211,11 +233,12 @@ const ResourcesUpload = () => {
 
       try {
         const response = await axios.post(
-          "http://localhost:3000/api/resource/replace",
+          `${import.meta.env.VITE_API_BASE_URL}/api/resource/replace`,
           formDataToSend,
           {
             headers: {
               "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
           }
         );
@@ -273,217 +296,240 @@ const ResourcesUpload = () => {
         </h1>
 
         {!option ? (
-           <form onSubmit={handleSubmit} className="max-w-3xl mx-auto bg-gray-800 p-6 rounded-lg shadow-lg space-y-6">
-          <div>
-            <label className="block text-sm font-medium mb-2" htmlFor="degree">
-              Degree
-            </label>
-            <select
-              id="degree"
-              name="degree"
-              value={formData.degree}
-              onChange={handleChange}
-              className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              required
-            >
-              <option value="">Select Degree</option>
-              {Object.entries(options.degrees).map(([key, value]) => (
-                <option key={key} value={key}>
-                  {value.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium mb-2" htmlFor="branch">
-              Branch
-            </label>
-            <select
-              id="branch"
-              name="branch"
-              value={formData.branch}
-              onChange={handleChange}
-              className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
-              required
-            >
-              <option value="">Select Branch</option>
-              {Object.entries(options.branches).map(([key, value]) => (
-                <option key={key} value={key}>
-                  {value}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium mb-2" htmlFor="subject">
-              Subject
-            </label>
-            <input
-              id="subject"
-              type="text"
-              name="subject"
-              value={formData.subject}
-              onChange={handleChange}
-              className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              placeholder="Enter Subject"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium mb-2" htmlFor="semester">
-              Semester
-            </label>
-            <select
-              id="semester"
-              name="semester"
-              value={formData.semester}
-              onChange={handleChange}
-              className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
-              required
-              disabled={!formData.degree}
-            >
-              <option value="">Select Semester</option>
-              {formData.degree &&
-                Array.from(
-                  { length: options.degrees[formData.degree].semesters },
-                  (_, i) => i + 1
-                ).map((sem) => (
-                  <option key={sem} value={sem}>
-                    {sem}
-                  </option>
-                ))}
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium mb-2" htmlFor="type">
-              Type
-            </label>
-            <select
-              id="type"
-              name="type"
-              value={formData.type}
-              onChange={handleChange}
-              className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              required
-            >
-              <option value="">Select Type</option>
-              {Object.entries(options.types).map(([key, value]) => (
-                <option key={key} value={key}>
-                  {value}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {formData.type === "Tutorials" && (
+          <form
+            onSubmit={handleSubmit}
+            className="max-w-3xl mx-auto bg-gray-800 p-6 rounded-lg shadow-lg space-y-6"
+          >
             <div>
-              <label className="block text-sm font-medium mb-2" htmlFor="videoLinks">
-                Video Links
-              </label>
-              {formData.videoLinks.map((link, index) => (
-                <div key={index} className="mb-4">
-                  <input
-                    type="text"
-                    name="videoLinks"
-                    data-index={index}
-                    value={link}
-                    onChange={handleChange}
-                    className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder={`Enter video link ${index + 1}`}
-                  />
-                </div>
-              ))}
-              <button
-                type="button"
-                onClick={addVideoLink}
-                className="px-4 py-2 mt-2 bg-blue-500 text-white rounded-lg"
+              <label
+                className="block text-sm font-medium mb-2"
+                htmlFor="degree"
               >
-                Add Another Video Link
-              </button>
-            </div>
-          )}
-
-          {formData.type !== "Tutorials" && (
-            <>
-            <div>
-              <label className="block text-sm font-medium mb-2" htmlFor="pages">
-                Number of Pages
+                Degree
               </label>
-              <input
-                id="pages"
-                type="number"
-                name="pages"
-                value={formData.pages}
+              <select
+                id="degree"
+                name="degree"
+                value={formData.degree}
                 onChange={handleChange}
                 className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Enter number of pages"
+                required
+              >
+                <option value="">Select Degree</option>
+                {Object.entries(options.degrees).map(([key, value]) => (
+                  <option key={key} value={key}>
+                    {value.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label
+                className="block text-sm font-medium mb-2"
+                htmlFor="branch"
+              >
+                Branch
+              </label>
+              <select
+                id="branch"
+                name="branch"
+                value={formData.branch}
+                onChange={handleChange}
+                className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                required
+              >
+                <option value="">Select Branch</option>
+                {Object.entries(options.branches).map(([key, value]) => (
+                  <option key={key} value={key}>
+                    {value}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label
+                className="block text-sm font-medium mb-2"
+                htmlFor="subject"
+              >
+                Subject
+              </label>
+              <input
+                id="subject"
+                type="text"
+                name="subject"
+                value={formData.subject}
+                onChange={handleChange}
+                className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Enter Subject"
                 required
               />
             </div>
-          
 
-          <div>
-            <label className="block text-sm font-medium mb-2" htmlFor="resourceFile">
-              Upload Resource (PDF)
-            </label>
-            <input
-              id="resourceFile"
-              type="file"
-              name="resourceFile"
-              onChange={handleFileChange}
-              className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              accept=".pdf"
-              disabled={formData.type === "Tutorials"}
-            />
-          </div>
-          </>
-          )}
+            <div>
+              <label
+                className="block text-sm font-medium mb-2"
+                htmlFor="semester"
+              >
+                Semester
+              </label>
+              <select
+                id="semester"
+                name="semester"
+                value={formData.semester}
+                onChange={handleChange}
+                className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                required
+                disabled={!formData.degree}
+              >
+                <option value="">Select Semester</option>
+                {formData.degree &&
+                  Array.from(
+                    { length: options.degrees[formData.degree].semesters },
+                    (_, i) => i + 1
+                  ).map((sem) => (
+                    <option key={sem} value={sem}>
+                      {sem}
+                    </option>
+                  ))}
+              </select>
+            </div>
 
-          <div className="text-center mt-6">
-            <button
-              type="submit"
-              className="px-6 py-3 bg-blue-600 text-white text-lg rounded-lg"
-              disabled={isLoading}
-            >
-              {isLoading ? "Uploading..." : "Upload Resource"}
-            </button>
-          </div>
-        </form>
-        ):(
-          <div className="max-w-[35vw] mx-auto bg-gray-800 p-6 rounded-lg shadow-lg space-y-6">
-          <h1 className="text-3xl font-bold text-center">Alert</h1>
-          <p className="text-center font-semibold my-4 max-w-[80%] m-auto">
-            These Details is already exist. Click on "Yes" if you want to
-            replace the file with that detail.
-          </p>
-          <div className=" flex flex-col gap-3">
-          {isLoading ? (
-            <>
-            <button className="w-full py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg font-semibold text-lg hover:from-blue-600 hover:to-purple-700 transition-all">
-              Uploading...
-            </button>
-          </>) : (
-            <>
+            <div>
+              <label className="block text-sm font-medium mb-2" htmlFor="type">
+                Type
+              </label>
+              <select
+                id="type"
+                name="type"
+                value={formData.type}
+                onChange={handleChange}
+                className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                required
+              >
+                <option value="">Select Type</option>
+                {Object.entries(options.types).map(([key, value]) => (
+                  <option key={key} value={key}>
+                    {value}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {formData.type === "Tutorials" && (
+              <div>
+                <label
+                  className="block text-sm font-medium mb-2"
+                  htmlFor="videoLinks"
+                >
+                  Video Links
+                </label>
+                {formData.videoLinks.map((link, index) => (
+                  <div key={index} className="mb-4">
+                    <input
+                      type="text"
+                      name="videoLinks"
+                      data-index={index}
+                      value={link}
+                      onChange={handleChange}
+                      className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder={`Enter video link ${index + 1}`}
+                    />
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  onClick={addVideoLink}
+                  className="px-4 py-2 mt-2 bg-blue-500 text-white rounded-lg"
+                >
+                  Add Another Video Link
+                </button>
+              </div>
+            )}
+
+            {formData.type !== "Tutorials" && (
+              <>
+                <div>
+                  <label
+                    className="block text-sm font-medium mb-2"
+                    htmlFor="pages"
+                  >
+                    Number of Pages
+                  </label>
+                  <input
+                    id="pages"
+                    type="number"
+                    name="pages"
+                    value={formData.pages}
+                    onChange={handleChange}
+                    className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Enter number of pages"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label
+                    className="block text-sm font-medium mb-2"
+                    htmlFor="resourceFile"
+                  >
+                    Upload Resource (PDF)
+                  </label>
+                  <input
+                    id="resourceFile"
+                    type="file"
+                    name="resourceFile"
+                    onChange={handleFileChange}
+                    className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    accept=".pdf"
+                    disabled={formData.type === "Tutorials"}
+                  />
+                </div>
+              </>
+            )}
+
+            <div className="text-center mt-6">
               <button
-              className="w-full py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg font-semibold text-lg hover:from-blue-600 hover:to-purple-700 transition-all"
-              onClick={(e) => sameResources(e, "yes")}
-            >
-              Yes
-            </button>
-            <button
-              className="w-full py-3 bg-red-600 text-white rounded-lg font-semibold text-lg hover:bg-red-700"
-              onClick={(e) => sameResources(e, "no")}
-            >
-              No
-            </button>
-            </>
-          )}
-          
-          </div>
+                type="submit"
+                className="px-6 py-3 bg-blue-600 text-white text-lg rounded-lg"
+                disabled={isLoading}
+              >
+                {isLoading ? "Uploading..." : "Upload Resource"}
+              </button>
+            </div>
+          </form>
+        ) : (
+          <div className="max-w-[35vw] mx-auto bg-gray-800 p-6 rounded-lg shadow-lg space-y-6">
+            <h1 className="text-3xl font-bold text-center">Alert</h1>
+            <p className="text-center font-semibold my-4 max-w-[80%] m-auto">
+              These Details is already exist. Click on "Yes" if you want to
+              replace the file with that detail.
+            </p>
+            <div className=" flex flex-col gap-3">
+              {isLoading ? (
+                <>
+                  <button className="w-full py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg font-semibold text-lg hover:from-blue-600 hover:to-purple-700 transition-all">
+                    Uploading...
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    className="w-full py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg font-semibold text-lg hover:from-blue-600 hover:to-purple-700 transition-all"
+                    onClick={(e) => sameResources(e, "yes")}
+                  >
+                    Yes
+                  </button>
+                  <button
+                    className="w-full py-3 bg-red-600 text-white rounded-lg font-semibold text-lg hover:bg-red-700"
+                    onClick={(e) => sameResources(e, "no")}
+                  >
+                    No
+                  </button>
+                </>
+              )}
+            </div>
           </div>
         )}
       </div>

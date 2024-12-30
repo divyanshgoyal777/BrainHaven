@@ -13,14 +13,13 @@ const Login = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
 
-   
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/auth/login",
+        `${import.meta.env.VITE_API_BASE_URL}/api/auth/login`,
         {
           email,
           password,
@@ -28,7 +27,7 @@ const Login = () => {
       );
       const { success, token } = response.data;
       if (success) {
-        login(token, email);  
+        login(token, email);
         toast.success("Login successful!");
         navigate("/");
       } else {

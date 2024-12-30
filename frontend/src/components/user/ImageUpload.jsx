@@ -32,7 +32,7 @@ const ImageUpload = () => {
     try {
       setIsUploading(true);
       const response = await axios.post(
-        "http://localhost:3000/api/user/upload",
+        `${import.meta.env.VITE_API_BASE_URL}/api/user/upload`,
         formData,
         {
           headers: {

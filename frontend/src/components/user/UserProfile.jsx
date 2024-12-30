@@ -22,8 +22,13 @@ const UserProfile = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
     axios
-      .get(`http://localhost:3000/api/user/profile/${id}`)
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/user/profile/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => {
         setUser(res.data);
         setLoading(false);

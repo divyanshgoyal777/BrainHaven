@@ -6,7 +6,7 @@ const resourceSchema = new mongoose.Schema({
   semester: { type: String, required: true },
   subject: { type: String, required: true },
   type: { type: String, required: true },
-  pages: { type:String },
+  pages: { type: String },
   cloudinary_url: { type: String },
   videoLinks: { type: [String] },
   uploaded_at: { type: Date, default: Date.now },

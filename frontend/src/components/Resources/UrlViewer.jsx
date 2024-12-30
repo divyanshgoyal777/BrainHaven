@@ -6,16 +6,15 @@ import Footer from "../layout/Footer/Footer";
 const UrlViewer = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  
-  // Parse and clean video links
+
   const rawLinks = queryParams.get("videoLinks") || "[]";
   let videoLinks = [];
   try {
     videoLinks = JSON.parse(rawLinks).map((link) => {
-      // Extract video ID and create embed URL
-      const videoId = link.split("v=")[1]?.split("&")[0] || link.split("/").pop();
+      const videoId =
+        link.split("v=")[1]?.split("&")[0] || link.split("/").pop();
       const embedLink = `https://www.youtube.com/embed/${videoId}`;
-      console.log("Embed Link:", embedLink); // Console the link
+      console.log("Embed Link:", embedLink);
       return embedLink;
     });
   } catch (error) {
@@ -24,37 +23,36 @@ const UrlViewer = () => {
 
   return (
     <>
-    <Navbar/>
-     <div className="text-white mt-40 my-16">
-      <h1 className="bg-gradient-to-tl from-indigo-600 to-purple-600 bg-clip-text text-transparent text-3xl md:text-4xl font-extrabold text-center drop-shadow-lg my-10">
-        Tutorial Video Links
-      </h1>
-      <div className="flex flex-col items-center gap-6">
-        {videoLinks.length > 0 ? (
-          videoLinks.map((link, index) => (
-            <div
-              key={index}
-              className="w-full max-w-3xl border border-gray-700 rounded-lg overflow-hidden shadow-lg"
-            >
-              <iframe
-                src={link}
-                title={`Video ${index + 1}`}
-                width="100%"
-                height="415"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="rounded-lg"
-              ></iframe>
-            </div>
-          ))
-        ) : (
-          <p className="text-gray-400">No video links available.</p>
-        )}
+      <Navbar />
+      <div className="text-white mt-40 my-16">
+        <h1 className="bg-gradient-to-tl from-indigo-600 to-purple-600 bg-clip-text text-transparent text-3xl md:text-4xl font-extrabold text-center drop-shadow-lg my-10">
+          Tutorial Video Links
+        </h1>
+        <div className="flex flex-col items-center gap-6">
+          {videoLinks.length > 0 ? (
+            videoLinks.map((link, index) => (
+              <div
+                key={index}
+                className="w-full max-w-3xl border border-gray-700 rounded-lg overflow-hidden shadow-lg"
+              >
+                <iframe
+                  src={link}
+                  title={`Video ${index + 1}`}
+                  width="100%"
+                  height="415"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="rounded-lg"
+                ></iframe>
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-400">No video links available.</p>
+          )}
+        </div>
       </div>
-    </div>
-    <Footer/>
+      <Footer />
     </>
-   
   );
 };
 

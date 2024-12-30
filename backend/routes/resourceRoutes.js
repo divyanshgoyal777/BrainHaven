@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 require("dotenv").config();
 const multer = require("multer");
+const authenticateToken = require("../middleware/authenticateToken");
 const { v2: cloudinary } = require("cloudinary");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const { v4: uuidv4 } = require("uuid");
@@ -24,158 +25,103 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({ storage });
 
-router.post("/upload", upload.single("resourceFile"), async (req, res) => { 
-  const { degree, branch, semester, subject, type, pages, videoLinks } = req.body;
-  const file = req.file;
+router.post(
+  "/upload",
+  authenticateToken,
+  upload.single("resourceFile"),
+  async (req, res) => {
+    const { degree, branch, semester, subject, type, pages, videoLinks } =
+      req.body;
+    const file = req.file;
 
-  if (!degree || !branch || !semester || !subject || !type) {
-    return res.status(400).send("All Categories (degree, branch, semester, subject, type) are required.");
-  }
+    if (!degree || !branch || !semester || !subject || !type) {
+      return res
+        .status(400)
+        .send(
+          "All Categories (degree, branch, semester, subject, type) are required."
+        );
+    }
 
-  if (type !== "Tutorials" && !pages) {
-    return res.status(400).send("Pages are required for non-tutorial resources.");
-  }
+    if (type !== "Tutorials" && !pages) {
+      return res
+        .status(400)
+        .send("Pages are required for non-tutorial resources.");
+    }
 
-  if (type !== "Tutorials" && !file) {
-    return res.status(400).send("No file uploaded. File is required for non-tutorial resources.");
-  }
+    if (type !== "Tutorials" && !file) {
+      return res
+        .status(400)
+        .send("No file uploaded. File is required for non-tutorial resources.");
+    }
 
-  try {
-    if (type === "Tutorials") {
-      if (!videoLinks) {
-        return res.status(400).send("Video links are required for tutorial resources.");
+    try {
+      if (type === "Tutorials") {
+        if (!videoLinks) {
+          return res
+            .status(400)
+            .send("Video links are required for tutorial resources.");
+        }
+
+        console.log("Video Links Received:", videoLinks);
+
+        const existingTutorial = await Resource.findOne({
+          degree,
+          branch,
+          semester,
+          subject,
+          type,
+        });
+
+        if (existingTutorial) {
+          return res.status(400).json({
+            message: "A tutorial with the same details already exists.",
+            exists: true,
+          });
+        }
+
+        const videoLinksArray = videoLinks.split(",");
+
+        const tutorialResource = new Resource({
+          degree,
+          branch,
+          semester,
+          subject,
+          type,
+          videoLinks: videoLinksArray,
+        });
+
+        await tutorialResource.save();
+        return res.status(200).send({
+          message: "Tutorial uploaded successfully.",
+          resource: tutorialResource,
+        });
       }
 
-      console.log("Video Links Received:", videoLinks); 
+      if (!file || !file.path) {
+        return res
+          .status(400)
+          .send(
+            "No file uploaded. File is required for non-tutorial resources."
+          );
+      }
 
-      const existingTutorial = await Resource.findOne({
+      const cloudinary_url = file.path;
+
+      const existingResource = await Resource.findOne({
         degree,
         branch,
-        semester,
         subject,
+        semester,
         type,
       });
 
-      if (existingTutorial) {
+      if (existingResource) {
         return res.status(400).json({
-          message: "A tutorial with the same details already exists.",
+          message: "A resource with the same details already exists.",
           exists: true,
         });
       }
 
-      const videoLinksArray = videoLinks.split(",");  
-
-      const tutorialResource = new Resource({
-        degree,
-        branch,
-        semester,
-        subject,
-        type,
-        videoLinks: videoLinksArray,  
-      });
-
-      await tutorialResource.save();
-      return res.status(200).send({
-        message: "Tutorial uploaded successfully.",
-        resource: tutorialResource,
-      });
-    }
-
-    if (!file || !file.path) {
-      return res.status(400).send("No file uploaded. File is required for non-tutorial resources.");
-    }
-
-    const cloudinary_url = file.path;
-
-    const existingResource = await Resource.findOne({
-      degree,
-      branch,
-      subject,
-      semester,
-      type,
-    });
-
-    if (existingResource) {
-      return res.status(400).json({
-        message: "A resource with the same details already exists.",
-        exists: true,
-      });
-    }
-
-    const newResource = new Resource({
-      degree,
-      branch,
-      semester,
-      subject,
-      type,
-      pages,
-      cloudinary_url,  
-    });
-
-    await newResource.save();
-    return res.status(200).send({
-      message: "File uploaded successfully.",
-      file: newResource,
-    });
-  } catch (err) {
-    console.error(err);
-    return res.status(500).send("Server error: Unable to save file.");
-  }
-});
-
-
-router.post("/replace", upload.single("resourceFile"), async (req, res) => {
-  const { degree, branch, semester, subject, type, pages, videoLinks } = req.body;
-  const file = req.file;
-
-  // Validate required fields for all types
-  if (!degree || !branch || !semester || !subject || !type) {
-    return res.status(400).send("All categories (degree, branch, semester, subject, type) are required.");
-  }
-
-  // Validate fields specific to non-tutorial types
-  if (type !== "Tutorials" && (!pages || !file)) {
-    return res.status(400).send(
-      `Pages and a file are required for non-tutorial resources. Missing: ${
-        !pages ? "pages" : "file"
-      }.`
-    );
-  }
-
-  // Validate fields specific to tutorials
-  if (type === "Tutorials" && (!videoLinks || videoLinks.trim() === "")) {
-    return res.status(400).send("Video links are required for tutorial resources.");
-  }
-
-  try {
-    // Check if the resource already exists
-    const existingResource = await Resource.findOne({
-      degree,
-      branch,
-      semester,
-      subject,
-      type,
-    });
-
-    if (existingResource) {
-      await existingResource.deleteOne();
-      console.log("Existing resource deleted.");
-    }
-
-    // Create new resource based on type
-    if (type === "Tutorials") {
-      const videoLinksArray = videoLinks.split(",").map((link) => link.trim()); // Split and trim video links
-      const newTutorial = new Resource({
-        degree,
-        branch,
-        semester,
-        subject,
-        type,
-        videoLinks: videoLinksArray,
-      });
-      await newTutorial.save();
-      res.status(200).send("Tutorial resource replaced successfully!");
-    } else {
       const newResource = new Resource({
         degree,
         branch,
@@ -183,18 +129,108 @@ router.post("/replace", upload.single("resourceFile"), async (req, res) => {
         subject,
         type,
         pages,
-        cloudinary_url: file.path,
+        cloudinary_url,
       });
-      await newResource.save();
-      res.status(200).send("Non-tutorial resource replaced successfully!");
-    }
-  } catch (error) {
-    console.error("Error in replacing resource:", error);
-    res.status(500).send("Failed to replace resource. Please try again.");
-  }
-});
 
-router.get("/options", async (req, res) => {
+      await newResource.save();
+      return res.status(200).send({
+        message: "File uploaded successfully.",
+        file: newResource,
+      });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).send("Server error: Unable to save file.");
+    }
+  }
+);
+
+router.post(
+  "/replace",
+  authenticateToken,
+  upload.single("resourceFile"),
+  async (req, res) => {
+    const { degree, branch, semester, subject, type, pages, videoLinks } =
+      req.body;
+    const file = req.file;
+
+    // Validate required fields for all types
+    if (!degree || !branch || !semester || !subject || !type) {
+      return res
+        .status(400)
+        .send(
+          "All categories (degree, branch, semester, subject, type) are required."
+        );
+    }
+
+    // Validate fields specific to non-tutorial types
+    if (type !== "Tutorials" && (!pages || !file)) {
+      return res
+        .status(400)
+        .send(
+          `Pages and a file are required for non-tutorial resources. Missing: ${
+            !pages ? "pages" : "file"
+          }.`
+        );
+    }
+
+    // Validate fields specific to tutorials
+    if (type === "Tutorials" && (!videoLinks || videoLinks.trim() === "")) {
+      return res
+        .status(400)
+        .send("Video links are required for tutorial resources.");
+    }
+
+    try {
+      // Check if the resource already exists
+      const existingResource = await Resource.findOne({
+        degree,
+        branch,
+        semester,
+        subject,
+        type,
+      });
+
+      if (existingResource) {
+        await existingResource.deleteOne();
+        console.log("Existing resource deleted.");
+      }
+
+      // Create new resource based on type
+      if (type === "Tutorials") {
+        const videoLinksArray = videoLinks
+          .split(",")
+          .map((link) => link.trim()); // Split and trim video links
+        const newTutorial = new Resource({
+          degree,
+          branch,
+          semester,
+          subject,
+          type,
+          videoLinks: videoLinksArray,
+        });
+        await newTutorial.save();
+        res.status(200).send("Tutorial resource replaced successfully!");
+      } else {
+        const newResource = new Resource({
+          degree,
+          branch,
+          semester,
+          subject,
+          type,
+          pages,
+          cloudinary_url: file.path,
+        });
+        await newResource.save();
+        res.status(200).send("Non-tutorial resource replaced successfully!");
+      }
+    } catch (error) {
+      console.error("Error in replacing resource:", error);
+      res.status(500).send("Failed to replace resource. Please try again.");
+    }
+  }
+);
+
+router.get("/options", authenticateToken, async (req, res) => {
   try {
     const { degree, branch, semester, subject } = req.query;
 
@@ -314,7 +350,7 @@ router.get("/options", async (req, res) => {
   }
 });
 
-router.get("/search", async (req, res) => {
+router.get("/search", authenticateToken, async (req, res) => {
   const { degree, branch, semester, subject, type } = req.query;
   const query = {};
 

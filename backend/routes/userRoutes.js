@@ -33,7 +33,7 @@ router.get("/profile", authenticateToken, async (req, res) => {
   }
 });
 
-router.get("/profile/:id", async (req, res) => {
+router.get("/profile/:id", authenticateToken, async (req, res) => {
   try {
     const user = await User.findById(req.params.id).select("-password");
     if (!user) {
