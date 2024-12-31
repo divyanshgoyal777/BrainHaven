@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { FaUpload, FaHome, FaUsers } from "react-icons/fa";
+import { FaUpload, FaHome, FaUsers, FaCode } from "react-icons/fa";
 import Navbar from "../layout/Navbar/Navbar";
 import Footer from "../layout/Footer/Footer";
 import ResourcesUpload from "./ResourcesUpload";
 import Home from "./Home";
 import AllUsers from "./AllUsers";
+import CodeUpload from "./CodeUpload";
 
 const Admin = () => {
   const [activeSection, setActiveSection] = useState("home");
@@ -46,7 +47,18 @@ const Admin = () => {
               }`}
             >
               <FaUpload className="mr-2" />
-              Resources Upload
+              Upload Resources
+            </button>
+            <button
+              onClick={() => setActiveSection("code")}
+              className={`flex items-center px-6 py-3 text-sm md:text-base lg:text-lg cursor-pointer rounded-lg shadow-md transition-all duration-300 ${
+                activeSection === "code"
+                  ? "bg-indigo-600 text-white shadow-lg"
+                  : "bg-gray-700 hover:bg-gray-600"
+              }`}
+            >
+              <FaCode className="mr-2" />
+              Upload Code
             </button>
           </div>
         </div>
@@ -65,6 +77,11 @@ const Admin = () => {
           {activeSection === "resources" && (
             <section>
               <ResourcesUpload />
+            </section>
+          )}
+          {activeSection === "code" && (
+            <section>
+              <CodeUpload />
             </section>
           )}
         </main>

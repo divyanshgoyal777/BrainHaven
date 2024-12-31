@@ -129,21 +129,23 @@ const Navbar = () => {
 
         <div className="hidden md:flex">
           <ul className="text-gray-400 flex gap-8 font-semibold">
-            {["Home", "Resources", "Roadmaps", "Hackmate"].map((item) => (
-              <li key={item}>
-                <NavLink
-                  to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-white"
-                      : "hover:text-white transition-colors duration-300"
-                  }
-                  aria-label={item}
-                >
-                  {item}
-                </NavLink>
-              </li>
-            ))}
+            {["Home", "Resources", "Code", "Roadmaps", "Hackmate"].map(
+              (item) => (
+                <li key={item}>
+                  <NavLink
+                    to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
+                    className={({ isActive }) =>
+                      isActive
+                        ? "text-white"
+                        : "hover:text-white transition-colors duration-300"
+                    }
+                    aria-label={item}
+                  >
+                    {item}
+                  </NavLink>
+                </li>
+              )
+            )}
           </ul>
         </div>
 

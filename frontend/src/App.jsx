@@ -25,6 +25,7 @@ import Admin from "./components/admin/Admin";
 import UrlViewer from "./components/Resources/UrlViewer";
 import ChatButton from "./components/chat/ChatButton";
 import UserProfile from "./components/user/UserProfile";
+import Code from "./components/resources/Code";
 
 const AuthContext = createContext();
 
@@ -133,6 +134,7 @@ function AppRoutes() {
           path="/resources/:degree/:branch/:semester/:subject/:type/videos"
           element={<UrlViewer />}
         />
+        <Route path="/code" element={<RouteGuard element={<Code />} />} />
         <Route path="/faqs" element={<FAQs />} />
         <Route path="/policy" element={<PrivacyPolicy />} />
         <Route path="/user" element={<RouteGuard element={<User />} />} />
