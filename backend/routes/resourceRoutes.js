@@ -153,7 +153,6 @@ router.post(
       req.body;
     const file = req.file;
 
-    // Validate required fields for all types
     if (!degree || !branch || !semester || !subject || !type) {
       return res
         .status(400)
@@ -162,7 +161,6 @@ router.post(
         );
     }
 
-    // Validate fields specific to non-tutorial types
     if (type !== "Tutorials" && (!pages || !file)) {
       return res
         .status(400)
@@ -173,7 +171,6 @@ router.post(
         );
     }
 
-    // Validate fields specific to tutorials
     if (type === "Tutorials" && (!videoLinks || videoLinks.trim() === "")) {
       return res
         .status(400)
@@ -181,7 +178,6 @@ router.post(
     }
 
     try {
-      // Check if the resource already exists
       const existingResource = await Resource.findOne({
         degree,
         branch,
@@ -195,11 +191,10 @@ router.post(
         console.log("Existing resource deleted.");
       }
 
-      // Create new resource based on type
       if (type === "Tutorials") {
         const videoLinksArray = videoLinks
           .split(",")
-          .map((link) => link.trim()); // Split and trim video links
+          .map((link) => link.trim());
         const newTutorial = new Resource({
           degree,
           branch,

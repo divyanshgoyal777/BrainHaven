@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react"; 
-import { Link } from "react-router-dom"; 
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
 import Navbar from "../layout/Navbar/Navbar";
@@ -16,27 +16,28 @@ const Code = () => {
     const fetchCategories = async () => {
       setIsFetchingCategories(true);
       try {
-          const token = localStorage.getItem("token");
-          if (!token) {
-              toast.error("You must be logged in to perform this action!");
-              return;
+        const token = localStorage.getItem("token");
+        if (!token) {
+          toast.error("You must be logged in to perform this action!");
+          return;
+        }
+
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_BASE_URL}/api/code/categories`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
           }
-  
-          const response = await axios.get(
-              `${import.meta.env.VITE_API_BASE_URL}/api/code/categories`,
-              {
-                  headers: { Authorization: `Bearer ${token}` },
-              }
-          );
-          setCategories(response.data); 
+        );
+        setCategories(response.data);
       } catch (error) {
-          console.error("Error fetching categories:", error);
-          toast.error(error.response?.data.message || "Failed to fetch categories.");
+        console.error("Error fetching categories:", error);
+        toast.error(
+          error.response?.data.message || "Failed to fetch categories."
+        );
       } finally {
-          setIsFetchingCategories(false);
+        setIsFetchingCategories(false);
       }
-  };
-  
+    };
 
     fetchCategories();
   }, []);
@@ -50,16 +51,20 @@ const Code = () => {
         </h2>
 
         {isFetchingCategories ? (
-          <p className="text-center text-lg text-gray-400">Loading categories...</p>
+          <p className="text-center text-lg text-gray-400">
+            Loading categories...
+          </p>
         ) : (
           <form className="max-w-3xl mx-auto bg-gray-800 p-6 rounded-lg shadow-lg space-y-6 text-white">
             <div>
-              <label className="block text-sm font-medium mb-2">Primary Category</label>
+              <label className="block text-sm font-medium mb-2">
+                Primary Category
+              </label>
               <select
                 value={primaryCategory}
                 onChange={(e) => {
                   setPrimaryCategory(e.target.value);
-                  setSubCategory(""); // Reset subcategory when primary category changes
+                  setSubCategory("");
                 }}
                 className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 required
@@ -74,7 +79,9 @@ const Code = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">Subcategory</label>
+              <label className="block text-sm font-medium mb-2">
+                Subcategory
+              </label>
               <select
                 value={subCategory}
                 onChange={(e) => setSubCategory(e.target.value)}
@@ -93,8 +100,10 @@ const Code = () => {
 
             <div className="text-center">
               <Link
-                to={`/codes/${primaryCategory}/${subCategory}`}  // Dynamic path based on selected categories
-                className={`px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-lg rounded-lg ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+                to={`/codes/${primaryCategory}/${subCategory}`}
+                className={`px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-lg rounded-lg ${
+                  isLoading ? "opacity-50 cursor-not-allowed" : ""
+                }`}
               >
                 Fetch Code
               </Link>
