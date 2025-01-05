@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"; 
-import { Link } from "react-router-dom"; // Import Link for navigation
+import { Link } from "react-router-dom"; 
 import toast from "react-hot-toast";
 import axios from "axios";
 import Navbar from "../layout/Navbar/Navbar";
@@ -16,27 +16,27 @@ const Code = () => {
     const fetchCategories = async () => {
       setIsFetchingCategories(true);
       try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          toast.error("You must be logged in to perform this action!");
-          return;
-        }
-
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_BASE_URL}/api/code/categories`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
+          const token = localStorage.getItem("token");
+          if (!token) {
+              toast.error("You must be logged in to perform this action!");
+              return;
           }
-        );
-
-        setCategories(response.data); // Save the category map
+  
+          const response = await axios.get(
+              `${import.meta.env.VITE_API_BASE_URL}/api/code/categories`,
+              {
+                  headers: { Authorization: `Bearer ${token}` },
+              }
+          );
+          setCategories(response.data); 
       } catch (error) {
-        console.error("Error fetching categories:", error);
-        toast.error(error.response?.data || "Failed to fetch categories.");
+          console.error("Error fetching categories:", error);
+          toast.error(error.response?.data.message || "Failed to fetch categories.");
       } finally {
-        setIsFetchingCategories(false);
+          setIsFetchingCategories(false);
       }
-    };
+  };
+  
 
     fetchCategories();
   }, []);
