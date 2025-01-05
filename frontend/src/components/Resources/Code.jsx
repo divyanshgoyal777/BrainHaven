@@ -1,43 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react"; 
+import { Link } from "react-router-dom"; // Import Link for navigation
+import toast from "react-hot-toast";
+import axios from "axios";
 import Navbar from "../layout/Navbar/Navbar";
 import Footer from "../layout/Footer/Footer";
-import toast from "react-hot-toast";
-import CodeViewer from "./CodeViewer";
 
 const Code = () => {
+  const [categories, setCategories] = useState({});
   const [primaryCategory, setPrimaryCategory] = useState("");
   const [subCategory, setSubCategory] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [codes, setCodes] = useState([]);
+  const [isFetchingCategories, setIsFetchingCategories] = useState(false);
 
-  // Categories also fetched from backend like resources
+  useEffect(() => {
+    const fetchCategories = async () => {
+      setIsFetchingCategories(true);
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          toast.error("You must be logged in to perform this action!");
+          return;
+        }
 
-  const categories = {
-    "Web Development": [
-      "HTML",
-      "CSS",
-      "JavaScript",
-      "React",
-      "Node.js",
-      "Express.js",
-    ],
-    "Data Structures and Algorithms (DSA)": [
-      "Arrays",
-      "Stacks",
-      "Graphs",
-      "Sorting Algorithms",
-      "Dynamic Programming",
-    ],
-  };
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_BASE_URL}/api/code/categories`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+        setCategories(response.data); // Save the category map
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+        toast.error(error.response?.data || "Failed to fetch categories.");
+      } finally {
+        setIsFetchingCategories(false);
+      }
+    };
 
-    if (!primaryCategory) return toast.error("Select a primary category");
-    if (!subCategory) return toast.error("Select a subcategory");
-
-    setIsLoading(true);
-  };
+    fetchCategories();
+  }, []);
 
   return (
     <>
@@ -47,100 +49,58 @@ const Code = () => {
           Fetch Code Snippets
         </h2>
 
-        <form
-          onSubmit={handleSubmit}
-          className="max-w-3xl mx-auto bg-gray-800 p-6 rounded-lg shadow-lg space-y-6 text-white"
-        >
-          <div>
-            <label className="block text-sm font-medium mb-2">
-              Primary Category
-            </label>
-            <select
-              value={primaryCategory}
-              onChange={(e) => setPrimaryCategory(e.target.value)}
-              className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              required
-            >
-              <option value="">Select Primary Category</option>
-              {Object.keys(categories).map((category) => (
-                <option key={category} value={category}>
-                  {category}
-                </option>
-              ))}
-            </select>
-          </div>
+        {isFetchingCategories ? (
+          <p className="text-center text-lg text-gray-400">Loading categories...</p>
+        ) : (
+          <form className="max-w-3xl mx-auto bg-gray-800 p-6 rounded-lg shadow-lg space-y-6 text-white">
+            <div>
+              <label className="block text-sm font-medium mb-2">Primary Category</label>
+              <select
+                value={primaryCategory}
+                onChange={(e) => {
+                  setPrimaryCategory(e.target.value);
+                  setSubCategory(""); // Reset subcategory when primary category changes
+                }}
+                className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                required
+              >
+                <option value="">Select Primary Category</option>
+                {Object.keys(categories).map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-          <div>
-            <label className="block text-sm font-medium mb-2">
-              Subcategory
-            </label>
-            <select
-              value={subCategory}
-              onChange={(e) => setSubCategory(e.target.value)}
-              className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
-              disabled={!primaryCategory}
-              required
-            >
-              <option value="">Select Subcategory</option>
-              {primaryCategory &&
-                categories[primaryCategory].map((subcategory) => (
+            <div>
+              <label className="block text-sm font-medium mb-2">Subcategory</label>
+              <select
+                value={subCategory}
+                onChange={(e) => setSubCategory(e.target.value)}
+                className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                disabled={!primaryCategory}
+                required
+              >
+                <option value="">Select Subcategory</option>
+                {(categories[primaryCategory] || []).map((subcategory) => (
                   <option key={subcategory} value={subcategory}>
                     {subcategory}
                   </option>
                 ))}
-            </select>
-          </div>
+              </select>
+            </div>
 
-          <div className="text-center">
-            <button
-              type="submit"
-              className={`px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-lg rounded-lg ${
-                isLoading ? "opacity-50 cursor-not-allowed" : ""
-              }`}
-              disabled={isLoading}
-            >
-              {isLoading ? "Fetching..." : "Fetch Code"}
-            </button>
-          </div>
-        </form>
-
-        <div className="mt-10">
-          {isLoading ? (
-            <p className="text-center text-lg text-gray-400">Loading...</p>
-          ) : codes.length === 0 ? (
-            <p className="text-center text-lg text-gray-400">
-              No code snippets found
-            </p>
-          ) : (
-            <CodeViewer />
-            // <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            //   {codes.map((codeItem, index) => (
-            //     <div
-            //       key={index}
-            //       className="bg-gray-800 p-4 rounded-lg shadow-lg space-y-4"
-            //     >
-            //       <h3 className="text-lg font-bold text-blue-400">
-            //         {codeItem.primaryCategory}
-            //       </h3>
-            //       <p className="text-sm text-gray-400">
-            //         {codeItem.subCategory}
-            //       </p>
-            //       <img
-            //         src={codeItem.codeImageUrl}
-            //         alt="Code"
-            //         className="w-full h-40 object-cover rounded-lg"
-            //       />
-            //       <pre className="bg-gray-700 p-3 rounded-lg overflow-x-auto text-sm">
-            //         {codeItem.code}
-            //       </pre>
-            //       <p className="text-sm text-gray-300">
-            //         {codeItem.description}
-            //       </p>
-            //     </div>
-            //   ))}
-            // </div>
-          )}
-        </div>
+            <div className="text-center">
+              <Link
+                to={`/codes/${primaryCategory}/${subCategory}`}  // Dynamic path based on selected categories
+                className={`px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-lg rounded-lg ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+              >
+                Fetch Code
+              </Link>
+            </div>
+          </form>
+        )}
       </div>
       <Footer />
     </>
