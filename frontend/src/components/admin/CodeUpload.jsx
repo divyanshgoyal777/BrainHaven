@@ -58,12 +58,8 @@ const CodeUpload = () => {
       "MATLAB",
     ],
   };
-        // chANGES HER
   const handleAddCodeItem = () => {
-    setCodeItems([
-      ...codeItems,
-      { title: "", code: "", description: "" },
-    ]);
+    setCodeItems([...codeItems, { title: "", code: "", description: "" }]);
   };
 
   const handleRemoveCodeItem = (index) => {
@@ -78,11 +74,11 @@ const CodeUpload = () => {
 
   const sameResources = async (e, response) => {
     e.preventDefault();
-  
+
     if (response === "yes") {
       const formData = prepareFormData();
       formData.append("replace", true);
-  
+
       try {
         const token = localStorage.getItem("token");
         const retryResponse = await axios.post(
@@ -95,7 +91,7 @@ const CodeUpload = () => {
             },
           }
         );
-  
+
         if (retryResponse.status === 200) {
           toast.success("Code replaced successfully!");
           setPrimaryCategory("");
@@ -111,69 +107,63 @@ const CodeUpload = () => {
       setCodeExist(false);
     }
   };
-  
-  const prepareFormData = () => {  
+
+  const prepareFormData = () => {
     const formData = new FormData();
-  
-    // Append primaryCategory and subCategory
-    formData.append('primaryCategory', primaryCategory);
-    formData.append('subCategory', subCategory);
-  
-    // Prepare codeItems array
+
+    formData.append("primaryCategory", primaryCategory);
+    formData.append("subCategory", subCategory);
+
     const serializedCodeItems = codeItems.map((item) => {
       let codeObject = [];
-  
-      // Check if it's a DSA category, and prepare multiple code snippets
-      if (primaryCategory === 'Data Structures and Algorithms (DSA)') {
-        // Ensure each snippet is a string before appending to the code array
+
+      if (primaryCategory === "Data Structures and Algorithms (DSA)") {
         codeObject.push(
-          { language: 'C', snippet: String(item.codeC || '') },
-          { language: 'C++', snippet: String(item.codeCpp || '') },
-          { language: 'Java', snippet: String(item.codeJava || '') },
-          { language: 'Python', snippet: String(item.codePython || '') }
+          { language: "C", snippet: String(item.codeC || "") },
+          { language: "C++", snippet: String(item.codeCpp || "") },
+          { language: "Java", snippet: String(item.codeJava || "") },
+          { language: "Python", snippet: String(item.codePython || "") }
         );
       } else {
-        // For non-DSA categories, use subCategory as the language
         codeObject.push({
-          language: subCategory, // Use subCategory as the language
-          snippet: String(item.codeNormal || ''),
+          language: subCategory,
+          snippet: String(item.codeNormal || ""),
         });
       }
-  
-      // Return the object with title, description, and the array of code snippets
+
       return {
-        title: String(item.title || ''),
-        description: String(item.description || ''),
-        code: codeObject, // code is now an array of language-snippet objects
+        title: String(item.title || ""),
+        description: String(item.description || ""),
+        code: codeObject,
       };
     });
-  
-    // Stringify the codeItems array and append to FormData
-    formData.append('codeItems', JSON.stringify(serializedCodeItems));
-  
+
+    formData.append("codeItems", JSON.stringify(serializedCodeItems));
+
     return formData;
   };
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (!primaryCategory) return toast.error("Select a primary category");
     if (!subCategory) return toast.error("Select a subcategory");
-    if (codeItems.length === 0) return toast.error("Add at least one code item");
-  
+    if (codeItems.length === 0)
+      return toast.error("Add at least one code item");
+
     for (const item of codeItems) {
       if (!item.title) return toast.error("Enter a title for all code items");
-      if (!item.description) return toast.error("Provide a description for all items");
+      if (!item.description)
+        return toast.error("Provide a description for all items");
     }
-  
+
     try {
-    
       setIsLoading(true);
       const formData = prepareFormData();
       for (let [key, value] of formData.entries()) {
         console.log(`${key}: ${value}`);
       }
-  
+
       const token = localStorage.getItem("token");
       const response = await axios.post(
         `${import.meta.env.VITE_API_BASE_URL}/api/code/upload`,
@@ -185,7 +175,7 @@ const CodeUpload = () => {
           },
         }
       );
-  
+
       if (response.status === 200) {
         toast.success("Code uploaded successfully!");
         setPrimaryCategory("");
@@ -205,8 +195,6 @@ const CodeUpload = () => {
       setIsLoading(false);
     }
   };
-  
-  
 
   return (
     <div className="min-h-screen text-white">
@@ -316,7 +304,11 @@ const CodeUpload = () => {
                       <textarea
                         value={item.codeJava}
                         onChange={(e) =>
-                          handleCodeItemChange(index, "codeJava", e.target.value)
+                          handleCodeItemChange(
+                            index,
+                            "codeJava",
+                            e.target.value
+                          )
                         }
                         className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         rows="3"
@@ -330,7 +322,11 @@ const CodeUpload = () => {
                       <textarea
                         value={item.codePython}
                         onChange={(e) =>
-                          handleCodeItemChange(index, "codePython", e.target.value)
+                          handleCodeItemChange(
+                            index,
+                            "codePython",
+                            e.target.value
+                          )
                         }
                         className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         rows="3"
@@ -346,7 +342,11 @@ const CodeUpload = () => {
                     <textarea
                       value={item.codeNormal}
                       onChange={(e) =>
-                        handleCodeItemChange(index, "codeNormal", e.target.value)
+                        handleCodeItemChange(
+                          index,
+                          "codeNormal",
+                          e.target.value
+                        )
                       }
                       className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       rows="3"

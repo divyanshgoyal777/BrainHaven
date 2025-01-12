@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
 import Navbar from "../layout/Navbar/Navbar";
@@ -11,6 +11,7 @@ const Code = () => {
   const [subCategory, setSubCategory] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isFetchingCategories, setIsFetchingCategories] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -28,6 +29,7 @@ const Code = () => {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
+        console.log(response.data);
         setCategories(response.data);
       } catch (error) {
         console.error("Error fetching categories:", error);
@@ -41,6 +43,41 @@ const Code = () => {
 
     fetchCategories();
   }, []);
+
+  const handleFetchCode = async () => {
+    if (!primaryCategory || !subCategory) {
+      toast.error("Please select both Primary Category and Subcategory.");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        toast.error("You must be logged in to perform this action!");
+        return;
+      }
+
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_BASE_URL}/api/code/codeSearch`,
+        {
+          params: { primaryCategory, subCategory },
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      navigate(`/codes/${primaryCategory}/${subCategory}`, {
+        state: { codeData: response.data },
+      });
+    } catch (error) {
+      console.error("Error fetching code:", error);
+      toast.error(
+        error.response?.data.message || "Failed to fetch code snippets."
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <>
@@ -99,14 +136,15 @@ const Code = () => {
             </div>
 
             <div className="text-center">
-              <Link
-                to={`/codes/${primaryCategory}/${subCategory}`}
+              <button
+                type="button"
+                onClick={handleFetchCode}
                 className={`px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-lg rounded-lg ${
                   isLoading ? "opacity-50 cursor-not-allowed" : ""
                 }`}
               >
-                Fetch Code
-              </Link>
+                {isLoading ? "Loading..." : "Fetch Code"}
+              </button>
             </div>
           </form>
         )}

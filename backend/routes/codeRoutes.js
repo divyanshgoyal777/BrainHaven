@@ -1,29 +1,32 @@
 const express = require("express");
 const router = express.Router();
+const multer = require("multer");
 require("dotenv").config();
 const Code = require("../models/Code");
 const authenticateToken = require("../middleware/authenticateToken");
 
-// Middleware to parse JSON bodies
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
 router.use(express.json());
 
-router.post('/upload', authenticateToken, async (req, res) => {
+router.post("/upload", authenticateToken, upload.none(), async (req, res) => {
   try {
-    // Log the incoming request body for debugging
-    console.log("Received Request Body:", req.body);
-
     const { primaryCategory, subCategory, codeItems } = req.body;
 
-    // Check if codeItems is an array
-    if (!Array.isArray(codeItems)) {
+    if (!Array.isArray(JSON.parse(codeItems))) {
       return res.status(400).json({
         error: "'codeItems' should be an array.",
       });
     }
 
-    // Validate codeItems and each code snippet
-    for (const item of codeItems) {
-      if (typeof item.title !== 'string' || typeof item.description !== 'string') {
+    const parsedCodeItems = JSON.parse(codeItems);
+
+    for (const item of parsedCodeItems) {
+      if (
+        typeof item.title !== "string" ||
+        typeof item.description !== "string"
+      ) {
         return res.status(400).json({
           error: `"title" and "description" must be strings for each code item.`,
         });
@@ -36,7 +39,10 @@ router.post('/upload', authenticateToken, async (req, res) => {
       }
 
       for (const snippet of item.code) {
-        if (typeof snippet.language !== 'string' || typeof snippet.snippet !== 'string') {
+        if (
+          typeof snippet.language !== "string" ||
+          typeof snippet.snippet !== "string"
+        ) {
           return res.status(400).json({
             error: `Each "code" snippet must have both "language" and "snippet" as strings.`,
           });
@@ -44,11 +50,10 @@ router.post('/upload', authenticateToken, async (req, res) => {
       }
     }
 
-    // Create and save the new Code document
     const newCode = new Code({
       primaryCategory,
       subCategory,
-      codeItems,
+      codeItems: parsedCodeItems,
     });
 
     await newCode.save();
@@ -62,7 +67,6 @@ router.post('/upload', authenticateToken, async (req, res) => {
     });
   }
 });
-
 
 router.get("/codeSearch", authenticateToken, async (req, res) => {
   const { primaryCategory, subCategory } = req.query;
@@ -114,12 +118,10 @@ router.get("/categories", authenticateToken, async (req, res) => {
 
     res.status(200).json(categoryMap);
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        error: "Server Error: Unable to fetch categories.",
-        details: error.message,
-      });
+    res.status(500).json({
+      error: "Server Error: Unable to fetch categories.",
+      details: error.message,
+    });
   }
 });
 

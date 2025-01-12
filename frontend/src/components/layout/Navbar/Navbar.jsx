@@ -9,6 +9,7 @@ import profile from "../../../assets/svg/newAccount.svg";
 import road from "../../../assets/svg/road.svg";
 import hand from "../../../assets/svg/hand.svg";
 import book from "../../../assets/svg/book.svg";
+import code from "../../../assets/svg/code.svg";
 import faqs from "../../../assets/svg/faqs.svg";
 import policy from "../../../assets/svg/policy.svg";
 import terms from "../../../assets/svg/terms.svg";
@@ -251,7 +252,11 @@ const Navbar = () => {
                   </div>
                   <NavLink
                     to="/admin"
-                    className="hover:text-white -ml-1 transition-all duration-300"
+                    className={({ isActive }) =>
+                      `hover:text-white -ml-2 transition-all duration-300 ${
+                        isActive ? "text-white" : ""
+                      }`
+                    }
                   >
                     Admin
                   </NavLink>
@@ -262,12 +267,20 @@ const Navbar = () => {
                   <img
                     src={profile}
                     alt=""
-                    className="ml-[0px] w-6 min-w-[24px]"
+                    className={({ isActive }) =>
+                      `hover:text-white -ml-1 transition-all duration-300 ${
+                        isActive ? "text-white" : ""
+                      }`
+                    }
                   />
                 </div>
                 <NavLink
                   to="/user"
-                  className="hover:text-white transition-all duration-300"
+                  className={({ isActive }) =>
+                    `hover:text-white -ml-1 transition-all duration-300 ${
+                      isActive ? "text-white" : ""
+                    }`
+                  }
                 >
                   Dashboard
                 </NavLink>
@@ -278,9 +291,28 @@ const Navbar = () => {
                 </div>
                 <NavLink
                   to="/resources"
-                  className="hover:text-white transition-all duration-300"
+                  className={({ isActive }) =>
+                    `hover:text-white -ml-1 transition-all duration-300 ${
+                      isActive ? "text-white" : ""
+                    }`
+                  }
                 >
                   Resources
+                </NavLink>
+              </li>
+              <li className="flex gap-5 items-center">
+                <div className="min-w-[23px]">
+                  <img src={code} alt="" className="ml-[1px] w-5 " />
+                </div>
+                <NavLink
+                  to="/code"
+                  className={({ isActive }) =>
+                    `hover:text-white -ml-1 transition-all duration-300 ${
+                      isActive ? "text-white" : ""
+                    }`
+                  }
+                >
+                  Code
                 </NavLink>
               </li>
               <li className="flex gap-5 items-center">
@@ -293,7 +325,11 @@ const Navbar = () => {
                 </div>
                 <NavLink
                   to="/roadmaps"
-                  className="hover:text-white transition-all duration-300"
+                  className={({ isActive }) =>
+                    `hover:text-white -ml-1 transition-all duration-300 ${
+                      isActive ? "text-white" : ""
+                    }`
+                  }
                 >
                   Roadmaps
                 </NavLink>
@@ -308,7 +344,11 @@ const Navbar = () => {
                 </div>
                 <NavLink
                   to="/hackmate"
-                  className="hover:text-white transition-all duration-300"
+                  className={({ isActive }) =>
+                    `hover:text-white -ml-1 transition-all duration-300 ${
+                      isActive ? "text-white" : ""
+                    }`
+                  }
                 >
                   Hackmate
                 </NavLink>
@@ -322,7 +362,11 @@ const Navbar = () => {
                 </div>
                 <NavLink
                   to="/faqs"
-                  className="hover:text-white transition-all duration-300"
+                  className={({ isActive }) =>
+                    `hover:text-white -ml-1 transition-all duration-300 ${
+                      isActive ? "text-white" : ""
+                    }`
+                  }
                 >
                   FAQs
                 </NavLink>
@@ -333,7 +377,11 @@ const Navbar = () => {
                 </div>
                 <NavLink
                   to="/policy"
-                  className="hover:text-white transition-all duration-300"
+                  className={({ isActive }) =>
+                    `hover:text-white -ml-1 transition-all duration-300 ${
+                      isActive ? "text-white" : ""
+                    }`
+                  }
                 >
                   Privacy Policy
                 </NavLink>
@@ -344,7 +392,11 @@ const Navbar = () => {
                 </div>
                 <NavLink
                   to="/terms"
-                  className="hover:text-white transition-all duration-300"
+                  className={({ isActive }) =>
+                    `hover:text-white -ml-1 transition-all duration-300 ${
+                      isActive ? "text-white" : ""
+                    }`
+                  }
                 >
                   Terms and Condition
                 </NavLink>
@@ -362,7 +414,11 @@ const Navbar = () => {
                 </div>
                 <NavLink
                   onClick={handleLogout}
-                  className="hover:text-white transition-all duration-300"
+                  className={({ isActive }) =>
+                    `hover:text-white -ml-1 transition-all duration-300 ${
+                      isActive ? "text-white" : ""
+                    }`
+                  }
                 >
                   Log Out
                 </NavLink>
@@ -370,7 +426,7 @@ const Navbar = () => {
             </ul>
             <div className="bg-gradient-to-r from-transparent via-white to-transparent w-full h-[1px] mt-6 my-4"></div>
             <div className="text-sm text-gray-400 text-center">
-              © 2024 BrainWave, All rights reserved.
+              &copy; {new Date().getFullYear()} BrainWave, All rights reserved.
             </div>
           </div>
         </>

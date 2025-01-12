@@ -2,6 +2,7 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const User = require("../models/User");
+const { sendMail } = require("../helpers/sendMail");
 require("dotenv").config();
 
 const router = express.Router();
@@ -31,6 +32,10 @@ router.post("/signup", async (req, res) => {
     });
 
     await newUser.save();
+    sendMail(email, "Welcome to BrainWave!", "accountCreated", {
+      firstName,
+      lastName,
+    });
     res.status(201).json({ message: "Account created successfully" });
   } catch (error) {
     res.status(500).json({ error: "Server error" });
@@ -52,7 +57,7 @@ router.post("/login", async (req, res) => {
     }
 
     const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
-      expiresIn: "999d",
+      expiresIn: "7d",
     });
     res.status(200).json({
       success: true,
