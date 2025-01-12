@@ -8,7 +8,6 @@ const CodeUpload = () => {
   const [codeItems, setCodeItems] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [codeExist, setCodeExist] = useState(false);
-  const [replace, setReplace] = useState(false);
 
   const categories = {
     "Web Development": [
@@ -59,11 +58,11 @@ const CodeUpload = () => {
       "MATLAB",
     ],
   };
-
+        // chANGES HER
   const handleAddCodeItem = () => {
     setCodeItems([
       ...codeItems,
-      { codeImageUrl: null, code: "", description: "" },
+      { title: "", code: "", description: "" },
     ]);
   };
 
@@ -79,18 +78,11 @@ const CodeUpload = () => {
 
   const sameResources = async (e, response) => {
     e.preventDefault();
-
+  
     if (response === "yes") {
-      const formData = new FormData();
-      formData.append("primaryCategory", primaryCategory);
-      formData.append("subCategory", subCategory);
+      const formData = prepareFormData();
       formData.append("replace", true);
-      codeItems.forEach((item, index) => {
-        formData.append("codeImageUrl", item.codeImageUrl);
-        formData.append(`code[${index}]`, item.code);
-        formData.append(`description[${index}]`, item.description);
-      });
-
+  
       try {
         const token = localStorage.getItem("token");
         const retryResponse = await axios.post(
@@ -103,7 +95,7 @@ const CodeUpload = () => {
             },
           }
         );
-
+  
         if (retryResponse.status === 200) {
           toast.success("Code replaced successfully!");
           setPrimaryCategory("");
@@ -119,36 +111,69 @@ const CodeUpload = () => {
       setCodeExist(false);
     }
   };
-
+  
+  const prepareFormData = () => {  
+    const formData = new FormData();
+  
+    // Append primaryCategory and subCategory
+    formData.append('primaryCategory', primaryCategory);
+    formData.append('subCategory', subCategory);
+  
+    // Prepare codeItems array
+    const serializedCodeItems = codeItems.map((item) => {
+      let codeObject = [];
+  
+      // Check if it's a DSA category, and prepare multiple code snippets
+      if (primaryCategory === 'Data Structures and Algorithms (DSA)') {
+        // Ensure each snippet is a string before appending to the code array
+        codeObject.push(
+          { language: 'C', snippet: String(item.codeC || '') },
+          { language: 'C++', snippet: String(item.codeCpp || '') },
+          { language: 'Java', snippet: String(item.codeJava || '') },
+          { language: 'Python', snippet: String(item.codePython || '') }
+        );
+      } else {
+        // For non-DSA categories, use subCategory as the language
+        codeObject.push({
+          language: subCategory, // Use subCategory as the language
+          snippet: String(item.codeNormal || ''),
+        });
+      }
+  
+      // Return the object with title, description, and the array of code snippets
+      return {
+        title: String(item.title || ''),
+        description: String(item.description || ''),
+        code: codeObject, // code is now an array of language-snippet objects
+      };
+    });
+  
+    // Stringify the codeItems array and append to FormData
+    formData.append('codeItems', JSON.stringify(serializedCodeItems));
+  
+    return formData;
+  };
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     if (!primaryCategory) return toast.error("Select a primary category");
     if (!subCategory) return toast.error("Select a subcategory");
-    if (codeItems.length === 0)
-      return toast.error("Add at least one code item");
-
+    if (codeItems.length === 0) return toast.error("Add at least one code item");
+  
     for (const item of codeItems) {
-      if (!item.codeImageUrl)
-        return toast.error("Upload a code image for all items");
-      if (!item.code || item.code.length < 10)
-        return toast.error("Enter a valid code snippet for all items");
-      if (!item.description)
-        return toast.error("Provide a description for all items");
+      if (!item.title) return toast.error("Enter a title for all code items");
+      if (!item.description) return toast.error("Provide a description for all items");
     }
-
+  
     try {
+    
       setIsLoading(true);
-
-      const formData = new FormData();
-      formData.append("primaryCategory", primaryCategory);
-      formData.append("subCategory", subCategory);
-      codeItems.forEach((item, index) => {
-        formData.append("codeImageUrl", item.codeImageUrl);
-        formData.append(`code[${index}]`, item.code);
-        formData.append(`description[${index}]`, item.description);
-      });
-
+      const formData = prepareFormData();
+      for (let [key, value] of formData.entries()) {
+        console.log(`${key}: ${value}`);
+      }
+  
       const token = localStorage.getItem("token");
       const response = await axios.post(
         `${import.meta.env.VITE_API_BASE_URL}/api/code/upload`,
@@ -160,17 +185,17 @@ const CodeUpload = () => {
           },
         }
       );
-
+  
       if (response.status === 200) {
         toast.success("Code uploaded successfully!");
         setPrimaryCategory("");
         setSubCategory("");
         setCodeItems([]);
+        setCodeExist(false);
       }
     } catch (error) {
-      if (error.response?.status === 400) {
+      if (error.response?.status === 250) {
         const existingCode = error.response.data.data;
-
         setCodeExist(true);
       } else {
         console.error("Upload failed:", error);
@@ -180,6 +205,8 @@ const CodeUpload = () => {
       setIsLoading(false);
     }
   };
+  
+  
 
   return (
     <div className="min-h-screen text-white">
@@ -238,38 +265,96 @@ const CodeUpload = () => {
               <div key={index} className="bg-gray-700 p-4 rounded-lg space-y-4">
                 <div>
                   <label className="block text-sm font-medium mb-2">
-                    Upload Code Image
+                    Title
                   </label>
                   <input
-                    type="file"
+                    type="text"
+                    value={item.title}
                     onChange={(e) =>
-                      handleCodeItemChange(
-                        index,
-                        "codeImageUrl",
-                        e.target.files[0]
-                      )
+                      handleCodeItemChange(index, "title", e.target.value)
                     }
                     className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    accept="image/*"
+                    placeholder="Enter title for the code"
                     required
                   />
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    Code Snippet
-                  </label>
-                  <textarea
-                    value={item.code}
-                    onChange={(e) =>
-                      handleCodeItemChange(index, "code", e.target.value)
-                    }
-                    className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    rows="3"
-                    placeholder="Enter code snippet..."
-                    required
-                  ></textarea>
-                </div>
+                {primaryCategory === "Data Structures and Algorithms (DSA)" ? (
+                  <>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">
+                        C Code
+                      </label>
+                      <textarea
+                        value={item.codeC}
+                        onChange={(e) =>
+                          handleCodeItemChange(index, "codeC", e.target.value)
+                        }
+                        className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        rows="3"
+                        placeholder="Enter C code here..."
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">
+                        C++ Code
+                      </label>
+                      <textarea
+                        value={item.codeCpp}
+                        onChange={(e) =>
+                          handleCodeItemChange(index, "codeCpp", e.target.value)
+                        }
+                        className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        rows="3"
+                        placeholder="Enter C++ code here..."
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">
+                        Java Code
+                      </label>
+                      <textarea
+                        value={item.codeJava}
+                        onChange={(e) =>
+                          handleCodeItemChange(index, "codeJava", e.target.value)
+                        }
+                        className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        rows="3"
+                        placeholder="Enter Java code here..."
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">
+                        Python Code
+                      </label>
+                      <textarea
+                        value={item.codePython}
+                        onChange={(e) =>
+                          handleCodeItemChange(index, "codePython", e.target.value)
+                        }
+                        className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        rows="3"
+                        placeholder="Enter Python code here..."
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <div>
+                    <label className="block text-sm font-medium mb-2">
+                      Code Snippet
+                    </label>
+                    <textarea
+                      value={item.codeNormal}
+                      onChange={(e) =>
+                        handleCodeItemChange(index, "codeNormal", e.target.value)
+                      }
+                      className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      rows="3"
+                      placeholder="Enter code snippet..."
+                      required
+                    />
+                  </div>
+                )}
 
                 <div>
                   <label className="block text-sm font-medium mb-2">
@@ -318,24 +403,22 @@ const CodeUpload = () => {
             </div>
           </form>
         ) : (
-          <>
-            <div className="text-white flex flex-col justify-center">
-              <div>This Details is already exist.</div>
-              <div>Do you want to replace the Code?</div>
-              <button
-                className="w-full py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg font-semibold text-lg hover:from-blue-600 hover:to-purple-700 transition-all"
-                onClick={(e) => sameResources(e, "yes")}
-              >
-                yes
-              </button>
-              <button
-                className="w-full py-3 bg-red-600 text-white rounded-lg font-semibold text-lg hover:bg-red-700"
-                onClick={(e) => sameResources(e, "no")}
-              >
-                No
-              </button>
-            </div>
-          </>
+          <div className="text-white flex flex-col justify-center">
+            <div>This Details is already exist.</div>
+            <div>Do you want to replace the Code?</div>
+            <button
+              className="w-full py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg font-semibold text-lg hover:from-blue-600 hover:to-purple-700 transition-all"
+              onClick={(e) => sameResources(e, "yes")}
+            >
+              Yes
+            </button>
+            <button
+              className="w-full py-3 bg-red-600 text-white rounded-lg font-semibold text-lg hover:bg-red-700"
+              onClick={(e) => sameResources(e, "no")}
+            >
+              No
+            </button>
+          </div>
         )}
       </div>
     </div>

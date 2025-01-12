@@ -1,105 +1,68 @@
 const express = require("express");
 const router = express.Router();
 require("dotenv").config();
-const multer = require("multer");
-const { v2: cloudinary } = require("cloudinary");
-const { CloudinaryStorage } = require("multer-storage-cloudinary");
-const { v4: uuidv4 } = require("uuid");
 const Code = require("../models/Code");
 const authenticateToken = require("../middleware/authenticateToken");
 
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_RESOURCES_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_RESOURCES_API_KEY,
-  api_secret: process.env.CLOUDINARY_RESOURCES_API_SECRET,
-});
+// Middleware to parse JSON bodies
+router.use(express.json());
 
-const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: {
-    folder: "codes",
-    format: async () => "jpg",
-    public_id: () => uuidv4(),
-  },
-});
+router.post('/upload', authenticateToken, async (req, res) => {
+  try {
+    // Log the incoming request body for debugging
+    console.log("Received Request Body:", req.body);
 
-const upload = multer({ storage });
+    const { primaryCategory, subCategory, codeItems } = req.body;
 
-router.post(
-  "/upload",
-  authenticateToken,
-  upload.array("codeImageUrl"),
-  async (req, res) => {
-    try {
-      console.log("Request body:", req.body);
-      console.log("Uploaded files:", req.files);
-
-      const { primaryCategory, subCategory, replace } = req.body;
-
-      if (!primaryCategory || !subCategory) {
-        return res
-          .status(400)
-          .json({ error: "Primary category and subcategory are required." });
-      }
-
-      if (!req.files || req.files.length === 0) {
-        return res
-          .status(400)
-          .json({ error: "At least one code image is required." });
-      }
-
-      const codeArray = Array.isArray(req.body.code)
-        ? req.body.code
-        : [req.body.code];
-      const descriptionArray = Array.isArray(req.body.description)
-        ? req.body.description
-        : [req.body.description];
-
-      const existingCode = await Code.findOne({ primaryCategory, subCategory });
-
-      if (existingCode && !replace) {
-        return res.status(400).json({
-          error: "Code details already exist.",
-          data: existingCode,
-        });
-      }
-
-      if (existingCode && replace) {
-        await existingCode.deleteOne();
-        console.log("Existing code deleted.");
-      }
-
-      const codeItems = req.files.map((file, index) => ({
-        codeImageUrl: file.path,
-        code: codeArray[index],
-        description: descriptionArray[index],
-      }));
-
-      const newCode = new Code({
-        primaryCategory,
-        subCategory,
-        codeItems,
+    // Check if codeItems is an array
+    if (!Array.isArray(codeItems)) {
+      return res.status(400).json({
+        error: "'codeItems' should be an array.",
       });
-
-      await newCode.save();
-
-      res.status(200).json({
-        message: replace
-          ? "Code replaced successfully!"
-          : "Data and images uploaded successfully!",
-        data: newCode,
-      });
-    } catch (error) {
-      console.error("Error during upload:", error.message, error.stack);
-      res
-        .status(500)
-        .json({
-          error: "Failed to upload data and images",
-          details: error.message,
-        });
     }
+
+    // Validate codeItems and each code snippet
+    for (const item of codeItems) {
+      if (typeof item.title !== 'string' || typeof item.description !== 'string') {
+        return res.status(400).json({
+          error: `"title" and "description" must be strings for each code item.`,
+        });
+      }
+
+      if (!Array.isArray(item.code)) {
+        return res.status(400).json({
+          error: `"code" must be an array for each code item.`,
+        });
+      }
+
+      for (const snippet of item.code) {
+        if (typeof snippet.language !== 'string' || typeof snippet.snippet !== 'string') {
+          return res.status(400).json({
+            error: `Each "code" snippet must have both "language" and "snippet" as strings.`,
+          });
+        }
+      }
+    }
+
+    // Create and save the new Code document
+    const newCode = new Code({
+      primaryCategory,
+      subCategory,
+      codeItems,
+    });
+
+    await newCode.save();
+
+    res.status(200).json({ message: "Data uploaded successfully!" });
+  } catch (error) {
+    console.error("Error during upload:", error.message);
+    res.status(500).json({
+      error: "Failed to upload data.",
+      details: error.message,
+    });
   }
-);
+});
+
 
 router.get("/codeSearch", authenticateToken, async (req, res) => {
   const { primaryCategory, subCategory } = req.query;
