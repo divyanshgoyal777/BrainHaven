@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { FaUpload, FaHome, FaUsers, FaCode } from "react-icons/fa";
+import { FaUpload, FaHome, FaUsers, FaCode, FaTrash } from "react-icons/fa";
 import Navbar from "../layout/Navbar/Navbar";
 import Footer from "../layout/Footer/Footer";
-import ResourcesUpload from "./ResourcesUpload";
-import Home from "./Home";
-import AllUsers from "./AllUsers";
-import CodeUpload from "./CodeUpload";
+import Home from "./home/Home";
+import AllUsers from "./user/AllUsers";
+import ResourcesUpload from "./resource/ResourcesUpload";
+import ResourcesDelete from "./resource/ResourcesDelete";
+import CodeUpload from "./code/CodeUpload";
+import CodeDelete from "./code/CodeDelete";
 
 const Admin = () => {
   const [activeSection, setActiveSection] = useState("home");
@@ -15,10 +17,10 @@ const Admin = () => {
       <Navbar />
       <div className="min-h-screen text-white mt-32">
         <div className="container mx-auto px-4 py-4">
-          <div className="flex flex-wrap justify-center gap-4 md:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
             <button
               onClick={() => setActiveSection("home")}
-              className={`flex items-center px-6 py-3 text-sm md:text-base lg:text-lg cursor-pointer rounded-lg shadow-md transition-all duration-300 ${
+              className={`flex items-center justify-center px-6 py-3 text-sm md:text-base lg:text-lg cursor-pointer rounded-lg shadow-md transition-all duration-300 ${
                 activeSection === "home"
                   ? "bg-indigo-600 text-white shadow-lg"
                   : "bg-gray-700 hover:bg-gray-600"
@@ -29,7 +31,7 @@ const Admin = () => {
             </button>
             <button
               onClick={() => setActiveSection("allUsers")}
-              className={`flex items-center px-6 py-3 text-sm md:text-base lg:text-lg cursor-pointer rounded-lg shadow-md transition-all duration-300 ${
+              className={`flex items-center justify-center px-6 py-3 text-sm md:text-base lg:text-lg cursor-pointer rounded-lg shadow-md transition-all duration-300 ${
                 activeSection === "allUsers"
                   ? "bg-indigo-600 text-white shadow-lg"
                   : "bg-gray-700 hover:bg-gray-600"
@@ -39,9 +41,9 @@ const Admin = () => {
               All Users
             </button>
             <button
-              onClick={() => setActiveSection("resources")}
-              className={`flex items-center px-6 py-3 text-sm md:text-base lg:text-lg cursor-pointer rounded-lg shadow-md transition-all duration-300 ${
-                activeSection === "resources"
+              onClick={() => setActiveSection("uploadResources")}
+              className={`flex items-center justify-center px-6 py-3 text-sm md:text-base lg:text-lg cursor-pointer rounded-lg shadow-md transition-all duration-300 ${
+                activeSection === "uploadResources"
                   ? "bg-indigo-600 text-white shadow-lg"
                   : "bg-gray-700 hover:bg-gray-600"
               }`}
@@ -50,15 +52,37 @@ const Admin = () => {
               Upload Resources
             </button>
             <button
-              onClick={() => setActiveSection("code")}
-              className={`flex items-center px-6 py-3 text-sm md:text-base lg:text-lg cursor-pointer rounded-lg shadow-md transition-all duration-300 ${
-                activeSection === "code"
+              onClick={() => setActiveSection("deleteResources")}
+              className={`flex items-center justify-center px-6 py-3 text-sm md:text-base lg:text-lg cursor-pointer rounded-lg shadow-md transition-all duration-300 ${
+                activeSection === "deleteResources"
+                  ? "bg-indigo-600 text-white shadow-lg"
+                  : "bg-gray-700 hover:bg-gray-600"
+              }`}
+            >
+              <FaTrash className="mr-2" />
+              Delete Resources
+            </button>
+            <button
+              onClick={() => setActiveSection("uploadCode")}
+              className={`flex items-center justify-center px-6 py-3 text-sm md:text-base lg:text-lg cursor-pointer rounded-lg shadow-md transition-all duration-300 ${
+                activeSection === "uploadCode"
                   ? "bg-indigo-600 text-white shadow-lg"
                   : "bg-gray-700 hover:bg-gray-600"
               }`}
             >
               <FaCode className="mr-2" />
               Upload Code
+            </button>
+            <button
+              onClick={() => setActiveSection("deleteCode")}
+              className={`flex items-center justify-center px-6 py-3 text-sm md:text-base lg:text-lg cursor-pointer rounded-lg shadow-md transition-all duration-300 ${
+                activeSection === "deleteCode"
+                  ? "bg-indigo-600 text-white shadow-lg"
+                  : "bg-gray-700 hover:bg-gray-600"
+              }`}
+            >
+              <FaTrash className="mr-2" />
+              Delete Code
             </button>
           </div>
         </div>
@@ -74,14 +98,24 @@ const Admin = () => {
               <AllUsers />
             </section>
           )}
-          {activeSection === "resources" && (
+          {activeSection === "uploadResources" && (
             <section>
               <ResourcesUpload />
             </section>
           )}
-          {activeSection === "code" && (
+          {activeSection === "deleteResources" && (
+            <section>
+              <ResourcesDelete />
+            </section>
+          )}
+          {activeSection === "uploadCode" && (
             <section>
               <CodeUpload />
+            </section>
+          )}
+          {activeSection === "deleteCode" && (
+            <section>
+              <CodeDelete />
             </section>
           )}
         </main>

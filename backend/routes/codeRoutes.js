@@ -13,7 +13,6 @@ router.use(express.json());
 
 router.post("/upload", authenticateToken, upload.none(), async (req, res) => {
   try {
-    console.log(req.body);
     const { primaryCategory, subCategory, codeItems, overWrite } = req.body;
 
     if (!Array.isArray(JSON.parse(codeItems))) {

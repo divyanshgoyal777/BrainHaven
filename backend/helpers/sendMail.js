@@ -1,5 +1,7 @@
 const nodemailer = require("nodemailer");
 const handlebars = require("handlebars");
+const dotenv = require("dotenv");
+dotenv.config();
 
 const templates = {
   accountCreated: `
@@ -114,7 +116,7 @@ const transporter = nodemailer.createTransport({
   secure: true,
   auth: {
     user: "777divyanshgoyal@gmail.com",
-    pass: "oztdddqswuloytrw",
+    pass: process.env.SMTP_EMAIL_PASS,
   },
 });
 

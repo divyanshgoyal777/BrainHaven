@@ -243,7 +243,7 @@ const Navbar = () => {
               </div>
             </div>
             <div className="bg-gradient-to-r from-transparent via-white to-transparent w-full h-[1px] mt-6 my-4"></div>
-            <ul className=" text-gray-400 flex  flex-col gap-3  my-5">
+            <ul className=" text-gray-400 flex  flex-col gap-3 my-5">
               {(userEmail === "tonisha24680@gmail.com" ||
                 userEmail === "animeshp1607@gmail.com") && (
                 <li className="flex gap-5 items-center">
@@ -414,11 +414,7 @@ const Navbar = () => {
                 </div>
                 <NavLink
                   onClick={handleLogout}
-                  className={({ isActive }) =>
-                    `hover:text-white -ml-1 transition-all duration-300 ${
-                      isActive ? "text-white" : ""
-                    }`
-                  }
+                  className="hover:text-white -ml-1 transition-all duration-300"
                 >
                   Log Out
                 </NavLink>
