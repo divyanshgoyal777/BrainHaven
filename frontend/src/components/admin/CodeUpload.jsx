@@ -72,42 +72,6 @@ const CodeUpload = () => {
     setCodeItems(updatedItems);
   };
 
-  const sameResources = async (e, response) => {
-    e.preventDefault();
-
-    if (response === "yes") {
-      const formData = prepareFormData();
-      formData.append("replace", true);
-
-      try {
-        const token = localStorage.getItem("token");
-        const retryResponse = await axios.post(
-          `${import.meta.env.VITE_API_BASE_URL}/api/code/upload`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        if (retryResponse.status === 200) {
-          toast.success("Code replaced successfully!");
-          setPrimaryCategory("");
-          setSubCategory("");
-          setCodeItems([]);
-          setCodeExist(false);
-        }
-      } catch (retryError) {
-        console.error("Retry failed:", retryError);
-        toast.error("Failed to replace code. Try again!");
-      }
-    } else {
-      setCodeExist(false);
-    }
-  };
-
   const prepareFormData = () => {
     const formData = new FormData();
 
@@ -142,6 +106,44 @@ const CodeUpload = () => {
 
     return formData;
   };
+
+  const sameResources = async (e, response) => {
+    e.preventDefault();
+
+    if (response === "yes") {
+      const formData = prepareFormData();
+      formData.append("overWrite", true);
+
+      try {
+        const token = localStorage.getItem("token");
+        const retryResponse = await axios.post(
+          `${import.meta.env.VITE_API_BASE_URL}/api/code/upload`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (retryResponse.status === 200) {
+          toast.success("Code replaced successfully!");
+          setPrimaryCategory("");
+          setSubCategory("");
+          setCodeItems([]);
+          setCodeExist(false);
+        }
+      } catch (retryError) {
+        console.error("Retry failed:", retryError);
+        toast.error("Failed to replace code. Try again!");
+      }
+    } else {
+      setCodeExist(false);
+    }
+  };
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -184,12 +186,11 @@ const CodeUpload = () => {
         setCodeExist(false);
       }
     } catch (error) {
-      if (error.response?.status === 250) {
-        const existingCode = error.response.data.data;
+      if (error.response?.status === 400 && error.response?.data?.message.includes("overwrite")) {
         setCodeExist(true);
       } else {
-        console.error("Upload failed:", error);
-        toast.error("Upload failed. Try again!");
+        const errorMessage = error.response?.data?.error || "Upload failed. Try again!";
+        toast.error(errorMessage);
       }
     } finally {
       setIsLoading(false);
@@ -393,9 +394,8 @@ const CodeUpload = () => {
             <div className="text-center mt-6">
               <button
                 type="submit"
-                className={`px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-lg rounded-lg ${
-                  isLoading ? "opacity-50 cursor-not-allowed" : ""
-                }`}
+                className={`px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-lg rounded-lg ${isLoading ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
                 disabled={isLoading}
               >
                 {isLoading ? "Uploading..." : "Upload Code"}
@@ -404,13 +404,15 @@ const CodeUpload = () => {
           </form>
         ) : (
           <div className="text-white flex flex-col justify-center">
-            <div>This Details is already exist.</div>
-            <div>Do you want to replace the Code?</div>
+            <div className="text-center text-2xl font-semibold">This Details is already exist.</div>
+            <div className="text-center text-2xl font-semibold">Do you want to replace the Code?</div>
+            <div className="my-6 w-[50%] m-auto flex flex-col gap-3 ">
             <button
               className="w-full py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg font-semibold text-lg hover:from-blue-600 hover:to-purple-700 transition-all"
               onClick={(e) => sameResources(e, "yes")}
+              disabled={isLoading}
             >
-              Yes
+              {isLoading ? "Processing..." : "Yes, Replace"}
             </button>
             <button
               className="w-full py-3 bg-red-600 text-white rounded-lg font-semibold text-lg hover:bg-red-700"
@@ -418,6 +420,8 @@ const CodeUpload = () => {
             >
               No
             </button>
+            </div>
+           
           </div>
         )}
       </div>

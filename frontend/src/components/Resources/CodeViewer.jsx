@@ -9,7 +9,6 @@ const CodeViewer = () => {
   const { primaryCategory, subCategory } = useParams();
   const [codeData, setCodeData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
   const [selectedLanguages, setSelectedLanguages] = useState({});
 
   useEffect(() => {
@@ -30,10 +29,11 @@ const CodeViewer = () => {
           }
         );
         setCodeData(response.data);
+
         const initialSelectedLanguages = {};
         response.data.forEach((data) => {
           data.codeItems.forEach((codeItem) => {
-            initialSelectedLanguages[codeItem._id] = "C";
+            initialSelectedLanguages[codeItem._id] = "C"; // Default to "C" for DSA
           });
         });
         setSelectedLanguages(initialSelectedLanguages);
@@ -95,35 +95,38 @@ const CodeViewer = () => {
                     <h4 className="text-lg md:text-xl text-white font-bold mb-2">
                       {codeItem.description || "Code Description"}
                     </h4>
-                    <div className="flex flex-wrap gap-4 mb-4">
-                      {codeItem.code?.map((codeSnippet) => (
-                        <button
-                          key={codeSnippet._id}
-                          onClick={() =>
-                            handleLanguageSelect(
-                              codeItem._id,
-                              codeSnippet.language
-                            )
-                          }
-                          className={`px-4 py-2 rounded-lg text-white font-semibold ${
-                            selectedLanguages[codeItem._id] ===
-                            codeSnippet.language
-                              ? "bg-blue-500"
-                              : "bg-gray-700"
-                          } hover:bg-blue-600 transition duration-300`}
-                        >
-                          {codeSnippet.language}
-                        </button>
-                      ))}
-                    </div>
 
-                    {codeItem.code?.map(
-                      (codeSnippet) =>
-                        selectedLanguages[codeItem._id] ===
-                          codeSnippet.language && (
+                    {/* For DSA: Arrange buttons in one line with spacing */}
+                    {primaryCategory === "Data Structures and Algorithms (DSA)" && (
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {codeItem.code?.map((codeSnippet) => (
+                          <button
+                            key={codeSnippet.language}
+                            onClick={() =>
+                              handleLanguageSelect(
+                                codeItem._id,
+                                codeSnippet.language
+                              )
+                            }
+                            className={`px-4 py-2 rounded-lg text-white font-semibold ${
+                              selectedLanguages[codeItem._id] ===
+                              codeSnippet.language
+                                ? "bg-blue-500"
+                                : "bg-gray-700"
+                            } hover:bg-blue-600 transition duration-300`}
+                          >
+                            {codeSnippet.language}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Display code snippets */}
+                    {primaryCategory !== "Data Structures and Algorithms (DSA)"
+                      ? codeItem.code?.map((codeSnippet) => (
                           <div
                             key={codeSnippet._id}
-                            className="relative bg-gray-900 text-white p-4 rounded-lg"
+                            className="relative bg-gray-900 text-white p-4 rounded-lg mb-4"
                           >
                             <button
                               onClick={() =>
@@ -137,8 +140,29 @@ const CodeViewer = () => {
                               <code>{codeSnippet.snippet}</code>
                             </pre>
                           </div>
-                        )
-                    )}
+                        ))
+                      : codeItem.code?.map(
+                          (codeSnippet) =>
+                            selectedLanguages[codeItem._id] ===
+                              codeSnippet.language && (
+                              <div
+                                key={codeSnippet._id}
+                                className="relative bg-gray-900 text-white p-4 rounded-lg mb-4"
+                              >
+                                <button
+                                  onClick={() =>
+                                    copyToClipboard(codeSnippet.snippet)
+                                  }
+                                  className="absolute top-3 right-3 bg-gradient-to-r from-purple-500 to-indigo-600 text-white px-3 py-2 rounded-lg text-xs font-semibold shadow-lg hover:from-purple-600 hover:to-indigo-700 hover:shadow-xl transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-purple-400"
+                                >
+                                  📋 Copy Code
+                                </button>
+                                <pre className="overflow-auto text-sm md:text-base">
+                                  <code>{codeSnippet.snippet}</code>
+                                </pre>
+                              </div>
+                            )
+                        )}
                   </div>
                 ))}
               </div>

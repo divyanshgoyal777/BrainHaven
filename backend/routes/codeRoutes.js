@@ -4,6 +4,7 @@ const multer = require("multer");
 require("dotenv").config();
 const Code = require("../models/Code");
 const authenticateToken = require("../middleware/authenticateToken");
+const { parse } = require("dotenv");
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
@@ -12,7 +13,8 @@ router.use(express.json());
 
 router.post("/upload", authenticateToken, upload.none(), async (req, res) => {
   try {
-    const { primaryCategory, subCategory, codeItems } = req.body;
+    console.log(req.body);
+    const { primaryCategory, subCategory, codeItems, overWrite } = req.body;
 
     if (!Array.isArray(JSON.parse(codeItems))) {
       return res.status(400).json({
@@ -48,6 +50,24 @@ router.post("/upload", authenticateToken, upload.none(), async (req, res) => {
           });
         }
       }
+    }
+
+    const existCode = await Code.findOne({
+      primaryCategory,
+      subCategory,
+    });
+
+    if(existCode){
+      if(!overWrite){
+        return res.status(400).json({
+          message: "A record with the same details already exist. Do you want to overwrite?"
+        })
+      }
+
+      existCode.codeItems=parsedCodeItems;
+      await existCode.save();
+
+      return res.status(200).json({ message: "Data replaced successfully!" });
     }
 
     const newCode = new Code({
