@@ -15,7 +15,6 @@ import Resources from "./components/Resources/Resources";
 import PdfViewer from "./components/Resources/PdfViewer";
 import Roadmaps from "./components/roadmaps/Roadmaps";
 import RoadmapDetails from "./components/roadmaps/RoadmapDetail";
-import Hackmate from "./components/hackmate/Hackmate";
 import PageNotFound from "./components/PageNotFound";
 import PrivacyPolicy from "./components/policy/policy";
 import FAQs from "./components/faqs/faqs";
@@ -27,6 +26,7 @@ import ChatButton from "./components/chat/ChatButton";
 import UserProfile from "./components/user/UserProfile";
 import Code from "./components/Resources/Code";
 import CodeViewer from "./components/Resources/CodeViewer";
+import Hackathon from "./components/Hackathon/Hackathon";
 
 const AuthContext = createContext();
 
@@ -124,8 +124,8 @@ function AppRoutes() {
           element={<RouteGuard element={<RoadmapDetails />} />}
         />
         <Route
-          path="/hackmate"
-          element={<RouteGuard element={<Hackmate />} />}
+          path="/hackathon"
+          element={<RouteGuard element={<Hackathon />} />}
         />
         <Route
           path="/resources/:degree/:branch/:semester/:subject/:type"

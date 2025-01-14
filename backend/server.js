@@ -45,6 +45,7 @@ app.use("/api/resource", require("./routes/resourceRoutes"));
 app.use("/api/admin", require("./routes/adminRoutes"));
 app.use("/api/messages", require("./routes/chatRoutes"));
 app.use("/api/code", require("./routes/codeRoutes"));
+app.use("/api/hackathon", require("./routes/hackathonRoute"));
 
 const PORT = process.env.PORT || 5000;
 

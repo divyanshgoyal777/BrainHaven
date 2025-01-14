@@ -15,23 +15,12 @@ const hackathonSchema = new mongoose.Schema(
     },
     timing: { type: String, required: true },
     prizeMoney: { type: Number, required: true },
-    teamSizeMin: { type: Number, required: true },
     teamSizeMax: { type: Number, required: true },
     registerByDate: { type: Date, required: true },
     categories: { type: [String], required: true },
     eligibilityCriteria: { type: String, required: true },
-    partners: { type: [String], required: true },
     registrationLink: { type: String, required: true },
-    contactInfo: {
-      email: { type: String, required: true },
-      phone: { type: String, required: true },
-    },
-    socialMediaLinks: {
-      facebook: { type: String },
-      twitter: { type: String },
-      instagram: { type: String },
-      linkedin: { type: String },
-    },
+
   },
   { timestamps: true }
 );

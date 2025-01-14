@@ -5,6 +5,7 @@ const authenticateToken = require("../middleware/authenticateToken");
 const User = require("../models/User");
 const Resource = require("../models/Resource");
 const Code = require("../models/Code");
+const Hackathon = require("../models/Hackathon");
 
 router.get("/allUsers", authenticateToken, async (req, res) => {
   try {
@@ -68,5 +69,27 @@ router.delete("/deleteCode/:id", authenticateToken, async (req, res) => {
     res.status(500).json({ error: "Failed to delete code" });
   }
 });
+
+router.get("/allHackathon", authenticateToken, async (req, res) => {
+  try {
+    const users = await Hackathon.find();
+    res.json(users);
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    res.status(500).json({ error: "Failed to fetch users" });
+  }
+});
+
+router.delete("/deleteHackathon/:id", authenticateToken, async (req, res) => {
+  try {
+    const hackathonId = req.params.id;
+    await Hackathon.findByIdAndDelete(hackathonId);
+    res.json({ message: "Hackathon deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting hackathon:", error);
+    res.status(500).json({ error: "Failed to delete hackathon" });
+  }
+});
+
 
 module.exports = router;

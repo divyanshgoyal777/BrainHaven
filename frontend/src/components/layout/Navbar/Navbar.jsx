@@ -130,7 +130,7 @@ const Navbar = () => {
 
         <div className="hidden md:flex">
           <ul className="text-gray-400 flex gap-8 font-semibold">
-            {["Home", "Resources", "Code", "Roadmaps", "Hackmate"].map(
+            {["Home", "Resources", "Code", "Roadmaps", "Hackathon"].map(
               (item) => (
                 <li key={item}>
                   <NavLink
@@ -343,14 +343,14 @@ const Navbar = () => {
                   />
                 </div>
                 <NavLink
-                  to="/hackmate"
+                  to="/hackathon"
                   className={({ isActive }) =>
                     `hover:text-white -ml-1 transition-all duration-300 ${
                       isActive ? "text-white" : ""
                     }`
                   }
                 >
-                  Hackmate
+                  Hackathon
                 </NavLink>
               </li>
             </ul>
