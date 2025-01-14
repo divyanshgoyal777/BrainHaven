@@ -84,7 +84,7 @@ const Code = () => {
       <Navbar />
       <div className="mt-32 px-8">
         <h2 className="bg-gradient-to-tl from-indigo-600 to-purple-600 bg-clip-text text-transparent text-3xl md:text-4xl font-extrabold text-center drop-shadow-lg my-10">
-          Fetch Code Snippets
+          Code
         </h2>
 
         {isFetchingCategories ? (

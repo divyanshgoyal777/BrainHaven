@@ -17,7 +17,7 @@ const Footer = () => {
             <p className="text-sm text-gray-500">
               Created with dedication by{" "}
               <a
-                href="https://www.linkedin.com/in/divyanshgoyal777/"
+                href="https://portfolioofdivyansh.netlify.app/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-indigo-400 hover:underline"
@@ -27,7 +27,7 @@ const Footer = () => {
               </a>{" "}
               and{" "}
               <a
-                href="https://www.linkedin.com/in/animesh-prakash-139b47309/"
+                href="https://portfolioofanimesh.netlify.app/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-indigo-400 hover:underline"

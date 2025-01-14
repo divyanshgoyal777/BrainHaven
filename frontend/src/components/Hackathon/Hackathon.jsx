@@ -40,15 +40,15 @@ const Hackathon = () => {
   return (
     <div>
       <Navbar />
-      <div className="container mx-auto px-4 py-6 mt-24">
-        <h1 className="text-4xl font-extrabold text-center text-white mb-8">
+      <div className="container mx-auto px-4 py-1 mt-24 mb-10">
+        <h2 className="bg-gradient-to-tl from-indigo-600 to-purple-600 bg-clip-text text-transparent text-3xl md:text-4xl font-extrabold text-center drop-shadow-lg my-10">
           Hackathons
-        </h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-10">
           {hackathons.map((hackathon) => (
             <div
               key={hackathon.id}
-              className="bg-gray-800 text-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:scale-105 p-6"
+              className="bg-gradient-to-r from-gray-800 via-gray-900 to-slate-950 text-white rounded-xl shadow-lg hover:shadow-2xl transition-all transform hover:scale-105 p-8"
             >
               <h2 className="text-2xl font-semibold">{hackathon.name}</h2>
               <p className="text-sm text-gray-400 mt-2">
@@ -90,18 +90,18 @@ const Hackathon = () => {
                   ))}
                 </div>
               </div>
-              <button
-                onClick={() => handleSelectHackathon(hackathon)}
-                className="mt-4 w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-200"
+              <a
+                href={hackathon.registrationLink}
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                <a
-                  href={hackathon.registrationLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  onClick={() => handleSelectHackathon(hackathon)}
+                  className="mt-6 w-full py-3 px-5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-200"
                 >
                   Join Hackathon
-                </a>
-              </button>
+                </button>
+              </a>
             </div>
           ))}
         </div>

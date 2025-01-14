@@ -63,7 +63,7 @@ const Navbar = () => {
       className="w-14 h-14 rounded-full object-cover"
     />
   ) : (
-    <span className="text-2xl font-semibold rounded-full py-2 px-5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
+    <span className="text-2xl font-semibold rounded-full py-2 px-[17px] bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
       {firstLetter}
     </span>
   );

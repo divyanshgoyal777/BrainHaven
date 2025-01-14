@@ -26,7 +26,7 @@ import ChatButton from "./components/chat/ChatButton";
 import UserProfile from "./components/user/UserProfile";
 import Code from "./components/Resources/Code";
 import CodeViewer from "./components/Resources/CodeViewer";
-import Hackathon from "./components/Hackathon/Hackathon";
+import Hackathon from "./components/hackathon/Hackathon";
 
 const AuthContext = createContext();
 

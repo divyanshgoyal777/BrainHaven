@@ -137,7 +137,9 @@ const Chat = ({ isOpen, toggleChat }) => {
           alt="BrainWave Logo"
           width={30}
         />
-        <h3 className="text-lg font-semibold">BrainWave Chat</h3>
+        <h3 className="text-lg font-bold bg-gradient-to-tl from-indigo-600 to-purple-600 bg-clip-text text-transparent ">
+          BrainWave Chat
+        </h3>
         <IoMdClose
           size={24}
           className="cursor-pointer hover:text-gray-300"
