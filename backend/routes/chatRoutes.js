@@ -3,7 +3,7 @@ const router = express.Router();
 const authenticateToken = require("../middleware/authenticateToken");
 const Message = require("../models/Message");
 
-router.get("/", authenticateToken, async (req, res) => {
+router.get("/chatMessages", authenticateToken, async (req, res) => {
   try {
     const messages = await Message.find().sort({ createdAt: 1 });
     res.json(messages);

@@ -10,7 +10,7 @@ const CodeDelete = () => {
   const fetchCodes = async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_API_BASE_URL}/api/admin/allCode`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/code/allCode`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

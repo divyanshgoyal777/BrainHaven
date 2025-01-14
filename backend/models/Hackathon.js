@@ -20,7 +20,6 @@ const hackathonSchema = new mongoose.Schema(
     categories: { type: [String], required: true },
     eligibilityCriteria: { type: String, required: true },
     registrationLink: { type: String, required: true },
-
   },
   { timestamps: true }
 );

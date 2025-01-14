@@ -26,7 +26,7 @@ const storage = new CloudinaryStorage({
 const upload = multer({ storage });
 
 router.post(
-  "/upload",
+  "/uploadResource",
   authenticateToken,
   upload.single("resourceFile"),
   async (req, res) => {
@@ -145,7 +145,7 @@ router.post(
 );
 
 router.post(
-  "/replace",
+  "/replaceResource",
   authenticateToken,
   upload.single("resourceFile"),
   async (req, res) => {
@@ -225,7 +225,7 @@ router.post(
   }
 );
 
-router.get("/options", authenticateToken, async (req, res) => {
+router.get("/optionsResource", authenticateToken, async (req, res) => {
   try {
     const { degree, branch, semester, subject } = req.query;
 
@@ -345,7 +345,7 @@ router.get("/options", authenticateToken, async (req, res) => {
   }
 });
 
-router.get("/search", authenticateToken, async (req, res) => {
+router.get("/searchResource", authenticateToken, async (req, res) => {
   const { degree, branch, semester, subject, type } = req.query;
   const query = {};
 
@@ -363,6 +363,16 @@ router.get("/search", authenticateToken, async (req, res) => {
     res.status(200).send(files);
   } catch (err) {
     res.status(500).send("Server Error: Unable to Fetch Resources.");
+  }
+});
+
+router.get("/allResources", authenticateToken, async (req, res) => {
+  try {
+    const resources = await Resource.find();
+    res.json(resources);
+  } catch (error) {
+    console.error("Error fetching resources:", error);
+    res.status(500).json({ error: "Failed to fetch resources" });
   }
 });
 

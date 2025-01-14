@@ -38,11 +38,14 @@ const Resources = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     axios
-      .get(`${import.meta.env.VITE_API_BASE_URL}/api/resource/options`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .get(
+        `${import.meta.env.VITE_API_BASE_URL}/api/resource/optionsResource`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((response) => {
         setDropdownData(response.data);
         setLoading(false);
@@ -62,7 +65,7 @@ const Resources = () => {
     }
     const token = localStorage.getItem("token");
     axios
-      .get(`${import.meta.env.VITE_API_BASE_URL}/api/resource/search`, {
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/resource/searchResource`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

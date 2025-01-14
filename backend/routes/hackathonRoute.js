@@ -1,19 +1,19 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Hackathon = require('../models/Hackathon');
-const authenticateToken = require('../middleware/authenticateToken');
+const Hackathon = require("../models/Hackathon");
+const authenticateToken = require("../middleware/authenticateToken");
 
-router.get('/search',authenticateToken, async (req, res) => {
+router.get("/allHackathon", authenticateToken, async (req, res) => {
   try {
-    const hackathons = await Hackathon.find();
-    res.json(hackathons);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+    const users = await Hackathon.find();
+    res.json(users);
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    res.status(500).json({ error: "Failed to fetch users" });
   }
 });
 
-// Example route to create a new hackathon
-router.post('/upload', authenticateToken, async (req, res) => {
+router.post("/uploadHackathon", authenticateToken, async (req, res) => {
   const hackathon = new Hackathon({
     name: req.body.name,
     description: req.body.description,
@@ -38,40 +38,21 @@ router.post('/upload', authenticateToken, async (req, res) => {
   }
 });
 
-router.put('/editHackathon/:id', authenticateToken, async (req, res) => {
+router.put("/editHackathon/:id", authenticateToken, async (req, res) => {
   const { id } = req.params;
-
-  // Ensure user is authenticateTokend and has admin role
-  // Check if the user is authenticateTokend and an admin
-
-  console.log("Attempting to update Hackathon - ID:", id);
-  console.log("Request Params - ID:", id);
-  console.log("Request Body:", req.body);
-
   try {
-    // Attempt to update the hackathon
-    // Find and update the hackathon
-    const updatedHackathon = await Hackathon.findByIdAndUpdate(id, req.body, { new: true });
-
-    // Validate if hackathon was found and updated
-    // Check if the hackathon exists
+    const updatedHackathon = await Hackathon.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
     if (!updatedHackathon) {
       console.log(`Hackathon with ID ${id} not found`);
-      return res.status(404).json({ message: 'Hackathon not found' });
+      return res.status(404).json({ message: "Hackathon not found" });
     }
-
-    console.log("Hackathon updated successfully:", updatedHackathon);
     res.status(200).json(updatedHackathon);
   } catch (error) {
-    console.error('Error updating hackathon:', error);
-
-    // Return a detailed error message
-    res.status(500).json({ message: error.message || 'Internal server error' });
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({ message: error.message || "Internal server error" });
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
-  
-
 module.exports = router;
-

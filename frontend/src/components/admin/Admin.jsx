@@ -8,8 +8,8 @@ import ResourcesUpload from "./resource/ResourcesUpload";
 import ResourcesDelete from "./resource/ResourcesDelete";
 import CodeUpload from "./code/CodeUpload";
 import CodeDelete from "./code/CodeDelete";
-import HackathonUpload from "./HackathonUpload/HackathonUpload";
-import HackathonEdit from "./HackathonUpload/HackathonEdit";
+import HackathonUpload from "./hackathon/HackathonUpload";
+import HackathonManage from "./hackathon/HackathonManage";
 import bulb from "../../assets/svg/bulb.svg";
 import gear from "../../assets/svg/gear.svg";
 
@@ -96,19 +96,19 @@ const Admin = () => {
                   : "bg-gray-700 hover:bg-gray-600"
               }`}
             >
-             <img src={bulb} className="w-6 h-6 mr-2" alt="" />
+              <img src={bulb} className="w-6 h-6 mr-2" alt="" />
               Upload Hackathon
             </button>
             <button
-              onClick={() => setActiveSection("editHackathon")}
+              onClick={() => setActiveSection("manageHackathon")}
               className={`flex items-center justify-center px-6 py-3 text-sm md:text-base lg:text-lg cursor-pointer rounded-lg shadow-md transition-all duration-300 ${
-                activeSection === "editHackathon"
+                activeSection === "manageHackathon"
                   ? "bg-indigo-600 text-white shadow-lg"
                   : "bg-gray-700 hover:bg-gray-600"
               }`}
             >
-             <img src={gear} className="w-6 h-6 mr-2  " alt="" />
-              Edit Hackathon
+              <img src={gear} className="w-6 h-6 mr-2  " alt="" />
+              Manage Hackathon
             </button>
           </div>
         </div>
@@ -144,14 +144,14 @@ const Admin = () => {
               <CodeDelete />
             </section>
           )}
-           {activeSection === "uploadHackathon" && (
+          {activeSection === "uploadHackathon" && (
             <section>
               <HackathonUpload />
             </section>
           )}
-           {activeSection === "editHackathon" && (
+          {activeSection === "manageHackathon" && (
             <section>
-              <HackathonEdit />
+              <HackathonManage />
             </section>
           )}
         </main>

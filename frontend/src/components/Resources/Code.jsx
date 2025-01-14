@@ -24,7 +24,7 @@ const Code = () => {
         }
 
         const response = await axios.get(
-          `${import.meta.env.VITE_API_BASE_URL}/api/code/categories`,
+          `${import.meta.env.VITE_API_BASE_URL}/api/code/codeCategories`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }

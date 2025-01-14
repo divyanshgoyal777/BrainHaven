@@ -4,88 +4,93 @@ const multer = require("multer");
 require("dotenv").config();
 const Code = require("../models/Code");
 const authenticateToken = require("../middleware/authenticateToken");
-const { parse } = require("dotenv");
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 router.use(express.json());
 
-router.post("/upload", authenticateToken, upload.none(), async (req, res) => {
-  try {
-    const { primaryCategory, subCategory, codeItems, overWrite } = req.body;
+router.post(
+  "/uploadCode",
+  authenticateToken,
+  upload.none(),
+  async (req, res) => {
+    try {
+      const { primaryCategory, subCategory, codeItems, overWrite } = req.body;
 
-    if (!Array.isArray(JSON.parse(codeItems))) {
-      return res.status(400).json({
-        error: "'codeItems' should be an array.",
-      });
-    }
-
-    const parsedCodeItems = JSON.parse(codeItems);
-
-    for (const item of parsedCodeItems) {
-      if (
-        typeof item.title !== "string" ||
-        typeof item.description !== "string"
-      ) {
+      if (!Array.isArray(JSON.parse(codeItems))) {
         return res.status(400).json({
-          error: `"title" and "description" must be strings for each code item.`,
+          error: "'codeItems' should be an array.",
         });
       }
 
-      if (!Array.isArray(item.code)) {
-        return res.status(400).json({
-          error: `"code" must be an array for each code item.`,
-        });
-      }
+      const parsedCodeItems = JSON.parse(codeItems);
 
-      for (const snippet of item.code) {
+      for (const item of parsedCodeItems) {
         if (
-          typeof snippet.language !== "string" ||
-          typeof snippet.snippet !== "string"
+          typeof item.title !== "string" ||
+          typeof item.description !== "string"
         ) {
           return res.status(400).json({
-            error: `Each "code" snippet must have both "language" and "snippet" as strings.`,
+            error: `"title" and "description" must be strings for each code item.`,
           });
         }
+
+        if (!Array.isArray(item.code)) {
+          return res.status(400).json({
+            error: `"code" must be an array for each code item.`,
+          });
+        }
+
+        for (const snippet of item.code) {
+          if (
+            typeof snippet.language !== "string" ||
+            typeof snippet.snippet !== "string"
+          ) {
+            return res.status(400).json({
+              error: `Each "code" snippet must have both "language" and "snippet" as strings.`,
+            });
+          }
+        }
       }
-    }
 
-    const existCode = await Code.findOne({
-      primaryCategory,
-      subCategory,
-    });
+      const existCode = await Code.findOne({
+        primaryCategory,
+        subCategory,
+      });
 
-    if(existCode){
-      if(!overWrite){
-        return res.status(400).json({
-          message: "A record with the same details already exist. Do you want to overwrite?"
-        })
+      if (existCode) {
+        if (!overWrite) {
+          return res.status(400).json({
+            message:
+              "A record with the same details already exist. Do you want to overwrite?",
+          });
+        }
+
+        existCode.codeItems = parsedCodeItems;
+        await existCode.save();
+
+        return res.status(200).json({ message: "Data replaced successfully!" });
       }
 
-      existCode.codeItems=parsedCodeItems;
-      await existCode.save();
+      const newCode = new Code({
+        primaryCategory,
+        subCategory,
+        codeItems: parsedCodeItems,
+      });
 
-      return res.status(200).json({ message: "Data replaced successfully!" });
+      await newCode.save();
+
+      res.status(200).json({ message: "Data uploaded successfully!" });
+    } catch (error) {
+      console.error("Error during upload:", error.message);
+      res.status(500).json({
+        error: "Failed to upload data.",
+        details: error.message,
+      });
     }
-
-    const newCode = new Code({
-      primaryCategory,
-      subCategory,
-      codeItems: parsedCodeItems,
-    });
-
-    await newCode.save();
-
-    res.status(200).json({ message: "Data uploaded successfully!" });
-  } catch (error) {
-    console.error("Error during upload:", error.message);
-    res.status(500).json({
-      error: "Failed to upload data.",
-      details: error.message,
-    });
   }
-});
+);
 
 router.get("/codeSearch", authenticateToken, async (req, res) => {
   const { primaryCategory, subCategory } = req.query;
@@ -105,7 +110,7 @@ router.get("/codeSearch", authenticateToken, async (req, res) => {
   }
 });
 
-router.get("/categories", authenticateToken, async (req, res) => {
+router.get("/codeCategories", authenticateToken, async (req, res) => {
   try {
     const categories = await Code.aggregate([
       {
@@ -141,6 +146,16 @@ router.get("/categories", authenticateToken, async (req, res) => {
       error: "Server Error: Unable to fetch categories.",
       details: error.message,
     });
+  }
+});
+
+router.get("/allCode", authenticateToken, async (req, res) => {
+  try {
+    const code = await Code.find();
+    res.json(code);
+  } catch (error) {
+    console.error("Error fetching code:", error);
+    res.status(500).json({ error: "Failed to fetch code" });
   }
 });
 

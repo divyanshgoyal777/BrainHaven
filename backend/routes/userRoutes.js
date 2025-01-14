@@ -15,7 +15,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-router.get("/profile", authenticateToken, async (req, res) => {
+router.get("/userProfile", authenticateToken, async (req, res) => {
   try {
     const userEmail = req.header("userEmail");
     if (!userEmail) {
@@ -33,7 +33,7 @@ router.get("/profile", authenticateToken, async (req, res) => {
   }
 });
 
-router.get("/profile/:id", authenticateToken, async (req, res) => {
+router.get("/userProfile/:id", authenticateToken, async (req, res) => {
   try {
     const user = await User.findById(req.params.id).select("-password");
     if (!user) {
@@ -46,7 +46,7 @@ router.get("/profile/:id", authenticateToken, async (req, res) => {
   }
 });
 
-router.post("/information", authenticateToken, async (req, res) => {
+router.post("/userInformation", authenticateToken, async (req, res) => {
   const userData = req.body;
 
   try {
@@ -86,7 +86,7 @@ const storage = new CloudinaryStorage({
 const upload = multer({ storage });
 
 router.post(
-  "/upload",
+  "/uploadUserImage",
   authenticateToken,
   upload.single("image"),
   async (req, res) => {

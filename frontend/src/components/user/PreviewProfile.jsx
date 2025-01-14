@@ -20,11 +20,14 @@ const PreviewProfile = ({ userId }) => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     axios
-      .get(`${import.meta.env.VITE_API_BASE_URL}/api/user/profile/${userId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .get(
+        `${import.meta.env.VITE_API_BASE_URL}/api/user/userProfile/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((res) => {
         setUser(res.data);
         setLoading(false);

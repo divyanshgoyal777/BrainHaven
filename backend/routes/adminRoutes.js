@@ -28,16 +28,6 @@ router.delete("/deleteUser/:id", authenticateToken, async (req, res) => {
   }
 });
 
-router.get("/allResources", authenticateToken, async (req, res) => {
-  try {
-    const resources = await Resource.find();
-    res.json(resources);
-  } catch (error) {
-    console.error("Error fetching resources:", error);
-    res.status(500).json({ error: "Failed to fetch resources" });
-  }
-});
-
 router.delete("/deleteResource/:id", authenticateToken, async (req, res) => {
   try {
     const resourceId = req.params.id;
@@ -46,16 +36,6 @@ router.delete("/deleteResource/:id", authenticateToken, async (req, res) => {
   } catch (error) {
     console.error("Error deleting resource:", error);
     res.status(500).json({ error: "Failed to delete resource" });
-  }
-});
-
-router.get("/allCode", authenticateToken, async (req, res) => {
-  try {
-    const code = await Code.find();
-    res.json(code);
-  } catch (error) {
-    console.error("Error fetching code:", error);
-    res.status(500).json({ error: "Failed to fetch code" });
   }
 });
 
@@ -70,16 +50,6 @@ router.delete("/deleteCode/:id", authenticateToken, async (req, res) => {
   }
 });
 
-router.get("/allHackathon", authenticateToken, async (req, res) => {
-  try {
-    const users = await Hackathon.find();
-    res.json(users);
-  } catch (error) {
-    console.error("Error fetching users:", error);
-    res.status(500).json({ error: "Failed to fetch users" });
-  }
-});
-
 router.delete("/deleteHackathon/:id", authenticateToken, async (req, res) => {
   try {
     const hackathonId = req.params.id;
@@ -90,6 +60,5 @@ router.delete("/deleteHackathon/:id", authenticateToken, async (req, res) => {
     res.status(500).json({ error: "Failed to delete hackathon" });
   }
 });
-
 
 module.exports = router;

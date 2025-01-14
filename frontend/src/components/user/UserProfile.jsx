@@ -24,7 +24,7 @@ const UserProfile = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     axios
-      .get(`${import.meta.env.VITE_API_BASE_URL}/api/user/profile/${id}`, {
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/user/userProfile/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

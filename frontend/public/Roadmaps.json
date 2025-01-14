@@ -23,7 +23,7 @@
       "Focus on UI/UX Design: Understand the importance of user experience design, including principles of interaction design, accessibility, and responsive design.",
       "Work with APIs: Learn how to consume RESTful APIs and work with GraphQL for fetching data from a server."
     ],
-    "poster" : "img/Frontend Roadmap.png"
+    "poster": "img/Frontend Roadmap.png"
   },
   "backend-development": {
     "title": "Backend Development Roadmap",
@@ -193,7 +193,7 @@
       "Understand Python for automation: Learn how to automate tasks like web scraping, file handling, and API integration.",
       "Work on real-world projects: Build web apps, machine learning models, or automation scripts."
     ],
-    "poster" : null
+    "poster": null
   },
   "javascript": {
     "title": "JavaScript Programming Roadmap",
@@ -210,7 +210,7 @@
       "Understand JavaScript build tools: Master Webpack, Babel, and other tools for optimizing and bundling JavaScript.",
       "Work on full-stack projects: Combine your frontend and backend skills to build full-stack applications using JavaScript."
     ],
-    "poster" : null
+    "poster": null
   },
   "typescript": {
     "title": "TypeScript Programming Roadmap",
@@ -227,7 +227,7 @@
       "Work on TypeScript projects: Build full-stack apps, command-line utilities, or libraries with TypeScript.",
       "Stay updated: Follow best practices and keep up with TypeScript updates and community libraries."
     ],
-    "poster" : null
+    "poster": null
   },
   "c": {
     "title": "C Programming Roadmap",
@@ -244,7 +244,7 @@
       "Explore embedded systems: Learn how to program microcontrollers and work with hardware in C.",
       "Master debugging and optimization: Learn debugging tools like GDB and optimize your C code for performance."
     ],
-    "poster" : null
+    "poster": null
   },
   "c++": {
     "title": "C++ Programming Roadmap",
@@ -261,7 +261,7 @@
       "Master debugging and profiling: Learn tools like gdb and Valgrind for debugging and profiling your code.",
       "Stay updated: Keep up with the latest features in modern C++ (C++11, C++14, C++17, C++20)."
     ],
-    "poster" : null
+    "poster": null
   },
   "java": {
     "title": "Java Programming Roadmap",
@@ -278,7 +278,7 @@
       "Work on Java projects: Build web apps, enterprise applications, or mobile apps with Java.",
       "Stay updated: Keep up with Java’s latest features and libraries in the Java ecosystem."
     ],
-    "poster" : null
+    "poster": null
   },
   "rust": {
     "title": "Rust Programming Roadmap",
@@ -295,7 +295,7 @@
       "Master Rust testing and debugging: Learn unit testing, integration testing, and debugging techniques in Rust.",
       "Work on real-world Rust projects: Build systems tools, libraries, or performance-critical applications."
     ],
-    "poster" : null
+    "poster": null
   },
   "go": {
     "title": "Go (Golang) Programming Roadmap",
@@ -312,7 +312,7 @@
       "Work on Go projects: Build web servers, APIs, or microservices with Go.",
       "Stay updated: Keep up with new features and best practices in Go and its growing ecosystem."
     ],
-    "poster" : null
+    "poster": null
   },
   "swift": {
     "title": "Swift Programming Roadmap",
@@ -329,7 +329,7 @@
       "Master Swift testing: Understand how to write unit tests and UI tests with Xcode and XCTest.",
       "Work on iOS app projects: Build real-world iOS applications such as to-do apps, social apps, or game apps."
     ],
-    "poster" : null
+    "poster": null
   },
   "kotlin": {
     "title": "Kotlin Programming Roadmap",
@@ -346,7 +346,7 @@
       "Work on Android projects: Build apps like chat apps, task managers, and location-based services.",
       "Stay updated: Keep up with Kotlin’s development and Android’s new APIs and tools."
     ],
-    "poster" : null
+    "poster": null
   },
   "ruby": {
     "title": "Ruby Programming Roadmap",
@@ -363,7 +363,7 @@
       "Work on Ruby projects: Build apps like blogs, e-commerce platforms, or task management systems.",
       "Stay updated: Keep up with new Ruby and Rails features and best practices."
     ],
-    "poster" : null
+    "poster": null
   },
   "php": {
     "title": "PHP Programming Roadmap",
@@ -380,7 +380,7 @@
       "Master PHP security: Learn best practices for securing PHP applications, including input validation, authentication, and encryption.",
       "Stay updated: Keep up with new features in PHP and popular frameworks."
     ],
-    "poster" : null
+    "poster": null
   },
   "react": {
     "title": "React Development Roadmap",
@@ -398,7 +398,7 @@
       "Build full-stack React apps: Learn how to use React with backend technologies (e.g., Node.js, Express, or Firebase) and REST APIs or GraphQL.",
       "Stay updated: Keep up with new features, libraries, and best practices in the React ecosystem."
     ],
-    "poster" : null
+    "poster": null
   },
   "vue": {
     "title": "Vue.js Development Roadmap",
@@ -416,7 +416,7 @@
       "Build a full Vue app: Work on full-stack apps with Vue and APIs or backend services like Node.js.",
       "Stay updated: Keep up with Vue’s latest features and ecosystem libraries."
     ],
-    "poster" : null
+    "poster": null
   },
   "angular": {
     "title": "Angular Development Roadmap",
@@ -434,7 +434,7 @@
       "Build an Angular application: Put your knowledge into practice by building full-fledged Angular applications.",
       "Stay updated: Keep up with the latest Angular releases and best practices."
     ],
-    "poster" : null
+    "poster": null
   },
   "svelte": {
     "title": "Svelte Development Roadmap",
@@ -451,7 +451,7 @@
       "Build a Svelte application: Put everything together to build a complete Svelte application, such as a blog or e-commerce site.",
       "Stay updated: Follow the Svelte community and contribute to the ecosystem."
     ],
-    "poster" : null
+    "poster": null
   },
   "node.js": {
     "title": "Node.js Development Roadmap",
@@ -469,7 +469,7 @@
       "Work on real-world Node.js projects: Build full-stack applications with Node.js and frontend libraries like React or Angular.",
       "Stay updated: Keep up with new features and practices in the Node.js ecosystem."
     ],
-    "poster" : null
+    "poster": null
   },
   "django": {
     "title": "Django Development Roadmap",
@@ -489,7 +489,7 @@
       "Deploy your Django application: Understand how to deploy Django projects to production using tools like Heroku, AWS, or DigitalOcean.",
       "Stay updated: Follow Django’s updates and best practices to keep your skills current."
     ],
-    "poster" : null
+    "poster": null
   },
   "flask": {
     "title": "Flask Development Roadmap",
@@ -508,7 +508,7 @@
       "Deploy your Flask app: Learn how to deploy Flask applications to cloud services like Heroku or AWS.",
       "Stay updated: Follow Flask’s latest features and community developments to enhance your skills."
     ],
-    "poster" : null
+    "poster": null
   },
   "spring-boot": {
     "title": "Spring Boot Development Roadmap",
@@ -527,7 +527,7 @@
       "Deploy your Spring Boot application: Learn how to deploy Spring Boot applications to production environments like AWS or Docker.",
       "Stay updated: Keep up with the latest features in Spring Boot and the wider Spring ecosystem."
     ],
-    "poster" : null
+    "poster": null
   },
   "docker": {
     "title": "Docker Development Roadmap",
@@ -546,7 +546,7 @@
       "Deploy Dockerized applications: Learn how to deploy Docker containers to cloud providers or container orchestration platforms.",
       "Stay updated: Follow Docker and containerization trends to ensure you’re using best practices in your workflows."
     ],
-    "poster" : null
+    "poster": null
   },
   "kubernetes": {
     "title": "Kubernetes Development Roadmap",
@@ -566,7 +566,7 @@
       "Deploy on cloud platforms: Learn how to deploy and manage Kubernetes clusters on cloud platforms like AWS (EKS), GCP (GKE), and Azure (AKS).",
       "Stay updated: Keep learning about new Kubernetes features and best practices by following the Kubernetes community."
     ],
-    "poster" : null
+    "poster": null
   },
   "git-and-github": {
     "title": "Git and GitHub Development Roadmap",
@@ -586,7 +586,7 @@
       "Collaborate with teams on GitHub: Learn how to manage repositories, permissions, and workflows for team-based development on GitHub.",
       "Stay updated: Keep up with new Git and GitHub features, tips, and best practices by following GitHub's blog and community."
     ],
-    "poster" : null
+    "poster": null
   },
   "postgresql": {
     "title": "PostgreSQL Development Roadmap",
@@ -606,7 +606,7 @@
       "Deploy PostgreSQL in production: Learn how to deploy PostgreSQL for scalability, high availability, and disaster recovery in production environments.",
       "Stay updated: Keep up with the latest PostgreSQL features, updates, and performance enhancements."
     ],
-    "poster" : null
+    "poster": null
   },
   "mongodb": {
     "title": "MongoDB Development Roadmap",
@@ -627,7 +627,7 @@
       "Deploy MongoDB in production: Learn how to deploy MongoDB in production, including using cloud platforms and monitoring MongoDB in production environments.",
       "Stay updated: Keep up with the latest MongoDB features, updates, and best practices."
     ],
-    "poster" : null
+    "poster": null
   },
   "firebase": {
     "title": "Firebase Development Roadmap",
@@ -646,7 +646,7 @@
       "Deploy Firebase in production: Learn best practices for scaling Firebase applications, including optimizing queries, securing Firestore data, and managing production environments.",
       "Stay updated: Keep up with new Firebase features and updates by following Firebase’s blog and documentation."
     ],
-    "poster" : null
+    "poster": null
   },
   "redis": {
     "title": "Redis Development Roadmap",
@@ -666,7 +666,7 @@
       "Deploy Redis in production: Learn how to deploy Redis for high availability, scaling, and managing backups in production environments.",
       "Stay updated: Keep up with the latest Redis features and best practices by following Redis's official documentation."
     ],
-    "poster" : null
+    "poster": null
   },
   "aws": {
     "title": "AWS Development Roadmap",
@@ -686,7 +686,7 @@
       "Integrate AWS with other services: Explore how to connect AWS with external tools and services, such as CI/CD pipelines, Docker, and Kubernetes.",
       "Stay updated: Follow AWS blogs and updates to stay current with new services, features, and best practices."
     ],
-    "poster" : null
+    "poster": null
   },
   "google-cloud": {
     "title": "Google Cloud Development Roadmap",
@@ -705,7 +705,7 @@
       "Implement CI/CD on Google Cloud: Learn how to implement continuous integration and deployment using Google Cloud Build and Cloud Source Repositories.",
       "Stay updated: Follow Google Cloud's updates and announcements to learn about new services and features."
     ],
-    "poster" : null
+    "poster": null
   },
   "azure": {
     "title": "Azure Development Roadmap",
@@ -724,7 +724,7 @@
       "Deploy applications to Azure: Study best practices for deploying web apps, mobile apps, and microservices on Azure, and manage them using Azure Resource Manager (ARM).",
       "Stay updated: Keep up with new Azure services and features through the Azure blog and official documentation."
     ],
-    "poster" : null
+    "poster": null
   },
   "data-structures-and-algorithms": {
     "title": "Data Structures and Algorithms Roadmap",
@@ -753,6 +753,6 @@
       "Books and Resources: Read 'Introduction to Algorithms' by Cormen et al., 'Cracking the Coding Interview' by Gayle Laakmann McDowell, and 'Algorithms' by Robert Sedgewick to get comprehensive knowledge.",
       "Interview Preparation: Focus on problem-solving efficiency. Prepare for coding interviews by practicing with a focus on complexity analysis and solving problems in optimal time and space."
     ],
-    "poster" : null
+    "poster": null
   }
 }

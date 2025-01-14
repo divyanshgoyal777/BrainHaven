@@ -25,7 +25,7 @@ const Chat = ({ isOpen, toggleChat }) => {
     const fetchMessages = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_BASE_URL}/api/messages`,
+          `${import.meta.env.VITE_API_BASE_URL}/api/chat/chatMessages`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -40,7 +40,7 @@ const Chat = ({ isOpen, toggleChat }) => {
     const fetchUserProfile = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_BASE_URL}/api/user/profile`,
+          `${import.meta.env.VITE_API_BASE_URL}/api/user/userProfile`,
           {
             headers: { userEmail, Authorization: `Bearer ${token}` },
           }

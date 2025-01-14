@@ -135,7 +135,10 @@ function AppRoutes() {
           path="/resources/:degree/:branch/:semester/:subject/:type/videos"
           element={<UrlViewer />}
         />
-        <Route path="/codes/:primaryCategory/:subCategory" element={<CodeViewer/>}  />
+        <Route
+          path="/codes/:primaryCategory/:subCategory"
+          element={<CodeViewer />}
+        />
         <Route path="/code" element={<RouteGuard element={<Code />} />} />
         <Route path="/faqs" element={<FAQs />} />
         <Route path="/policy" element={<PrivacyPolicy />} />

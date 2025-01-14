@@ -117,7 +117,7 @@ const CodeUpload = () => {
       try {
         const token = localStorage.getItem("token");
         const retryResponse = await axios.post(
-          `${import.meta.env.VITE_API_BASE_URL}/api/code/upload`,
+          `${import.meta.env.VITE_API_BASE_URL}/api/code/uploadCode`,
           formData,
           {
             headers: {
@@ -143,8 +143,6 @@ const CodeUpload = () => {
     }
   };
 
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -168,7 +166,7 @@ const CodeUpload = () => {
 
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/api/code/upload`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/code/uploadCode`,
         formData,
         {
           headers: {
@@ -186,10 +184,14 @@ const CodeUpload = () => {
         setCodeExist(false);
       }
     } catch (error) {
-      if (error.response?.status === 400 && error.response?.data?.message.includes("overwrite")) {
+      if (
+        error.response?.status === 400 &&
+        error.response?.data?.message.includes("overwrite")
+      ) {
         setCodeExist(true);
       } else {
-        const errorMessage = error.response?.data?.error || "Upload failed. Try again!";
+        const errorMessage =
+          error.response?.data?.error || "Upload failed. Try again!";
         toast.error(errorMessage);
       }
     } finally {
@@ -394,8 +396,9 @@ const CodeUpload = () => {
             <div className="text-center mt-6">
               <button
                 type="submit"
-                className={`px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-lg rounded-lg ${isLoading ? "opacity-50 cursor-not-allowed" : ""
-                  }`}
+                className={`px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-lg rounded-lg ${
+                  isLoading ? "opacity-50 cursor-not-allowed" : ""
+                }`}
                 disabled={isLoading}
               >
                 {isLoading ? "Uploading..." : "Upload Code"}
@@ -404,24 +407,27 @@ const CodeUpload = () => {
           </form>
         ) : (
           <div className="text-white flex flex-col justify-center">
-            <div className="text-center text-2xl font-semibold">This Details is already exist.</div>
-            <div className="text-center text-2xl font-semibold">Do you want to replace the Code?</div>
-            <div className="my-6 w-[50%] m-auto flex flex-col gap-3 ">
-            <button
-              className="w-full py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg font-semibold text-lg hover:from-blue-600 hover:to-purple-700 transition-all"
-              onClick={(e) => sameResources(e, "yes")}
-              disabled={isLoading}
-            >
-              {isLoading ? "Processing..." : "Yes, Replace"}
-            </button>
-            <button
-              className="w-full py-3 bg-red-600 text-white rounded-lg font-semibold text-lg hover:bg-red-700"
-              onClick={(e) => sameResources(e, "no")}
-            >
-              No
-            </button>
+            <div className="text-center text-2xl font-semibold">
+              This Details is already exist.
             </div>
-           
+            <div className="text-center text-2xl font-semibold">
+              Do you want to replace the Code?
+            </div>
+            <div className="my-6 w-[50%] m-auto flex flex-col gap-3 ">
+              <button
+                className="w-full py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg font-semibold text-lg hover:from-blue-600 hover:to-purple-700 transition-all"
+                onClick={(e) => sameResources(e, "yes")}
+                disabled={isLoading}
+              >
+                {isLoading ? "Processing..." : "Yes, Replace"}
+              </button>
+              <button
+                className="w-full py-3 bg-red-600 text-white rounded-lg font-semibold text-lg hover:bg-red-700"
+                onClick={(e) => sameResources(e, "no")}
+              >
+                No
+              </button>
+            </div>
           </div>
         )}
       </div>

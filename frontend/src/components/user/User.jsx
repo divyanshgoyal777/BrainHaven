@@ -58,7 +58,7 @@ const User = () => {
       try {
         if (!userEmail) return;
         const response = await axios.get(
-          `${import.meta.env.VITE_API_BASE_URL}/api/user/profile`,
+          `${import.meta.env.VITE_API_BASE_URL}/api/user/userProfile`,
           {
             headers: { userEmail, Authorization: `Bearer ${token}` },
           }
@@ -197,7 +197,7 @@ const User = () => {
 
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/api/user/information`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/user/userInformation`,
         formData,
         {
           headers: { Authorization: `Bearer ${token}` },

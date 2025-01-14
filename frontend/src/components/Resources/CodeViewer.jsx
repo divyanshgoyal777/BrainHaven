@@ -33,7 +33,7 @@ const CodeViewer = () => {
         const initialSelectedLanguages = {};
         response.data.forEach((data) => {
           data.codeItems.forEach((codeItem) => {
-            initialSelectedLanguages[codeItem._id] = "C"; // Default to "C" for DSA
+            initialSelectedLanguages[codeItem._id] = "C";
           });
         });
         setSelectedLanguages(initialSelectedLanguages);
@@ -96,8 +96,8 @@ const CodeViewer = () => {
                       {codeItem.description || "Code Description"}
                     </h4>
 
-                    {/* For DSA: Arrange buttons in one line with spacing */}
-                    {primaryCategory === "Data Structures and Algorithms (DSA)" && (
+                    {primaryCategory ===
+                      "Data Structures and Algorithms (DSA)" && (
                       <div className="flex flex-wrap gap-2 mb-4">
                         {codeItem.code?.map((codeSnippet) => (
                           <button
@@ -121,7 +121,6 @@ const CodeViewer = () => {
                       </div>
                     )}
 
-                    {/* Display code snippets */}
                     {primaryCategory !== "Data Structures and Algorithms (DSA)"
                       ? codeItem.code?.map((codeSnippet) => (
                           <div

@@ -162,7 +162,7 @@ const ResourcesUpload = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/api/resource/upload`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/resource/uploadResource`,
         formDataToSend,
         {
           headers: {
@@ -233,7 +233,7 @@ const ResourcesUpload = () => {
 
       try {
         const response = await axios.post(
-          `${import.meta.env.VITE_API_BASE_URL}/api/resource/replace`,
+          `${import.meta.env.VITE_API_BASE_URL}/api/resource/replaceResource`,
           formDataToSend,
           {
             headers: {

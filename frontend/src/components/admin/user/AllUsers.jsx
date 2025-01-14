@@ -17,7 +17,6 @@ const AllUsers = () => {
       })
       .then((res) => {
         setUsers(res.data);
-        toast.success("Users fetched successfully!");
       })
       .catch((error) => {
         console.error("Error fetching users:", error);
@@ -40,24 +39,31 @@ const AllUsers = () => {
     const userName = `${userToDelete?.firstName || ""} ${
       userToDelete?.lastName || ""
     }`.trim();
-    const token = localStorage.getItem("token");
-    axios
-      .delete(
-        `${import.meta.env.VITE_API_BASE_URL}/api/admin/deleteUser/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then(() => {
-        setUsers(users.filter((user) => user._id !== id));
-        toast.success(`User ${userName} deleted successfully!`);
-      })
-      .catch((error) => {
-        console.error("Error deleting user:", error);
-        toast.error("Failed to delete user.");
-      });
+    const confirmDelete = window.confirm(
+      `Are you sure your want to delete user ${userName}?`
+    );
+    if (confirmDelete) {
+      const token = localStorage.getItem("token");
+      axios
+        .delete(
+          `${import.meta.env.VITE_API_BASE_URL}/api/admin/deleteUser/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then(() => {
+          setUsers(users.filter((user) => user._id !== id));
+          toast.success(`User ${userName} deleted successfully!`);
+        })
+        .catch((error) => {
+          console.error("Error deleting user:", error);
+          toast.error("Failed to delete user.");
+        });
+    } else {
+      toast.error("User deletion canceled.");
+    }
   };
 
   return (
