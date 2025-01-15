@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "../layout/Navbar/Navbar";
 import Footer from "../layout/Footer/Footer";
+import { Link } from "react-router-dom";
 
 const Hackmate = () => {
   return (
@@ -12,6 +13,7 @@ const Hackmate = () => {
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-10">
           <p className="text-white">Hackmate.mapping</p>
+          <button className="px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-md hover:scale-105 hover:shadow-lg transform transition duration-300 ease-in-out"><Link to="/hackmate/createTeam">Create Team</Link></button>
         </div>
       </div>
       <Footer />

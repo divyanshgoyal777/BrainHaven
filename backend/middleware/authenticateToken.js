@@ -5,7 +5,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 const authenticateToken = (req, res, next) => {
   const authHeader = req.header("Authorization");
-  const token = authHeader?.split(" ")[1];
+  const token = authHeader?.split(" ")[1]; // Extract token after "Bearer"
 
   if (!token) {
     return res
@@ -15,9 +15,14 @@ const authenticateToken = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
-    req.userId = decoded.userId;
+
+    // Attach the entire decoded payload to req.user
+    req.user = decoded;
+
+    console.log("Decoded token payload:", decoded); // Debugging
     next();
   } catch (error) {
+    console.error("Token verification failed:", error.message);
     res.status(401).json({ message: "Invalid or expired token" });
   }
 };

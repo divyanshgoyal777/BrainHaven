@@ -28,6 +28,7 @@ import Code from "./components/Resources/Code";
 import CodeViewer from "./components/Resources/CodeViewer";
 import Hackathon from "./components/hackathon/Hackathon";
 import Hackmate from "./components/hackmate/HackMate";
+import CreateHackmate from "./components/hackmate/CreateHackmate";
 
 const AuthContext = createContext();
 
@@ -144,6 +145,10 @@ function AppRoutes() {
         <Route
           path="/hackmate"
           element={<RouteGuard element={<Hackmate />} />}
+        />
+        <Route
+          path="/hackmate/createTeam"
+          element={<RouteGuard element={<CreateHackmate />} />}
         />
         <Route path="/faqs" element={<FAQs />} />
         <Route path="/policy" element={<PrivacyPolicy />} />
