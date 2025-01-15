@@ -27,6 +27,7 @@ import UserProfile from "./components/user/UserProfile";
 import Code from "./components/Resources/Code";
 import CodeViewer from "./components/Resources/CodeViewer";
 import Hackathon from "./components/hackathon/Hackathon";
+import Hackmate from "./components/hackmate/HackMate";
 
 const AuthContext = createContext();
 
@@ -104,16 +105,29 @@ function AppRoutes() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route
-          path="/login"
-          element={<RouteGuard element={<Login />} authOnly />}
-        />
-        <Route
           path="/signup"
           element={<RouteGuard element={<Signup />} authOnly />}
         />
         <Route
+          path="/login"
+          element={<RouteGuard element={<Login />} authOnly />}
+        />
+        <Route
           path="/resources"
           element={<RouteGuard element={<Resources />} />}
+        />
+        <Route
+          path="/resources/:degree/:branch/:semester/:subject/:type"
+          element={<PdfViewer />}
+        />
+        <Route
+          path="/resources/:degree/:branch/:semester/:subject/:type/videos"
+          element={<UrlViewer />}
+        />
+        <Route path="/code" element={<RouteGuard element={<Code />} />} />
+        <Route
+          path="/codes/:primaryCategory/:subCategory"
+          element={<CodeViewer />}
         />
         <Route
           path="/roadmaps"
@@ -128,18 +142,9 @@ function AppRoutes() {
           element={<RouteGuard element={<Hackathon />} />}
         />
         <Route
-          path="/resources/:degree/:branch/:semester/:subject/:type"
-          element={<PdfViewer />}
+          path="/hackmate"
+          element={<RouteGuard element={<Hackmate />} />}
         />
-        <Route
-          path="/resources/:degree/:branch/:semester/:subject/:type/videos"
-          element={<UrlViewer />}
-        />
-        <Route
-          path="/codes/:primaryCategory/:subCategory"
-          element={<CodeViewer />}
-        />
-        <Route path="/code" element={<RouteGuard element={<Code />} />} />
         <Route path="/faqs" element={<FAQs />} />
         <Route path="/policy" element={<PrivacyPolicy />} />
         <Route path="/user" element={<RouteGuard element={<User />} />} />

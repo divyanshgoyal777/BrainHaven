@@ -8,6 +8,7 @@ import admin from "../../../assets/svg/admin.svg";
 import profile from "../../../assets/svg/newAccount.svg";
 import road from "../../../assets/svg/road.svg";
 import hand from "../../../assets/svg/hand.svg";
+import award from "../../../assets/svg/award.svg";
 import book from "../../../assets/svg/book.svg";
 import code from "../../../assets/svg/code.svg";
 import faqs from "../../../assets/svg/faqs.svg";
@@ -130,23 +131,28 @@ const Navbar = () => {
 
         <div className="hidden md:flex">
           <ul className="text-gray-400 flex gap-8 font-semibold">
-            {["Home", "Resources", "Code", "Roadmaps", "Hackathon"].map(
-              (item) => (
-                <li key={item}>
-                  <NavLink
-                    to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
-                    className={({ isActive }) =>
-                      isActive
-                        ? "text-white"
-                        : "hover:text-white transition-colors duration-300"
-                    }
-                    aria-label={item}
-                  >
-                    {item}
-                  </NavLink>
-                </li>
-              )
-            )}
+            {[
+              "Home",
+              "Resources",
+              "Code",
+              "Roadmaps",
+              "Hackathon",
+              "Hackmate",
+            ].map((item) => (
+              <li key={item}>
+                <NavLink
+                  to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-white"
+                      : "hover:text-white transition-colors duration-300"
+                  }
+                  aria-label={item}
+                >
+                  {item}
+                </NavLink>
+              </li>
+            ))}
           </ul>
         </div>
 
@@ -204,7 +210,14 @@ const Navbar = () => {
               </button>
             </div>
             <ul className="text-gray-400 flex text-lg flex-col gap-6 font-semibold">
-              {["Home", "Resources", "Roadmaps", "Hackmate"].map((item) => (
+              {[
+                "Home",
+                "Resources",
+                "Code",
+                "Roadmaps",
+                "Hackathon",
+                "Hackmate",
+              ].map((item) => (
                 <li key={item}>
                   <NavLink
                     to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
@@ -337,7 +350,7 @@ const Navbar = () => {
               <li className="flex gap-5 items-center">
                 <div>
                   <img
-                    src={hand}
+                    src={award}
                     alt=""
                     className="ml-[1px] w-5 min-w-[23px]"
                   />
@@ -351,6 +364,25 @@ const Navbar = () => {
                   }
                 >
                   Hackathon
+                </NavLink>
+              </li>
+              <li className="flex gap-5 items-center">
+                <div>
+                  <img
+                    src={hand}
+                    alt=""
+                    className="ml-[1px] w-5 min-w-[23px]"
+                  />
+                </div>
+                <NavLink
+                  to="/hackmate"
+                  className={({ isActive }) =>
+                    `hover:text-white -ml-1 transition-all duration-300 ${
+                      isActive ? "text-white" : ""
+                    }`
+                  }
+                >
+                  Hackmate
                 </NavLink>
               </li>
             </ul>

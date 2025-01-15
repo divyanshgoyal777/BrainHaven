@@ -3,10 +3,11 @@ import Navbar from "../layout/Navbar/Navbar";
 import Footer from "../layout/Footer/Footer";
 import User from "./User";
 import PreviewProfile from "./PreviewProfile";
+import Hackmate from "./Hackmate";
 import { useAuth } from "../../App";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { FaHome, FaUserEdit, FaEye } from "react-icons/fa";
+import { FaHome, FaUserEdit, FaEye, FaHandshake } from "react-icons/fa";
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("home");
@@ -57,6 +58,16 @@ const Dashboard = () => {
             </button>
             <button
               className={`${
+                activeTab === "hackmate"
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-700 text-gray-300"
+              } py-3 px-6 rounded-lg shadow-lg hover:bg-blue-500 transition-all duration-300 transform hover:scale-105`}
+              onClick={() => setActiveTab("hackmate")}
+            >
+              <FaHandshake className="inline-block mr-2" /> Hackmate
+            </button>
+            <button
+              className={`${
                 activeTab === "editProfile"
                   ? "bg-blue-600 text-white"
                   : "bg-gray-700 text-gray-300"
@@ -86,6 +97,7 @@ const Dashboard = () => {
                 <span className="text-white">Welcome to your Dashboard!</span>
               </div>
             )}
+            {activeTab === "hackmate" && <Hackmate />}
             {activeTab === "editProfile" && <User />}
             {activeTab === "previewProfile" && (
               <PreviewProfile userId={userData._id} />

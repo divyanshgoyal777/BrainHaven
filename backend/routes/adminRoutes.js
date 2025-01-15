@@ -6,6 +6,7 @@ const User = require("../models/User");
 const Resource = require("../models/Resource");
 const Code = require("../models/Code");
 const Hackathon = require("../models/Hackathon");
+const HackmateTeam = require("../models/HackmateTeam");
 
 router.get("/allUsers", authenticateToken, async (req, res) => {
   try {
@@ -60,5 +61,11 @@ router.delete("/deleteHackathon/:id", authenticateToken, async (req, res) => {
     res.status(500).json({ error: "Failed to delete hackathon" });
   }
 });
+
+router.delete(
+  "deleteHackathonTeam/:id",
+  authenticateToken,
+  async (req, res) => {}
+);
 
 module.exports = router;
