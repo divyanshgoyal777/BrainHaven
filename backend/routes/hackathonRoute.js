@@ -5,8 +5,8 @@ const authenticateToken = require("../middleware/authenticateToken");
 
 router.get("/allHackathon", authenticateToken, async (req, res) => {
   try {
-    const users = await Hackathon.find();
-    res.json(users);
+    const hackathon = await Hackathon.find();
+    res.json(hackathon);
   } catch (error) {
     console.error("Error fetching users:", error);
     res.status(500).json({ error: "Failed to fetch users" });
