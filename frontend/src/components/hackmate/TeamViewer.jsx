@@ -4,12 +4,17 @@ import Navbar from "../layout/Navbar/Navbar";
 import Footer from "../layout/Footer/Footer";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useAuth } from "../../App";
 
 const TeamViewer = () => {
   const { teamId } = useParams();
+  const { userEmail } = useAuth();
   const [teamData, setTeamData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isRequesting, setIsRequesting] = useState(false);
+  const [adminId, setAdminId] = useState(null);
+  const [userId, setUserId] = useState(null);
+  
 
   useEffect(() => {
     const fetchTeamData = async () => {
@@ -28,8 +33,9 @@ const TeamViewer = () => {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-
+                 
         setTeamData(response.data);
+        setAdminId(response.data.admin);
       } catch (error) {
         console.error("Error fetching team data:", error);
         toast.error(
@@ -42,6 +48,29 @@ const TeamViewer = () => {
 
     fetchTeamData();
   }, [teamId]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    const fetchData = async () => {
+      try {
+        if (!userEmail) return;
+
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_BASE_URL}/api/user/userProfile`,
+          {
+            headers: { userEmail, Authorization: `Bearer ${token}` },
+          }
+        );
+         setUserId(response.data._id);
+        
+      } catch (err) {
+        console.error("Failed to fetch user details:", err);
+      }
+    };
+
+    fetchData();
+  }, [userEmail]);
 
   const handleJoinRequest = async () => {
     setIsRequesting(true);
@@ -102,6 +131,7 @@ const TeamViewer = () => {
     teamNeeds,
     pendingRequests,
   } = teamData;
+
 
   return (
     <>
@@ -190,15 +220,20 @@ const TeamViewer = () => {
                 </ul>
               </div>
             )}
-            <button
-              onClick={handleJoinRequest}
-              disabled={isRequesting}
-              className={`mt-6 px-6 py-2 text-white bg-indigo-600 rounded-full hover:bg-indigo-700 transition duration-300 ${
-                isRequesting ? "opacity-50 cursor-not-allowed" : ""
-              }`}
-            >
-              {isRequesting ? "Sending Request..." : "Join Team"}
-            </button>
+            {adminId === userId ? (
+              null
+            ) : (
+              <div className="mt-6">
+                <button
+                  className="bg-indigo-500 hover:bg-indigo-600 text-white py-2 px-4 rounded-lg shadow-sm"
+                
+                  disabled={isRequesting}
+                >
+                  {isRequesting ? "Sending Request..." : "Send Join Request"}
+                </button>
+              </div>
+            )}
+           
           </div>
         </div>
       </div>

@@ -3,11 +3,10 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import Navbar from "../layout/Navbar/Navbar";
 import Footer from "../layout/Footer/Footer";
-
 import { useAuth } from "../../App";
 
 const CreateHackmate = () => {
-  const { userEmail } = useAuth();
+  const { userEmail} = useAuth();
   const [hackmateData, setHackmateData] = useState({
     title: "",
     description: "",

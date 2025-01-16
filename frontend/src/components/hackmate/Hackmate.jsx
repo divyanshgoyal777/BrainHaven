@@ -24,7 +24,6 @@ const Hackmate = () => {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-        console.log(response.data);
         setHackmateData(response.data);
       } catch (error) {
         console.error("Error fetching Hackmate data:", error);

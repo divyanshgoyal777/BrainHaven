@@ -40,6 +40,7 @@ const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [userEmail, setUserEmail] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [combinedName, setCombinedName] = useState(null);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -71,7 +72,7 @@ const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, token, userEmail, login, logout }}
+      value={{ isAuthenticated, token, userEmail, login, logout, combinedName, setCombinedName }}
     >
       {!loading && children}
     </AuthContext.Provider>

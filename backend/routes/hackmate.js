@@ -99,7 +99,35 @@ router.get("/teamProfile/:id", authenticateToken, async (req, res) => {
   }
 });
 
-router.put("/editTeam/:id", authenticateToken, async (req, res) => {});
+router.delete("/deleteTeam/:id", authenticateToken, async (req, res) => {
+  try {
+    const teamId = req.params.id;
+    await HackmateTeam.findByIdAndDelete(teamId);
+    res.json({ message: "Team deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting team:", error);
+    res.status(500).json({ error: "Failed to delete team" });
+  }
+});
+
+
+router.put("/editTeam/:id", authenticateToken, async (req, res) => {
+  try {
+    const teamId = req.params.id;
+    const updatedTeam = await HackmateTeam.findByIdAndUpdate(teamId, req.body, {
+      new: true,
+    });
+    if (!updatedTeam) {
+      console.log(`Team with ID ${teamId} not found`);
+      return res.status(404).json({ message: "Team not found" });
+    }
+    res.status(200).json(updatedTeam);
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ message: error.message || "Internal server error" });
+  }
+});
+
 
 router.put("/joinTeam/:id", authenticateToken, async (req, res) => {});
 
