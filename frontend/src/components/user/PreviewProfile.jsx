@@ -11,6 +11,7 @@ import {
   FaBookOpen,
   FaInstagram,
 } from "react-icons/fa";
+import Loader from "../loader/Loader"
 
 const PreviewProfile = ({ userId }) => {
   const [user, setUser] = useState(null);
@@ -44,13 +45,7 @@ const PreviewProfile = ({ userId }) => {
   };
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen bg-gradient-to-b from-indigo-900 to-blue-900">
-        <div className="bg-gray-800 text-gray-300 p-6 rounded-lg shadow-lg max-w-md w-full text-center animate-pulse">
-          <p className="text-lg font-semibold">Loading...</p>
-        </div>
-      </div>
-    );
+    return <Loader/>
   }
 
   if (error) {

@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Navbar from "../layout/Navbar/Navbar";
 import Footer from "../layout/Footer/Footer";
+import Loader from "../loader/Loader";
 
 const RoadmapDetails = () => {
   const { roadmapId } = useParams();
@@ -28,8 +29,7 @@ const RoadmapDetails = () => {
   }, [roadmapId]);
 
   if (error) return <div className="text-red-500 text-center p-6">{error}</div>;
-  if (!roadmap)
-    return <div className="text-white text-center p-6">Loading...</div>;
+  if (!roadmap) return <Loader />;
 
   return (
     <>

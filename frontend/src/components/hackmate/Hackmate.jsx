@@ -7,7 +7,9 @@ import toast from "react-hot-toast";
 
 const Hackmate = () => {
   const [HackmateData, setHackmateData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const fetchHackmateData = async () => {
@@ -25,6 +27,7 @@ const Hackmate = () => {
           }
         );
         setHackmateData(response.data);
+        setFilteredData(response.data);
       } catch (error) {
         console.error("Error fetching Hackmate data:", error);
         toast.error(
@@ -38,6 +41,17 @@ const Hackmate = () => {
     fetchHackmateData();
   }, []);
 
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+    const filteredTeams = HackmateData.filter((team) => {
+      const searchString = `${team.title} ${team.description} ${
+        team.adminName
+      } ${team.skillsRequired.join(" ")}`.toLowerCase();
+      return searchString.includes(event.target.value.toLowerCase());
+    });
+    setFilteredData(filteredTeams);
+  };
+
   return (
     <>
       <Navbar />
@@ -45,6 +59,19 @@ const Hackmate = () => {
         <h2 className="bg-gradient-to-tl from-indigo-600 to-purple-600 bg-clip-text text-transparent text-3xl md:text-4xl font-extrabold text-center drop-shadow-lg my-10">
           Hackmate
         </h2>
+
+        <div className="mb-10 flex justify-center">
+          <div className="relative w-full sm:w-1/2 md:w-1/3">
+            <input
+              type="text"
+              placeholder="Search Hackmate Teams..."
+              value={searchTerm}
+              onChange={handleSearch}
+              className="w-full px-6 py-3 border border-gray-500 rounded-md bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-opacity-50 transition-all duration-300 ease-in-out"
+            />
+          </div>
+        </div>
+
         <div className="flex justify-center mb-10">
           <Link to="/hackmate/createTeam">
             <button className="px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-md hover:scale-105 hover:shadow-lg transform transition duration-300 ease-in-out">
@@ -52,11 +79,12 @@ const Hackmate = () => {
             </button>
           </Link>
         </div>
+
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-10">
           {isLoading ? (
             <p className="text-center text-gray-400">Loading teams...</p>
-          ) : HackmateData.length > 0 ? (
-            HackmateData.map((team) => (
+          ) : filteredData.length > 0 ? (
+            filteredData.map((team) => (
               <div
                 key={team._id}
                 className="bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-lg shadow-lg transform hover:scale-[1.03] transition-transform duration-300"

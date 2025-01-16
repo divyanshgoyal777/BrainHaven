@@ -10,7 +10,8 @@ import CodeUpload from "./code/CodeUpload";
 import CodeDelete from "./code/CodeDelete";
 import HackathonUpload from "./hackathon/HackathonUpload";
 import HackathonManage from "./hackathon/HackathonManage";
-import bulb from "../../assets/svg/bulb.svg";
+import Hackmate from "./hackmate/Hackmate";
+import award from "../../assets/svg/award.svg";
 import gear from "../../assets/svg/gear.svg";
 
 const Admin = () => {
@@ -96,7 +97,7 @@ const Admin = () => {
                   : "bg-gray-700 hover:bg-gray-600"
               }`}
             >
-              <img src={bulb} className="w-6 h-6 mr-2" alt="" />
+              <img src={award} className="w-6 h-6 mr-2" alt="" />
               Upload Hackathon
             </button>
             <button
@@ -109,6 +110,17 @@ const Admin = () => {
             >
               <img src={gear} className="w-6 h-6 mr-2  " alt="" />
               Manage Hackathon
+            </button>
+            <button
+              onClick={() => setActiveSection("deleteHackmate")}
+              className={`flex items-center justify-center px-6 py-3 text-sm md:text-base lg:text-lg cursor-pointer rounded-lg shadow-md transition-all duration-300 ${
+                activeSection === "deleteHackmate"
+                  ? "bg-indigo-600 text-white shadow-lg"
+                  : "bg-gray-700 hover:bg-gray-600"
+              }`}
+            >
+              <FaTrash className="mr-2" />
+              Delete Hackmate
             </button>
           </div>
         </div>
@@ -152,6 +164,11 @@ const Admin = () => {
           {activeSection === "manageHackathon" && (
             <section>
               <HackathonManage />
+            </section>
+          )}
+          {activeSection === "deleteHackmate" && (
+            <section>
+              <Hackmate />
             </section>
           )}
         </main>

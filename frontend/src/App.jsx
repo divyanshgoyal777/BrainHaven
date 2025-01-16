@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import ScrollToTop from "./components/ScrollToTop";
+import Loader from "./components/loader/Loader"
 import Signup from "./components/auth/Signup/Signup";
 import Login from "./components/auth/Login/Login";
 import Home from "./components/home/Home";
@@ -45,12 +46,15 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     const storedEmail = localStorage.getItem("email");
-    if (storedToken && storedEmail) {
-      setIsAuthenticated(true);
-      setToken(storedToken);
-      setUserEmail(storedEmail);
-    }
-    setLoading(false);
+    const timer = setTimeout(() => {
+      if (storedToken && storedEmail) {
+        setIsAuthenticated(true);
+        setToken(storedToken);
+        setUserEmail(storedEmail);
+      }
+      setLoading(false);
+    }, 200);
+    return () => clearTimeout(timer);
   }, []);
 
   const login = (token, userEmail) => {
@@ -72,9 +76,17 @@ const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, token, userEmail, login, logout, combinedName, setCombinedName }}
+      value={{
+        isAuthenticated,
+        token,
+        userEmail,
+        login,
+        logout,
+        combinedName,
+        setCombinedName,
+      }}
     >
-      {!loading && children}
+      {loading ? <Loader /> : children}
     </AuthContext.Provider>
   );
 };

@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 
 router.get("/allHackmate", authenticateToken, async (req, res) => {
   try {
-    const hackmates = await HackmateTeam.find();
+    const hackmates = await HackmateTeam.find().sort({ createdAt: -1 });
     res.json(hackmates);
   } catch (error) {
     console.error("Error fetching hackmate:", error);
@@ -22,7 +22,7 @@ router.get("/userTeam", authenticateToken, async (req, res) => {
       admin: objectIdUserId,
     });
     if (!teams || teams.length === 0) {
-      return res.status(404).json({ message: "No teams found" });
+      return res.status(200).json({ teams: [] });
     }
     return res.status(200).json({ teams });
   } catch (error) {
@@ -110,7 +110,6 @@ router.delete("/deleteTeam/:id", authenticateToken, async (req, res) => {
   }
 });
 
-
 router.put("/editTeam/:id", authenticateToken, async (req, res) => {
   try {
     const teamId = req.params.id;
@@ -128,11 +127,8 @@ router.put("/editTeam/:id", authenticateToken, async (req, res) => {
   }
 });
 
-
 router.put("/joinTeam/:id", authenticateToken, async (req, res) => {});
 
 router.put("/acceptRequest/:id", authenticateToken, async (req, res) => {});
-
-// Router Delete Hackmate Team is in admin
 
 module.exports = router;

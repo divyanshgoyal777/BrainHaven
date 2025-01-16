@@ -62,10 +62,19 @@ router.delete("/deleteHackathon/:id", authenticateToken, async (req, res) => {
   }
 });
 
-router.delete(
-  "deleteHackathonTeam/:id",
-  authenticateToken,
-  async (req, res) => {}
-);
+router.delete("/deleteHackmate/:id", authenticateToken, async (req, res) => {
+  try {
+    const hackmateId = req.params.id;
+    const team = await HackmateTeam.findById(hackmateId);
+    if (!team) {
+      return res.status(404).json({ error: "Hackmate team not found" });
+    }
+    await HackmateTeam.findByIdAndDelete(hackmateId);
+    res.json({ message: "Hackmate deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting hackmate:", error);
+    res.status(500).json({ error: "Failed to delete hackmate" });
+  }
+});
 
 module.exports = router;
