@@ -6,6 +6,8 @@ import toast from "react-hot-toast";
 
 const Hackmate = () => {
   const [teams, setTeams] = useState([]);
+  const [teams2, setTeams2] = useState([]);
+  const [joinedTeams, setJoinedTeams] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [userId, setUserId] = useState("");
   const [error, setError] = useState("");
@@ -170,6 +172,59 @@ const Hackmate = () => {
     }
   };
 
+  useEffect(() => {
+    const fetchTeams = async () => {
+      try {
+        const token = localStorage.getItem("token");
+  
+        if (!token) {
+          toast.error("You must be logged in to view your teams!");
+          return;
+        }
+  
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_BASE_URL}/api/hackmate/joinedHackmate/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log(userId);
+        console.log("My data", response.data);
+        setTeams2(response.data);
+      } catch (error) {
+        if(error.response.status === 400){
+           setJoinedTeams(true);
+        }
+        console.error("Error fetching teams:", error);
+        setError("Failed to load your teams. Please try again.");
+      }
+    };
+  
+    fetchTeams();
+  }, [userId]);
+
+  const handleLeaveTeam = async (teamId) => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.put(
+        `${import.meta.env.VITE_API_BASE_URL}/api/hackmate/leaveTeam/${teamId}/${userId}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setTeams2((prevTeams) => prevTeams.filter((team) => team._id !== teamId));
+      toast.success("Left team successfully!");
+    } catch (error) {
+      console.error("Error leaving team:", error);
+      toast.error("Failed to leave team. Please try again.");
+    }
+  };
+        
   if (isLoading) {
     return (
       <div className="min-h-screen text-white mt-14">
@@ -178,16 +233,13 @@ const Hackmate = () => {
     );
   }
 
-  if (error) {
-    return (
-      <div className="min-h-screen text-white mt-14">
-        <h1 className="text-3xl">{error}</h1>
-      </div>
-    );
-  }
+ 
+
+ 
 
   return (
     <div className="min-h-screen text-white rounded-lg px-4 py-8">
+      <div className="my-5">
       <div className="flex justify-between items-center mb-10">
         <h1 className="text-3xl font-bold mb-6">Your Hackmate</h1>
         <Link to="/hackmate/createTeam">
@@ -331,9 +383,19 @@ const Hackmate = () => {
                   ))}
                 </div>
               </div>
-              <div className="text-sm text-gray-400 mb-4">
-                <span className="font-medium text-gray-300">Team Size: </span>
-                {`${team.members.length} / ${team.maxSize}`}
+              <div className="text-sm text-gray-400 mb-4 flex items-center justify-between">
+               <div>
+               <span className="font-medium text-gray-300">Team Size: </span>
+               {`${team.members.length} / ${team.maxSize}`}
+               </div>
+               <div>
+               {(team.pendingRequests.length > 0 ) && (
+                  <div className="text-xs text-yellow-400">
+                    {team.pendingRequests.length} Pending Requests
+                  </div>
+                )}
+               </div>
+               
               </div>
               <div className="flex justify-between items-center">
                 <Link
@@ -342,11 +404,7 @@ const Hackmate = () => {
                 >
                   View Details
                 </Link>
-                {team.pendingRequests.length > 0 && (
-                  <div className="text-xs text-yellow-400">
-                    {team.pendingRequests.length} Pending Requests
-                  </div>
-                )}
+               
                 <button
                   onClick={() => {
                     setConfirm(true);
@@ -385,6 +443,95 @@ const Hackmate = () => {
           </div>
         </div>
       )}
+    </div>
+
+   {!joinedTeams ?  (
+    <div className="my-5">
+    <h1 className="text-3xl font-bold mb-6">Your Hackmate Teams</h1>
+  
+    {/* Display error message if there's an error */}
+  
+    {/* Check if teams2 is empty */}
+    {Array.isArray(teams2) && teams2.length === 0 ? (
+      <p>No teams found.</p>
+    ) : (
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {/* Map through teams2 and display details */}
+        {Array.isArray(teams2) &&
+          teams2.map((team) => (
+            <div
+              key={team._id}
+              className="bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-lg shadow-lg transform hover:scale-[1.03] transition-transform duration-300"
+            >
+              {/* Team Title */}
+              <div className="flex justify-between items-center">
+                <h3 className="text-2xl font-semibold text-white mb-2">
+                  {team.title}
+                </h3>
+              </div>
+  
+              {/* Team Description */}
+              <p className="text-gray-400 mb-4">{team.description || "No description available."}</p>
+  
+              {/* Admin Information */}
+              <div className="text-sm text-gray-400 mb-2">
+                <span className="font-medium text-gray-300">Admin: </span>
+                <span className="font-semibold hover:text-white transition-all">
+                  <Link to={`/user/${team.admin}`}>{team.adminName || "N/A"}</Link>
+                </span>
+              </div>
+  
+              {/* Skills Required */}
+              <div className="mb-4">
+                <span className="font-medium text-gray-300">Skills Required: </span>
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {Array.isArray(team.skillsRequired) && team.skillsRequired.length > 0 ? (
+                    team.skillsRequired.map((skill, index) => (
+                      <span
+                        key={index}
+                        className="bg-indigo-600 text-white px-3 py-1 rounded-full text-xs font-semibold"
+                      >
+                        {skill}
+                      </span>
+                    ))
+                  ) : (
+                    <p className="text-gray-400">No skills specified.</p>
+                  )}
+                </div>
+              </div>
+  
+              {/* Team Size */}
+              <div className="text-sm text-gray-400 mb-4">
+                <span className="font-medium text-gray-300">Team Size: </span>
+                {`${team.members.length} / ${team.maxSize || "Unknown"}`}
+              </div>
+  
+              <div className="flex justify-between items-center">
+                  <Link
+                    to={`/hackmate/team/${team._id}`}
+                    className="bg-indigo-600 text-white px-4 py-2 rounded-md shadow-md hover:bg-indigo-500 transition-colors"
+                  >
+                    View Details
+                  </Link>
+                 
+                  <button
+                    onClick={() => {
+                      handleLeaveTeam(team._id);
+                    }}
+                    className="bg-red-600 text-white px-4 py-2 rounded-md shadow-md hover:bg-red-500 transition-colors"
+                  >
+                    Leave Team
+                  </button>
+                </div>
+             
+            </div>
+          ))}
+      </div>
+    )}
+  </div>
+  
+   ):null} 
+   
     </div>
   );
 };

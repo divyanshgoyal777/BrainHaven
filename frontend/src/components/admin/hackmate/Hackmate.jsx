@@ -127,11 +127,7 @@ const Hackmate = () => {
                   Delete
                 </button>
 
-                {team.pendingRequests.length > 0 && (
-                  <div className="text-xs text-yellow-400">
-                    {team.pendingRequests.length} Pending Requests
-                  </div>
-                )}
+                
               </div>
             </div>
           ))

@@ -26,8 +26,15 @@ const Hackmate = () => {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-        setHackmateData(response.data);
-        setFilteredData(response.data);
+        const data = response.data;
+
+        // Filter out teams with members equal to maxSize
+        const availableTeams = data.filter(
+          (team) => team.members.length < team.maxSize
+        );
+
+        setHackmateData(availableTeams);
+        setFilteredData(availableTeams);
       } catch (error) {
         console.error("Error fetching Hackmate data:", error);
         toast.error(
@@ -39,6 +46,7 @@ const Hackmate = () => {
     };
 
     fetchHackmateData();
+    
   }, []);
 
   const handleSearch = (event) => {
@@ -83,7 +91,7 @@ const Hackmate = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-10">
           {isLoading ? (
             <p className="text-center text-gray-400">Loading teams...</p>
-          ) : filteredData.length > 0 ? (
+          ) : (filteredData.length > 0 ) ? (
             filteredData.map((team) => (
               <div
                 key={team._id}
@@ -125,11 +133,7 @@ const Hackmate = () => {
                   >
                     View Details
                   </Link>
-                  {team.pendingRequests.length > 0 && (
-                    <div className="text-xs text-yellow-400">
-                      {team.pendingRequests.length} Pending Requests
-                    </div>
-                  )}
+                 
                 </div>
               </div>
             ))

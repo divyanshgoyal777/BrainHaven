@@ -2,7 +2,9 @@ const express = require("express");
 const router = express.Router();
 const authenticateToken = require("../middleware/authenticateToken");
 const HackmateTeam = require("../models/HackmateTeam");
+const User = require("../models/User");
 const mongoose = require("mongoose");
+const Team = require("../models/HackmateTeam");
 
 router.get("/allHackmate", authenticateToken, async (req, res) => {
   try {
@@ -127,8 +129,244 @@ router.put("/editTeam/:id", authenticateToken, async (req, res) => {
   }
 });
 
-router.put("/joinTeam/:id", authenticateToken, async (req, res) => {});
+router.put("/joinTeam/:id", authenticateToken, async (req, res) => {
+  try {
+    const teamId = req.params.id;
+    const userId = req.user.userId;
+  
 
-router.put("/acceptRequest/:id", authenticateToken, async (req, res) => {});
+    console.log("User ID:", userId);
+
+    // Validate teamId and userId
+    if (!teamId || !userId) {
+      return res.status(400).json({ message: "Team ID and User ID are required." });
+    }
+
+    // Find the team by ID
+    const team = await HackmateTeam.findById(teamId);
+    if (!team) {
+      return res.status(404).json({ message: "Team not found." });
+    }
+
+    // Find the user by ID
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    // Check if the user is already a member of the team
+    const isAlreadyMember = team.members.some(
+      (member) => member.userId.toString() === userId
+    );
+    if (isAlreadyMember) {
+      return res.status(400).json({ message: "You are already a member of this team." });
+    }
+
+    // Check if the user has already sent a pending request
+    const isAlreadyPending = team.pendingRequests.some(
+      (request) => request.userId.toString() === userId
+    );
+    if (isAlreadyPending) {
+      return res
+        .status(400)
+        .json({ message: "You have already requested to join this team." });
+    }
+    const { firstName, lastName } = await User.findById(userId);
+    const userName = `${firstName} ${lastName}`;
+    console.log(userName);
+   
+    team.pendingRequests.push({
+      userId: user._id,
+      userName: userName,
+      requestedAt: new Date(),
+    });
+    await team.save();
+
+    res.status(200).json({
+      message: "Your request to join the team has been sent.",
+      pendingRequests: team.pendingRequests,
+    });
+  } catch (error) {
+    console.error("Error sending join request:", error);
+    res.status(500).json({ error: "Failed to send join request. Please try again later." });
+  }
+});
+
+router.get("/getRequests/:id", authenticateToken, async (req, res) => { 
+  try {
+    const teamId = req.params.id;
+
+    // Find the team by ID
+    const team = await HackmateTeam.findById(teamId);
+    if (!team) {
+      return res.status(404).json({ message: "Team not found" });
+    }
+
+    // Map pending requests to only include userId and userName
+    const pendingRequests = team.pendingRequests.map(request => ({
+      userId: request.userId,
+      userName: request.userName,
+    }));
+
+    res.status(200).json({
+      message: "Pending requests fetched successfully.",
+      pendingRequests,
+    });
+  } catch (error) {
+    console.error("Error fetching pending requests:", error);
+    res.status(500).json({ error: "Failed to fetch pending requests" });
+  }
+});
+
+router.put("/declineRequest/:teamId/:userId", authenticateToken, async (req, res) => {
+  try {
+    const { teamId, userId } = req.params; // Get teamId and userId from request parameters
+
+    // Find the team by ID
+    const team = await HackmateTeam.findById(teamId);
+    if (!team) {
+      return res.status(404).json({ message: "Team not found" });
+    }
+
+    // Check if the user exists in the pending requests
+    const pendingRequestIndex = team.pendingRequests.findIndex(
+      (request) => request.userId.toString() === userId
+    );
+    if (pendingRequestIndex === -1) {
+      return res.status(404).json({ message: "Request not found" });
+    }
+
+    // Remove the user from the pending requests
+    team.pendingRequests.splice(pendingRequestIndex, 1);
+    await team.save();
+
+    res.status(200).json({ message: "Request declined successfully" });
+  } catch (error) {
+    console.error("Error declining request:", error);
+    res.status(500).json({ error: "Failed to decline request" });
+  }
+});
+
+
+router.put("/acceptRequest/:teamId/:userId", authenticateToken, async (req, res) => {
+  try {
+    const { teamId, userId } = req.params; // Get teamId and userId from request parameters
+
+    // Find the team by ID
+    const team = await HackmateTeam.findById(teamId);
+    if (!team) {
+      return res.status(404).json({ message: "Team not found" });
+    }
+
+    // Check if the user exists in the pending requests
+    const pendingRequestIndex = team.pendingRequests.findIndex(
+      (request) => request.userId.toString() === userId
+    );
+    if (pendingRequestIndex === -1) {
+      return res.status(404).json({ message: "Request not found" });
+    }
+
+    // Get the user details from the pending request
+    const userRequest = team.pendingRequests[pendingRequestIndex];
+
+    // Remove the user from the pending requests
+    team.pendingRequests.splice(pendingRequestIndex, 1);
+
+    // Check if the user is already a member
+    const isAlreadyMember = team.members.some(
+      (member) => member.userId.toString() === userId
+    );
+    if (isAlreadyMember) {
+      return res.status(400).json({ message: "User is already a member of the team." });
+    }
+
+    // Add the user to the members array
+    team.members.push({
+      userId: userRequest.userId,
+      userName: userRequest.userName,
+      joinedAt: new Date(),
+    });
+
+    await team.save();
+
+    res.status(200).json({ message: "Request accepted successfully", team });
+  } catch (error) {
+    console.error("Error accepting request:", error);
+    res.status(500).json({ error: "Failed to accept request" });
+  }
+});
+
+router.put("/removeMember/:teamId/:userId", authenticateToken, async (req, res) => {
+  try{
+    const {teamId, userId}= req.params;
+    
+    const team= await HackmateTeam.findById(teamId);
+    if(!team){
+      res.status(404).json({message: "Team not found"});
+    }
+
+    const memberIndex= team.members.findIndex((member)=> member.userId.toString()=== userId);
+    if(memberIndex=== -1){
+      return res.status(404).json({message: "Member not found"});
+    }
+
+    team.members.splice(memberIndex,1);
+    await team.save();
+    res.status(200).json({message: "Member removed successfully"});
+  }catch(error){
+    console.error("Error removing member:", error);
+    res.status(500).json({error: "Failed to remove member"});
+  }
+});
+
+router.get("/joinedHackmate/:userId", authenticateToken, async (req, res) => {
+  const { userId } = req.params;
+  console.log(userId);
+  try {
+    // Fetch all teams where the user is a member but not the admin
+    const teams = await Team.find({
+      members: { $elemMatch: { userId } }, // Check if the user is a member
+      admin: { $ne: userId },             // Ensure the user is not the admin
+    });
+
+    if (teams.length === 0) {
+      return res.status(400).json({ message: "No teams found." });
+    }
+
+    res.status(200).json(teams);
+  } catch (error) {
+    console.error("Error fetching teams:", error);
+    res.status(500).json({ message: "Failed to fetch teams.", error });
+  }
+});
+
+router.put("/leaveTeam/:teamId/:userId", authenticateToken, async (req, res) => {
+  try {
+    const { teamId, userId } = req.params;
+
+    // Find the team by ID
+    const team = await HackmateTeam.findById(teamId);
+    if (!team) {
+      return res.status(404).json({ message: "Team not found" });
+    }
+
+    // Check if the user is a member of the team
+    const memberIndex = team.members.findIndex(
+      (member) => member.userId.toString() === userId
+    );
+    if (memberIndex === -1) {
+      return res.status(404).json({ message: "User is not a member of the team" });
+    }
+
+    // Remove the user from the members array
+    team.members.splice(memberIndex, 1);
+    await team.save();
+
+    res.status(200).json({ message: "You have left the team successfully" });
+  } catch (error) {
+    console.error("Error leaving team:", error);
+    res.status(500).json({ error: "Failed to leave team" });
+  }
+});
 
 module.exports = router;
