@@ -11,7 +11,7 @@ import {
   FaBookOpen,
   FaInstagram,
 } from "react-icons/fa";
-import Loader from "../loader/Loader"
+import Loader from "../loader/Loader";
 
 const PreviewProfile = ({ userId }) => {
   const [user, setUser] = useState(null);
@@ -45,7 +45,7 @@ const PreviewProfile = ({ userId }) => {
   };
 
   if (loading) {
-    return <Loader/>
+    return <Loader />;
   }
 
   if (error) {

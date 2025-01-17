@@ -42,7 +42,6 @@ const ImageUpload = () => {
           },
         }
       );
-      console.log("Response from server:", response.data);
       setImageUrl(response.data.url);
       toast.success("Image uploaded successfully!");
       window.location.reload();

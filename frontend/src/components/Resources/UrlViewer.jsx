@@ -1,7 +1,5 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
-import Navbar from "../layout/Navbar/Navbar";
-import Footer from "../layout/Footer/Footer";
 
 const UrlViewer = () => {
   const location = useLocation();
@@ -14,7 +12,6 @@ const UrlViewer = () => {
       const videoId =
         link.split("v=")[1]?.split("&")[0] || link.split("/").pop();
       const embedLink = `https://www.youtube.com/embed/${videoId}`;
-      console.log("Embed Link:", embedLink);
       return embedLink;
     });
   } catch (error) {
@@ -23,7 +20,6 @@ const UrlViewer = () => {
 
   return (
     <>
-      <Navbar />
       <div className="text-white mt-40 my-16">
         <h1 className="bg-gradient-to-tl from-indigo-600 to-purple-600 bg-clip-text text-transparent text-3xl md:text-4xl font-extrabold text-center drop-shadow-lg my-10">
           Tutorial Video Links
@@ -51,7 +47,6 @@ const UrlViewer = () => {
           )}
         </div>
       </div>
-      <Footer />
     </>
   );
 };

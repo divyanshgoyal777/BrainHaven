@@ -6,6 +6,7 @@ require("dotenv").config();
 const socket = require("socket.io");
 const http = require("http");
 const Message = require("./models/Message");
+const HackmateChat = require("./models/HackmateChat");
 
 const app = express();
 const server = http.createServer(app);
@@ -34,6 +35,23 @@ io.on("connection", async (socket) => {
     io.emit("chat message", msg);
   });
 
+  const hackmateMessages = await HackmateChat.find({
+    teamId: socket.teamId,
+  }).sort({
+    createdAt: 1,
+  });
+  socket.emit("hackmate previous messages", hackmateMessages);
+
+  socket.on("hackmate group chat message", async (msg) => {
+    const newMessage = new HackmateChat({
+      userId: msg.userId,
+      teamId: msg.teamId,
+      message: msg.message,
+    });
+    await newMessage.save();
+    io.emit("hackmate chat message", msg);
+  });
+
   socket.on("disconnect", () => {
     console.log("user disconnected");
   });
@@ -47,12 +65,13 @@ app.use("/api/chat", require("./routes/chatRoutes"));
 app.use("/api/code", require("./routes/codeRoutes"));
 app.use("/api/hackathon", require("./routes/hackathonRoute"));
 app.use("/api/hackmate", require("./routes/hackmateRoute"));
-
-const PORT = process.env.PORT || 5000;
+app.use("/api/hackmateChat", require("./routes/hackmateChatRoutes"));
 
 app.get("/", (req, res) => {
   res.send("Hello World");
 });
+
+const PORT = process.env.PORT || 5000;
 
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

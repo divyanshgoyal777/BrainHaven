@@ -82,8 +82,6 @@ const HackathonManage = () => {
         return;
       }
 
-      console.log("Attempting to update Hackathon:", selectedHackathon);
-
       const response = await axios.put(
         `${import.meta.env.VITE_API_BASE_URL}/api/hackathon/editHackathon/${
           selectedHackathon._id
@@ -96,8 +94,6 @@ const HackathonManage = () => {
           },
         }
       );
-
-      console.log("Response from server:", response.data);
 
       if (response.status === 200) {
         if (!response.data || !response.data._id) {

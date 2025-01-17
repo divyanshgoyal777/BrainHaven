@@ -62,8 +62,6 @@ router.post(
             .send("Video links are required for tutorial resources.");
         }
 
-        console.log("Video Links Received:", videoLinks);
-
         const existingTutorial = await Resource.findOne({
           degree,
           branch,
@@ -188,7 +186,6 @@ router.post(
 
       if (existingResource) {
         await existingResource.deleteOne();
-        console.log("Existing resource deleted.");
       }
 
       if (type === "Tutorials") {

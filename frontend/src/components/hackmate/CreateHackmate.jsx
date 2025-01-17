@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
-import Navbar from "../layout/Navbar/Navbar";
-import Footer from "../layout/Footer/Footer";
 import { useAuth } from "../../App";
 
 const CreateHackmate = () => {
-  const { userEmail} = useAuth();
+  const { userEmail } = useAuth();
   const [hackmateData, setHackmateData] = useState({
     title: "",
     description: "",
@@ -35,8 +33,6 @@ const CreateHackmate = () => {
     const combinedName = `${formData.firstName} ${formData.lastName}`;
     const payload = { ...hackmateData, name: combinedName };
 
-    console.log("Form submitted:", payload);
-
     try {
       const token = localStorage.getItem("token");
 
@@ -61,7 +57,6 @@ const CreateHackmate = () => {
           lookingFor: "",
           teamNeeds: "",
         });
-        console.log("Response from server:", response.data);
       }
     } catch (error) {
       toast.error("Failed to create hackmate!");
@@ -88,9 +83,6 @@ const CreateHackmate = () => {
 
         const { firstName, lastName } = response.data;
 
-        console.log("Fetched First Name:", firstName);
-        console.log("Fetched Last Name:", lastName);
-
         if (firstName && lastName) {
           setFormData({ firstName, lastName });
         } else {
@@ -106,7 +98,6 @@ const CreateHackmate = () => {
 
   return (
     <>
-      <Navbar />
       <div className="container mx-auto px-4 py-1 mt-24 mb-10">
         <div>
           <h1 className="bg-gradient-to-tl from-indigo-600 to-purple-600 bg-clip-text text-transparent text-3xl md:text-4xl font-extrabold text-center drop-shadow-lg my-10">
@@ -116,7 +107,6 @@ const CreateHackmate = () => {
             onSubmit={handleSubmit}
             className="max-w-3xl mx-auto bg-gray-800 p-6 rounded-lg shadow-lg space-y-6 text-white"
           >
-            {/* Title */}
             <div>
               <label htmlFor="title" className="block text-sm font-medium mb-2">
                 Title
@@ -130,7 +120,6 @@ const CreateHackmate = () => {
               />
             </div>
 
-            {/* Description */}
             <div>
               <label
                 htmlFor="description"
@@ -147,7 +136,6 @@ const CreateHackmate = () => {
               />
             </div>
 
-            {/* Max Size */}
             <div>
               <label
                 htmlFor="maxSize"
@@ -167,7 +155,6 @@ const CreateHackmate = () => {
               />
             </div>
 
-            {/* Skill Required */}
             <div>
               <label
                 htmlFor="skillsRequired"
@@ -191,7 +178,6 @@ const CreateHackmate = () => {
               />
             </div>
 
-            {/* Looking For */}
             <div>
               <label
                 htmlFor="lookingFor"
@@ -208,7 +194,6 @@ const CreateHackmate = () => {
               />
             </div>
 
-            {/* Team Needs */}
             <div>
               <label
                 htmlFor="teamNeeds"
@@ -225,7 +210,6 @@ const CreateHackmate = () => {
               />
             </div>
 
-            {/* Submit Button */}
             <button
               type="submit"
               className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 rounded-lg"
@@ -235,7 +219,6 @@ const CreateHackmate = () => {
           </form>
         </div>
       </div>
-      <Footer />
     </>
   );
 };

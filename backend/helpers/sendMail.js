@@ -135,8 +135,6 @@ async function sendMail(to, subject, templateName, variables) {
     subject,
     html,
   });
-
-  console.log("Message sent: %s", info.messageId);
 }
 
 module.exports = { sendMail };

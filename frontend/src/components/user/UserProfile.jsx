@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import Navbar from "../layout/Navbar/Navbar";
-import Footer from "../layout/Footer/Footer";
 import axios from "axios";
 import {
   FaPhoneAlt,
@@ -71,7 +69,6 @@ const UserProfile = () => {
 
   return (
     <>
-      <Navbar />
       <div className="min-h-screen text-white mt-24">
         <header className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 py-8 shadow-lg">
           <div className="container mx-auto flex items-center space-x-6 px-4">
@@ -299,7 +296,6 @@ const UserProfile = () => {
           </section>
         </main>
       </div>
-      <Footer />
     </>
   );
 };

@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Navbar from "../layout/Navbar/Navbar";
-import Footer from "../layout/Footer/Footer";
 
 const Hackathon = () => {
   const [hackathons, setHackathons] = useState([]);
@@ -33,13 +31,8 @@ const Hackathon = () => {
     return `${day}-${month}-${year}`;
   };
 
-  const handleSelectHackathon = (hackathon) => {
-    console.log("Selected Hackathon:", hackathon);
-  };
-
   return (
     <div>
-      <Navbar />
       <div className="container mx-auto px-4 py-1 mt-24 mb-10">
         <h2 className="bg-gradient-to-tl from-indigo-600 to-purple-600 bg-clip-text text-transparent text-3xl md:text-4xl font-extrabold text-center drop-shadow-lg my-10">
           Hackathons
@@ -95,10 +88,7 @@ const Hackathon = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <button
-                  onClick={() => handleSelectHackathon(hackathon)}
-                  className="mt-6 w-full py-3 px-5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-200"
-                >
+                <button className="mt-6 w-full py-3 px-5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-200">
                   Join Hackathon
                 </button>
               </a>
@@ -106,7 +96,6 @@ const Hackathon = () => {
           ))}
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

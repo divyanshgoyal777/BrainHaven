@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
-import Navbar from "../layout/Navbar/Navbar";
-import Footer from "../layout/Footer/Footer";
 
 const Code = () => {
   const [categories, setCategories] = useState({});
@@ -29,7 +27,6 @@ const Code = () => {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-        console.log(response.data);
         setCategories(response.data);
       } catch (error) {
         console.error("Error fetching categories:", error);
@@ -81,7 +78,6 @@ const Code = () => {
 
   return (
     <>
-      <Navbar />
       <div className="mt-32 px-8">
         <h2 className="bg-gradient-to-tl from-indigo-600 to-purple-600 bg-clip-text text-transparent text-3xl md:text-4xl font-extrabold text-center drop-shadow-lg my-10">
           Code
@@ -149,7 +145,6 @@ const Code = () => {
           </form>
         )}
       </div>
-      <Footer />
     </>
   );
 };

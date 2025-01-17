@@ -227,10 +227,6 @@ const ResourcesUpload = () => {
       formDataToSend.append("resourceFile", resourceFile);
       formDataToSend.append("videoLinks", JSON.stringify(videoLinks));
 
-      for (let [key, value] of formDataToSend.entries()) {
-        console.log(key, value);
-      }
-
       try {
         const response = await axios.post(
           `${import.meta.env.VITE_API_BASE_URL}/api/resource/replaceResource`,
@@ -245,7 +241,6 @@ const ResourcesUpload = () => {
 
         setIsLoading(false);
         setUploadStatus("File uploaded successfully!");
-        console.log("Response:", response.data);
         toast.success("File uploaded successfully!");
         setFormData({
           degree: "",

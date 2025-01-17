@@ -126,8 +126,6 @@ const Hackmate = () => {
                 >
                   Delete
                 </button>
-
-                
               </div>
             </div>
           ))

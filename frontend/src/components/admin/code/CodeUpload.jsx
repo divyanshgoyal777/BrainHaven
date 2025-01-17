@@ -160,10 +160,6 @@ const CodeUpload = () => {
     try {
       setIsLoading(true);
       const formData = prepareFormData();
-      for (let [key, value] of formData.entries()) {
-        console.log(`${key}: ${value}`);
-      }
-
       const token = localStorage.getItem("token");
       const response = await axios.post(
         `${import.meta.env.VITE_API_BASE_URL}/api/code/uploadCode`,

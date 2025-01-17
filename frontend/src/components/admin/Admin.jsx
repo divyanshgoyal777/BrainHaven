@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { FaUpload, FaHome, FaUsers, FaCode, FaTrash } from "react-icons/fa";
-import Navbar from "../layout/Navbar/Navbar";
-import Footer from "../layout/Footer/Footer";
 import Home from "./home/Home";
 import AllUsers from "./user/AllUsers";
 import ResourcesUpload from "./resource/ResourcesUpload";
@@ -19,7 +17,6 @@ const Admin = () => {
 
   return (
     <>
-      <Navbar />
       <div className="min-h-screen text-white mt-32">
         <div className="container mx-auto px-4 py-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
@@ -173,7 +170,6 @@ const Admin = () => {
           )}
         </main>
       </div>
-      <Footer />
     </>
   );
 };

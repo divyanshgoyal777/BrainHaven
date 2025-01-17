@@ -2,8 +2,6 @@ import { React, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
-import Navbar from "../layout/Navbar/Navbar";
-import Footer from "../layout/Footer/Footer";
 
 const CodeViewer = () => {
   const { primaryCategory, subCategory } = useParams();
@@ -68,7 +66,6 @@ const CodeViewer = () => {
 
   return (
     <>
-      <Navbar />
       <div className="mt-32 px-4 md:px-8 w-full md:w-[80%] m-auto">
         <h2 className="bg-gradient-to-tl from-indigo-600 to-purple-600 bg-clip-text text-transparent text-2xl md:text-4xl font-extrabold text-center drop-shadow-lg my-10">
           Code Snippets for {primaryCategory} - {subCategory}
@@ -169,7 +166,6 @@ const CodeViewer = () => {
           </div>
         )}
       </div>
-      <Footer />
     </>
   );
 };

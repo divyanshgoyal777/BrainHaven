@@ -45,7 +45,6 @@ router.put("/editHackathon/:id", authenticateToken, async (req, res) => {
       new: true,
     });
     if (!updatedHackathon) {
-      console.log(`Hackathon with ID ${id} not found`);
       return res.status(404).json({ message: "Hackathon not found" });
     }
     res.status(200).json(updatedHackathon);

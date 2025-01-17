@@ -8,9 +8,11 @@ import {
 } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import ScrollToTop from "./components/ScrollToTop";
-import Loader from "./components/loader/Loader"
+import Loader from "./components/loader/Loader";
 import Signup from "./components/auth/Signup/Signup";
 import Login from "./components/auth/Login/Login";
+import Navbar from "./components/layout/Navbar/Navbar";
+import Footer from "./components/layout/Footer/Footer";
 import Home from "./components/home/Home";
 import Resources from "./components/Resources/Resources";
 import PdfViewer from "./components/Resources/PdfViewer";
@@ -31,6 +33,7 @@ import Hackathon from "./components/hackathon/Hackathon";
 import Hackmate from "./components/hackmate/Hackmate";
 import CreateHackmate from "./components/hackmate/CreateHackmate";
 import TeamViewer from "./components/hackmate/TeamViewer";
+import HackmateChat from "./components/user/HackmateChat";
 
 const AuthContext = createContext();
 
@@ -46,15 +49,12 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     const storedEmail = localStorage.getItem("email");
-    const timer = setTimeout(() => {
-      if (storedToken && storedEmail) {
-        setIsAuthenticated(true);
-        setToken(storedToken);
-        setUserEmail(storedEmail);
-      }
-      setLoading(false);
-    }, 200);
-    return () => clearTimeout(timer);
+    if (storedToken && storedEmail) {
+      setIsAuthenticated(true);
+      setToken(storedToken);
+      setUserEmail(storedEmail);
+    }
+    setLoading(false);
   }, []);
 
   const login = (token, userEmail) => {
@@ -114,69 +114,63 @@ const AdminRoute = ({ element }) => {
 
 function AppRoutes() {
   return (
-    <>
-      <Toaster position="top-center" reverseOrder={false} />
-      <ScrollToTop />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route
-          path="/signup"
-          element={<RouteGuard element={<Signup />} authOnly />}
-        />
-        <Route
-          path="/login"
-          element={<RouteGuard element={<Login />} authOnly />}
-        />
-        <Route
-          path="/resources"
-          element={<RouteGuard element={<Resources />} />}
-        />
-        <Route
-          path="/resources/:degree/:branch/:semester/:subject/:type"
-          element={<PdfViewer />}
-        />
-        <Route
-          path="/resources/:degree/:branch/:semester/:subject/:type/videos"
-          element={<UrlViewer />}
-        />
-        <Route path="/code" element={<RouteGuard element={<Code />} />} />
-        <Route
-          path="/codes/:primaryCategory/:subCategory"
-          element={<CodeViewer />}
-        />
-        <Route
-          path="/roadmaps"
-          element={<RouteGuard element={<Roadmaps />} />}
-        />
-        <Route
-          path="/roadmaps/:roadmapId"
-          element={<RouteGuard element={<RoadmapDetails />} />}
-        />
-        <Route
-          path="/hackathon"
-          element={<RouteGuard element={<Hackathon />} />}
-        />
-        <Route
-          path="/hackmate"
-          element={<RouteGuard element={<Hackmate />} />}
-        />
-        <Route
-          path="/hackmate/createTeam"
-          element={<RouteGuard element={<CreateHackmate />} />}
-        />
-        <Route
-          path="/hackmate/team/:teamId"
-          element={<RouteGuard element={<TeamViewer />} />}
-        />
-        <Route path="/faqs" element={<FAQs />} />
-        <Route path="/policy" element={<PrivacyPolicy />} />
-        <Route path="/user" element={<RouteGuard element={<User />} />} />
-        <Route path="/user/:id" element={<UserProfile />} />
-        <Route path="/terms" element={<TermsAndConditions />} />
-        <Route path="/admin" element={<AdminRoute element={<Admin />} />} />
-        <Route path="*" element={<PageNotFound />} />
-      </Routes>
-    </>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route
+        path="/signup"
+        element={<RouteGuard element={<Signup />} authOnly />}
+      />
+      <Route
+        path="/login"
+        element={<RouteGuard element={<Login />} authOnly />}
+      />
+      <Route
+        path="/resources"
+        element={<RouteGuard element={<Resources />} />}
+      />
+      <Route
+        path="/resources/:degree/:branch/:semester/:subject/:type"
+        element={<PdfViewer />}
+      />
+      <Route
+        path="/resources/:degree/:branch/:semester/:subject/:type/videos"
+        element={<UrlViewer />}
+      />
+      <Route path="/code" element={<RouteGuard element={<Code />} />} />
+      <Route
+        path="/codes/:primaryCategory/:subCategory"
+        element={<CodeViewer />}
+      />
+      <Route path="/roadmaps" element={<RouteGuard element={<Roadmaps />} />} />
+      <Route
+        path="/roadmaps/:roadmapId"
+        element={<RouteGuard element={<RoadmapDetails />} />}
+      />
+      <Route
+        path="/hackathon"
+        element={<RouteGuard element={<Hackathon />} />}
+      />
+      <Route path="/hackmate" element={<RouteGuard element={<Hackmate />} />} />
+      <Route
+        path="/hackmate/createTeam"
+        element={<RouteGuard element={<CreateHackmate />} />}
+      />
+      <Route
+        path="/hackmate/team/:teamId"
+        element={<RouteGuard element={<TeamViewer />} />}
+      />
+      <Route
+        path="/hackmate/chat/:teamId"
+        element={<RouteGuard element={<HackmateChat />} />}
+      />
+      <Route path="/faqs" element={<FAQs />} />
+      <Route path="/policy" element={<PrivacyPolicy />} />
+      <Route path="/user" element={<RouteGuard element={<User />} />} />
+      <Route path="/user/:id" element={<UserProfile />} />
+      <Route path="/terms" element={<TermsAndConditions />} />
+      <Route path="/admin" element={<AdminRoute element={<Admin />} />} />
+      <Route path="*" element={<PageNotFound />} />
+    </Routes>
   );
 }
 
@@ -186,6 +180,7 @@ function App() {
   const excludedPaths = ["/login", "/signup", "*"];
   const conditionallyVisiblePaths = ["/faqs", "/policy", "/terms"];
   const isChatButtonVisible =
+    location.pathname &&
     !excludedPaths.includes(location.pathname) &&
     (!conditionallyVisiblePaths.includes(location.pathname) || isAuthenticated);
 
@@ -193,7 +188,15 @@ function App() {
     <>
       <Toaster position="top-center" reverseOrder={false} />
       <ScrollToTop />
-      <AppRoutes />
+      <>
+        {isAuthenticated && !excludedPaths.includes(location.pathname) && (
+          <Navbar />
+        )}
+        <AppRoutes />
+        {isAuthenticated && !excludedPaths.includes(location.pathname) && (
+          <Footer />
+        )}
+      </>
       {isChatButtonVisible && <ChatButton />}
     </>
   );

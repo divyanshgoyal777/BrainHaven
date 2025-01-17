@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import Navbar from "../layout/Navbar/Navbar";
-import Footer from "../layout/Footer/Footer";
 
 const Roadmaps = () => {
   useEffect(() => {
@@ -58,7 +56,6 @@ const Roadmaps = () => {
 
   return (
     <div className="text-white">
-      <Navbar />
       <div className="mt-32 px-8">
         <h1 className="bg-gradient-to-tl from-indigo-600 to-purple-600 bg-clip-text text-transparent text-3xl md:text-4xl font-extrabold text-center drop-shadow-lg">
           Discover Your Path in Tech
@@ -77,7 +74,6 @@ const Roadmaps = () => {
           />
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

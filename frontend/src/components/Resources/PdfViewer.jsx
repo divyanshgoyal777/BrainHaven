@@ -1,6 +1,4 @@
 import { useLocation } from "react-router-dom";
-import Navbar from "../layout/Navbar/Navbar";
-import Footer from "../layout/Footer/Footer";
 
 const PdfViewer = () => {
   const location = useLocation();
@@ -18,7 +16,6 @@ const PdfViewer = () => {
 
   return (
     <div>
-      <Navbar />
       <div className="mt-40 px-1">
         <h2 className="bg-gradient-to-tl from-indigo-600 to-purple-600 bg-clip-text text-transparent text-3xl md:text-4xl font-extrabold text-center drop-shadow-lg my-10">
           Resource PDF
@@ -35,7 +32,6 @@ const PdfViewer = () => {
           ))}
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

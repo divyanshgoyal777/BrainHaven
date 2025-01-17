@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "../layout/Navbar/Navbar";
-import Footer from "../layout/Footer/Footer";
 import User from "./User";
 import PreviewProfile from "./PreviewProfile";
 import Hackmate from "./Hackmate";
@@ -42,7 +40,6 @@ const Dashboard = () => {
 
   return (
     <>
-      <Navbar />
       <div className="min-h-screen mt-20 text-white">
         <div className="container mx-auto px-4 py-10">
           <div className="flex flex-col md:flex-row justify-center space-y-4 md:space-x-10 md:space-y-0 text-lg font-semibold mb-8">
@@ -105,7 +102,6 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 };

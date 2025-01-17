@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../App";
-import Navbar from "../layout/Navbar/Navbar";
-import Footer from "../layout/Footer/Footer";
 import logo from "../../assets/img/BrainWaveFaviconNoBackground.png";
 import "./Home.css";
 
@@ -14,7 +12,6 @@ const Home = () => {
 
   return (
     <>
-      <Navbar />
       <main className="mt-36 px-4 md:px-16 lg:px-24">
         <section className="Page-1 text-white mb-48">
           <div className="flex flex-col md:flex-row items-center justify-between max-w-7xl mx-auto">
@@ -119,7 +116,6 @@ const Home = () => {
           </section>
         )}
       </main>
-      <Footer />
     </>
   );
 };

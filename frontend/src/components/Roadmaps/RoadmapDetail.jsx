@@ -1,7 +1,5 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import Navbar from "../layout/Navbar/Navbar";
-import Footer from "../layout/Footer/Footer";
 import Loader from "../loader/Loader";
 
 const RoadmapDetails = () => {
@@ -33,7 +31,6 @@ const RoadmapDetails = () => {
 
   return (
     <>
-      <Navbar />
       <div className="min-h-screen px-6 py-12 text-white">
         <div className="max-w-4xl mx-auto mt-24">
           <h1 className="text-4xl font-extrabold mb-4 text-center">
@@ -69,7 +66,6 @@ const RoadmapDetails = () => {
           </ul>
         </div>
       </div>
-      <Footer />
     </>
   );
 };

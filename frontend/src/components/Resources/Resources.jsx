@@ -1,7 +1,5 @@
 import React, { useState, useEffect, createContext, useContext } from "react";
 import toast from "react-hot-toast";
-import Navbar from "../layout/Navbar/Navbar";
-import Footer from "../layout/Footer/Footer";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -123,7 +121,6 @@ const Resources = () => {
       value={{ selectedOptions, setSelectedOptions, dropdownData }}
     >
       <div className="text-white">
-        <Navbar />
         <div className="mt-32 px-8">
           {pdfShow ? (
             pdfUrl && pdfUrl.length > 0 ? (
@@ -169,7 +166,6 @@ const Resources = () => {
             </div>
           )}
         </div>
-        <Footer />
       </div>
     </GlobalOptionsContext.Provider>
   );
