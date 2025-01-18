@@ -157,11 +157,6 @@ const HackmateChat = () => {
           },
         }
       );
-
-      setMessages((prev) => [
-        ...prev,
-        { ...newMsg, timestamp: new Date().toISOString() },
-      ]);
       setNewMessage("");
       scrollToBottom();
     } catch (error) {

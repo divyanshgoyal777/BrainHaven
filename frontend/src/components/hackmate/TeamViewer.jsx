@@ -153,6 +153,12 @@ const TeamViewer = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       toast.success(response.data.message);
+      setTeamData((prevData) => ({
+        ...prevData,
+        pendingRequests: prevData.pendingRequests.filter(
+          (request) => request.userId !== userId
+        ),
+      }));
     } catch (error) {
       console.error("Error declining request:", error);
       toast.error(error.response?.data.message || "Failed to decline request");
@@ -170,6 +176,18 @@ const TeamViewer = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       toast.success(response.data.message);
+      setTeamData((prevData) => {
+        const acceptedUser = prevData.pendingRequests.find(
+          (request) => request.userId === userId
+        );
+        return {
+          ...prevData,
+          pendingRequests: prevData.pendingRequests.filter(
+            (request) => request.userId !== userId
+          ),
+          members: [...prevData.members, acceptedUser],
+        };
+      });
     } catch (error) {
       console.error("Error accepting request:", error);
       toast.error(error.response?.data.message || "Failed to accept request");
@@ -187,6 +205,10 @@ const TeamViewer = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       toast.success(response.data.message);
+      setTeamData((prevData) => ({
+        ...prevData,
+        members: prevData.members.filter((member) => member.userId !== userId),
+      }));
     } catch (error) {
       console.error("Error removing member:", error);
       toast.error(error.response?.data.message || "Failed to remove member");
@@ -255,7 +277,12 @@ const TeamViewer = () => {
                         <div className="flex items-center justify-between w-full">
                           <div className="flex items-center gap-3">
                             <div className="bg-indigo-500 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold"></div>
-                            <p className="text-gray-300">{member.userName}</p>
+
+                            <p className="font-semibold text-gray-300 hover:text-white">
+                              <Link to={`/user/${member.userId}`}>
+                                {member.userName}
+                              </Link>
+                            </p>
                           </div>
                           <div>
                             {adminId === userId &&
@@ -294,11 +321,12 @@ const TeamViewer = () => {
                     >
                       <div className="flex items-center justify-between w-full">
                         <div className="flex items-center gap-3">
-                          <Link to={`/user/${request.userId}`}>
-                            <div className="bg-yellow-500 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold"></div>
-                          </Link>
-
-                          <p className="text-gray-300">{request.userName}</p>
+                          <div className="bg-yellow-500 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold"></div>
+                          <p className="font-semibold text-gray-300 hover:text-white">
+                            <Link to={`/user/${request.userId}`}>
+                              {request.userName}
+                            </Link>
+                          </p>
                         </div>
                         <div className="flex gap-2">
                           <button

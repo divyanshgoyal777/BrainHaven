@@ -85,7 +85,7 @@ router.get("/chat/:teamId", authenticateToken, async (req, res) => {
       .exec();
 
     if (!chat) {
-      return res.status(404).json({ error: "Chat not found" });
+      return res.status(200).json({ message: "Start your chat" });
     }
 
     const messages = chat.messages.map((msg) => ({

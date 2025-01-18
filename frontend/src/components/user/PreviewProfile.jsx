@@ -87,7 +87,7 @@ const PreviewProfile = ({ userId }) => {
             <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-300 animate-text">
               {`${user.firstName} ${user.lastName}`}
             </h1>
-            <p className="text-lg text-gray-200 mt-2">
+            <p className="mt-2 text-gray-200 text-[0.8rem] sm:text-base md:text-lg">
               <span className="text-pink-300 font-medium">{user.email}</span>
             </p>
           </div>
