@@ -82,16 +82,14 @@ const CodeViewer = () => {
             {codeData.map((data, index) => (
               <div key={index} className="bg-gray-800 p-4 rounded-lg shadow-lg">
                 {data.codeItems.map((codeItem, idx) => (
-                  <div key={idx} className="space-y-4 mb-8">
+                  <div key={idx} className=" bg-gray-900 space-y-4 mb-8 p-5 rounded-lg">
                     <h5 className="text-lg md:text-xl text-white font-semibold">
                       Code Set {idx + 1}
                     </h5>
                     <h3 className="text-xl md:text-2xl text-white font-bold mb-4">
                       {codeItem.title || "Code Title"}
                     </h3>
-                    <h4 className="text-lg md:text-xl text-white font-bold mb-2">
-                      {codeItem.description || "Code Description"}
-                    </h4>
+                    
 
                     {primaryCategory ===
                       "Data Structures and Algorithms (DSA)" && (
@@ -143,7 +141,7 @@ const CodeViewer = () => {
                               codeSnippet.language && (
                               <div
                                 key={codeSnippet._id}
-                                className="relative bg-gray-900 text-white p-4 rounded-lg mb-4"
+                                className="relative bg-gray-950 text-white p-4 rounded-lg mb-4"
                               >
                                 <button
                                   onClick={() =>
@@ -159,6 +157,9 @@ const CodeViewer = () => {
                               </div>
                             )
                         )}
+                        <h4 className="text-lg md:text-xl text-white font-medium mb-2">
+                      {codeItem.description || "Code Description"}
+                    </h4>
                   </div>
                 ))}
               </div>
