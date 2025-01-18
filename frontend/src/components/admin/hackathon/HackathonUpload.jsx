@@ -197,7 +197,7 @@ const HackathonUpload = () => {
           <input
             type="checkbox"
             name="isOnline"
-            className="w-4 h-4"
+            className="w-4 h-4 cursor-pointer"
             checked={hackathonData.isOnline}
             onChange={(e) =>
               setHackathonData({ ...hackathonData, isOnline: e.target.checked })
