@@ -240,7 +240,7 @@ const Hackmate = () => {
     <div className="min-h-screen text-white rounded-lg px-2 sm:px-4 py-8">
       <div className="my-5">
         <div className="flex flex-col sm:flex-row justify-between items-center mb-10">
-          <h1 className="text-3xl font-bold mb-6">Your Created Hackmate</h1>
+          <h1 className="text-3xl font-bold mb-4">Your Created Hackmate</h1>
           <Link to="/hackmate/createTeam">
             <button className="px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-md hover:scale-105 hover:shadow-lg transform transition duration-300 ease-in-out">
               Create a Team
@@ -401,27 +401,29 @@ const Hackmate = () => {
                     )}
                   </div>
                 </div>
-                <div className="flex justify-between items-center">
-                  <Link
-                    to={`/hackmate/team/${team._id}`}
-                    className="bg-indigo-600 text-white px-2 sm:px-4 py-2 rounded-md shadow-md hover:bg-indigo-500 transition-colors"
-                  >
-                    View Details
-                  </Link>
+                <div className="flex flex-col justify-between items-center">
+                  <div className="flex flex-row justify-between items-center w-full gap-1">
+                    <Link
+                      to={`/hackmate/chat/${team._id}`}
+                      className="bg-green-600 text-white text-center mb-2 px-2 sm:px-4 py-2 w-1/2 rounded-md shadow-md hover:bg-green-500 transition-colors"
+                    >
+                      Chat
+                    </Link>
 
-                  <Link
-                    to={`/hackmate/chat/${team._id}`}
-                    className="bg-green-600 text-white px-2 sm:px-4 py-2 rounded-md shadow-md hover:bg-green-500 transition-colors"
-                  >
-                    Chat
-                  </Link>
+                    <Link
+                      to={`/hackmate/team/${team._id}`}
+                      className="bg-indigo-600 text-white text-center mb-2 px-2 sm:px-4 py-2 w-1/2 rounded-md shadow-md hover:bg-indigo-500 transition-colors"
+                    >
+                      View Details
+                    </Link>
+                  </div>
 
                   <button
                     onClick={() => {
                       setConfirm(true);
                       setTeamToDelete(team._id);
                     }}
-                    className="bg-red-600 text-white px-2 sm:px-4 py-2 rounded-md shadow-md hover:bg-red-500 transition-colors"
+                    className="bg-red-600 text-white px-2 sm:px-4 py-2 w-full rounded-md shadow-md hover:bg-red-500 transition-colors"
                   >
                     Delete Team
                   </button>
@@ -458,11 +460,11 @@ const Hackmate = () => {
 
       {!joinedTeams ? (
         <div className="my-5">
-          <h1 className="text-3xl font-bold mb-6">Your Hackmate Teams</h1>
+          <h1 className="text-3xl font-bold mb-10">Your Hackmate Teams</h1>
           {Array.isArray(teams2) && teams2.length === 0 ? (
             <p>No teams found.</p>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {Array.isArray(teams2) &&
                 teams2.map((team) => (
                   <div
@@ -512,26 +514,27 @@ const Hackmate = () => {
                       {`${team.members.length} / ${team.maxSize || "Unknown"}`}
                     </div>
 
-                    <div className="flex justify-between items-center">
-                      <Link
-                        to={`/hackmate/team/${team._id}`}
-                        className="bg-indigo-600 text-white px-2 sm:px-4 py-2 rounded-md shadow-md hover:bg-indigo-500 transition-colors"
-                      >
-                        View Details
-                      </Link>
+                    <div className="flex flex-col justify-between items-center">
+                      <div className="flex flex-row justify-between items-center w-full gap-1">
+                        <Link
+                          to={`/hackmate/chat/${team._id}`}
+                          className="bg-green-600 text-white text-center mb-2 px-2 sm:px-4 py-2 w-1/2 rounded-md shadow-md hover:bg-green-500 transition-colors"
+                        >
+                          Chat
+                        </Link>
 
-                      <Link
-                        to={`/hackmate/chat/${team._id}`}
-                        className="bg-green-600 text-white px-2 sm:px-4 py-2 rounded-md shadow-md hover:bg-green-500 transition-colors"
-                      >
-                        Chat
-                      </Link>
-
+                        <Link
+                          to={`/hackmate/team/${team._id}`}
+                          className="bg-indigo-600 text-white text-center mb-2 px-2 sm:px-4 py-2 w-1/2 rounded-md shadow-md hover:bg-indigo-500 transition-colors"
+                        >
+                          View Details
+                        </Link>
+                      </div>
                       <button
                         onClick={() => {
                           handleLeaveTeam(team._id);
                         }}
-                        className="bg-red-600 text-white px-2 sm:px-4 py-2 rounded-md shadow-md hover:bg-red-500 transition-colors"
+                        className="bg-red-600 text-white px-2 w-full sm:px-4 py-2 rounded-md shadow-md hover:bg-red-500 transition-colors"
                       >
                         Leave Team
                       </button>

@@ -16,161 +16,84 @@ const Admin = () => {
   const [activeSection, setActiveSection] = useState("home");
 
   return (
-    <>
-      <div className="min-h-screen text-white mt-32">
-        <div className="container mx-auto px-4 py-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+    <div className="min-h-screen text-white mt-32">
+      <div className="container mx-auto px-4 py-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {[
+            {
+              label: "Home",
+              icon: <FaHome className="mr-2" />,
+              section: "home",
+            },
+            {
+              label: "All Users",
+              icon: <FaUsers className="mr-2" />,
+              section: "allUsers",
+            },
+            {
+              label: "Upload Resources",
+              icon: <FaUpload className="mr-2" />,
+              section: "uploadResources",
+            },
+            {
+              label: "Delete Resources",
+              icon: <FaTrash className="mr-2" />,
+              section: "deleteResources",
+            },
+            {
+              label: "Upload Code",
+              icon: <FaCode className="mr-2" />,
+              section: "uploadCode",
+            },
+            {
+              label: "Delete Code",
+              icon: <FaTrash className="mr-2" />,
+              section: "deleteCode",
+            },
+            {
+              label: "Upload Hackathon",
+              icon: <img src={award} className="w-6 h-6 mr-2" alt="" />,
+              section: "uploadHackathon",
+            },
+            {
+              label: "Manage Hackathon",
+              icon: <img src={gear} className="w-6 h-6 mr-2" alt="" />,
+              section: "manageHackathon",
+            },
+            {
+              label: "Delete Hackmate",
+              icon: <FaTrash className="mr-2" />,
+              section: "deleteHackmate",
+            },
+          ].map((button, index) => (
             <button
-              onClick={() => setActiveSection("home")}
-              className={`flex items-center justify-center px-6 py-3 text-sm md:text-base lg:text-lg cursor-pointer rounded-lg shadow-md transition-all duration-300 ${
-                activeSection === "home"
-                  ? "bg-indigo-600 text-white shadow-lg"
+              key={index}
+              onClick={() => setActiveSection(button.section)}
+              className={`flex items-center justify-center px-4 py-2 text-sm sm:text-base md:text-lg cursor-pointer rounded-md shadow-md transition-all duration-300 transform hover:scale-105 hover:shadow-lg ${
+                activeSection === button.section
+                  ? "bg-indigo-600 text-white"
                   : "bg-gray-700 hover:bg-gray-600"
               }`}
             >
-              <FaHome className="mr-2" />
-              Home
+              {button.icon}
+              {button.label}
             </button>
-            <button
-              onClick={() => setActiveSection("allUsers")}
-              className={`flex items-center justify-center px-6 py-3 text-sm md:text-base lg:text-lg cursor-pointer rounded-lg shadow-md transition-all duration-300 ${
-                activeSection === "allUsers"
-                  ? "bg-indigo-600 text-white shadow-lg"
-                  : "bg-gray-700 hover:bg-gray-600"
-              }`}
-            >
-              <FaUsers className="mr-2" />
-              All Users
-            </button>
-            <button
-              onClick={() => setActiveSection("uploadResources")}
-              className={`flex items-center justify-center px-6 py-3 text-sm md:text-base lg:text-lg cursor-pointer rounded-lg shadow-md transition-all duration-300 ${
-                activeSection === "uploadResources"
-                  ? "bg-indigo-600 text-white shadow-lg"
-                  : "bg-gray-700 hover:bg-gray-600"
-              }`}
-            >
-              <FaUpload className="mr-2" />
-              Upload Resources
-            </button>
-            <button
-              onClick={() => setActiveSection("deleteResources")}
-              className={`flex items-center justify-center px-6 py-3 text-sm md:text-base lg:text-lg cursor-pointer rounded-lg shadow-md transition-all duration-300 ${
-                activeSection === "deleteResources"
-                  ? "bg-indigo-600 text-white shadow-lg"
-                  : "bg-gray-700 hover:bg-gray-600"
-              }`}
-            >
-              <FaTrash className="mr-2" />
-              Delete Resources
-            </button>
-            <button
-              onClick={() => setActiveSection("uploadCode")}
-              className={`flex items-center justify-center px-6 py-3 text-sm md:text-base lg:text-lg cursor-pointer rounded-lg shadow-md transition-all duration-300 ${
-                activeSection === "uploadCode"
-                  ? "bg-indigo-600 text-white shadow-lg"
-                  : "bg-gray-700 hover:bg-gray-600"
-              }`}
-            >
-              <FaCode className="mr-2" />
-              Upload Code
-            </button>
-            <button
-              onClick={() => setActiveSection("deleteCode")}
-              className={`flex items-center justify-center px-6 py-3 text-sm md:text-base lg:text-lg cursor-pointer rounded-lg shadow-md transition-all duration-300 ${
-                activeSection === "deleteCode"
-                  ? "bg-indigo-600 text-white shadow-lg"
-                  : "bg-gray-700 hover:bg-gray-600"
-              }`}
-            >
-              <FaTrash className="mr-2" />
-              Delete Code
-            </button>
-            <button
-              onClick={() => setActiveSection("uploadHackathon")}
-              className={`flex items-center justify-center px-6 py-3 text-sm md:text-base lg:text-lg cursor-pointer rounded-lg shadow-md transition-all duration-300 ${
-                activeSection === "uploadHackathon"
-                  ? "bg-indigo-600 text-white shadow-lg"
-                  : "bg-gray-700 hover:bg-gray-600"
-              }`}
-            >
-              <img src={award} className="w-6 h-6 mr-2" alt="" />
-              Upload Hackathon
-            </button>
-            <button
-              onClick={() => setActiveSection("manageHackathon")}
-              className={`flex items-center justify-center px-6 py-3 text-sm md:text-base lg:text-lg cursor-pointer rounded-lg shadow-md transition-all duration-300 ${
-                activeSection === "manageHackathon"
-                  ? "bg-indigo-600 text-white shadow-lg"
-                  : "bg-gray-700 hover:bg-gray-600"
-              }`}
-            >
-              <img src={gear} className="w-6 h-6 mr-2  " alt="" />
-              Manage Hackathon
-            </button>
-            <button
-              onClick={() => setActiveSection("deleteHackmate")}
-              className={`flex items-center justify-center px-6 py-3 text-sm md:text-base lg:text-lg cursor-pointer rounded-lg shadow-md transition-all duration-300 ${
-                activeSection === "deleteHackmate"
-                  ? "bg-indigo-600 text-white shadow-lg"
-                  : "bg-gray-700 hover:bg-gray-600"
-              }`}
-            >
-              <FaTrash className="mr-2" />
-              Delete Hackmate
-            </button>
-          </div>
+          ))}
         </div>
-
-        <main className="container mx-auto px-4 py-8">
-          {activeSection === "home" && (
-            <section>
-              <Home />
-            </section>
-          )}
-          {activeSection === "allUsers" && (
-            <section>
-              <AllUsers />
-            </section>
-          )}
-          {activeSection === "uploadResources" && (
-            <section>
-              <ResourcesUpload />
-            </section>
-          )}
-          {activeSection === "deleteResources" && (
-            <section>
-              <ResourcesDelete />
-            </section>
-          )}
-          {activeSection === "uploadCode" && (
-            <section>
-              <CodeUpload />
-            </section>
-          )}
-          {activeSection === "deleteCode" && (
-            <section>
-              <CodeDelete />
-            </section>
-          )}
-          {activeSection === "uploadHackathon" && (
-            <section>
-              <HackathonUpload />
-            </section>
-          )}
-          {activeSection === "manageHackathon" && (
-            <section>
-              <HackathonManage />
-            </section>
-          )}
-          {activeSection === "deleteHackmate" && (
-            <section>
-              <Hackmate />
-            </section>
-          )}
-        </main>
       </div>
-    </>
+
+      <main className="container mx-auto px-4 py-8">
+        {activeSection === "home" && <Home />}
+        {activeSection === "allUsers" && <AllUsers />}
+        {activeSection === "uploadResources" && <ResourcesUpload />}
+        {activeSection === "deleteResources" && <ResourcesDelete />}
+        {activeSection === "uploadCode" && <CodeUpload />}
+        {activeSection === "deleteCode" && <CodeDelete />}
+        {activeSection === "uploadHackathon" && <HackathonUpload />}
+        {activeSection === "manageHackathon" && <HackathonManage />}
+        {activeSection === "deleteHackmate" && <Hackmate />}
+      </main>
+    </div>
   );
 };
 

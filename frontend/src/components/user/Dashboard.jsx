@@ -42,13 +42,13 @@ const Dashboard = () => {
     <>
       <div className="min-h-screen mt-20 text-white">
         <div className="container mx-auto px-4 py-10">
-          <div className="flex flex-col md:flex-row justify-center space-y-4 md:space-x-10 md:space-y-0 text-lg font-semibold mb-8">
+          <div className="flex flex-col md:flex-row justify-center space-y-4 md:space-x-6 md:space-y-0 text-lg font-medium mb-8">
             <button
               className={`${
                 activeTab === "home"
                   ? "bg-blue-600 text-white"
                   : "bg-gray-700 text-gray-300"
-              } py-3 px-6 rounded-lg shadow-lg hover:bg-blue-500 transition-all duration-300 transform hover:scale-105`}
+              } py-2 px-4 rounded-md shadow-md hover:bg-blue-500 transition-all duration-300 transform hover:scale-105`}
               onClick={() => setActiveTab("home")}
             >
               <FaHome className="inline-block mr-2" /> Home
@@ -58,7 +58,7 @@ const Dashboard = () => {
                 activeTab === "hackmate"
                   ? "bg-blue-600 text-white"
                   : "bg-gray-700 text-gray-300"
-              } py-3 px-6 rounded-lg shadow-lg hover:bg-blue-500 transition-all duration-300 transform hover:scale-105`}
+              } py-2 px-4 rounded-md shadow-md hover:bg-blue-500 transition-all duration-300 transform hover:scale-105`}
               onClick={() => setActiveTab("hackmate")}
             >
               <FaHandshake className="inline-block mr-2" /> Hackmate
@@ -68,7 +68,7 @@ const Dashboard = () => {
                 activeTab === "editProfile"
                   ? "bg-blue-600 text-white"
                   : "bg-gray-700 text-gray-300"
-              } py-3 px-6 rounded-lg shadow-lg hover:bg-blue-500 transition-all duration-300 transform hover:scale-105`}
+              } py-2 px-4 rounded-md shadow-md hover:bg-blue-500 transition-all duration-300 transform hover:scale-105`}
               onClick={() => setActiveTab("editProfile")}
             >
               <FaUserEdit className="inline-block mr-2" /> Edit Profile
@@ -78,7 +78,7 @@ const Dashboard = () => {
                 activeTab === "previewProfile"
                   ? "bg-blue-600 text-white"
                   : "bg-gray-700 text-gray-300"
-              } py-3 px-6 rounded-lg shadow-lg hover:bg-blue-500 transition-all duration-300 transform hover:scale-105`}
+              } py-2 px-4 rounded-md shadow-md hover:bg-blue-500 transition-all duration-300 transform hover:scale-105`}
               onClick={() => setActiveTab("previewProfile")}
             >
               <FaEye className="inline-block mr-2" /> Preview Profile
