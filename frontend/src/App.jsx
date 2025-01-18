@@ -130,16 +130,16 @@ function AppRoutes() {
       />
       <Route
         path="/resources/:degree/:branch/:semester/:subject/:type"
-        element={<PdfViewer />}
+        element={<RouteGuard element={<PdfViewer />} />}
       />
       <Route
         path="/resources/:degree/:branch/:semester/:subject/:type/videos"
-        element={<UrlViewer />}
+        element={<RouteGuard element={<UrlViewer />} />}
       />
       <Route path="/code" element={<RouteGuard element={<Code />} />} />
       <Route
         path="/codes/:primaryCategory/:subCategory"
-        element={<CodeViewer />}
+        element={<RouteGuard element={<CodeViewer />} />}
       />
       <Route path="/roadmaps" element={<RouteGuard element={<Roadmaps />} />} />
       <Route
@@ -166,7 +166,10 @@ function AppRoutes() {
       <Route path="/faqs" element={<FAQs />} />
       <Route path="/policy" element={<PrivacyPolicy />} />
       <Route path="/user" element={<RouteGuard element={<User />} />} />
-      <Route path="/user/:id" element={<UserProfile />} />
+      <Route
+        path="/user/:id"
+        element={<RouteGuard element={<UserProfile />} />}
+      />
       <Route path="/terms" element={<TermsAndConditions />} />
       <Route path="/admin" element={<AdminRoute element={<Admin />} />} />
       <Route path="*" element={<PageNotFound />} />

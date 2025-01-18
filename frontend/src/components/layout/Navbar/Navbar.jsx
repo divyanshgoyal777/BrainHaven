@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, Link, useNavigate } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import logo from "../../../assets/img/BrainWaveFaviconNoBackground.png";
 import { useAuth } from "../../../App";
 import axios from "axios";
@@ -44,13 +44,6 @@ const Navbar = () => {
 
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
   const toggleLogoMenu = () => setIsLogoMenu((prev) => !prev);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!isAuthenticated) {
-      newAccounts === true ? navigate("/signup") : navigate("/login");
-    }
-  }, [isAuthenticated, newAccounts, navigate]);
 
   const firstLetter =
     isAuthenticated && userData?.firstName
@@ -71,6 +64,11 @@ const Navbar = () => {
 
   const handleLogout = () => {
     logout();
+    setIsLogoMenu(false);
+  };
+
+  const closeMenu = () => {
+    setIsMenuOpen(false);
     setIsLogoMenu(false);
   };
 
@@ -148,6 +146,10 @@ const Navbar = () => {
                       : "hover:text-white transition-colors duration-300"
                   }
                   aria-label={item}
+                  onClick={(e) => {
+                    closeMenu();
+                    e.stopPropagation();
+                  }}
                 >
                   {item}
                 </NavLink>
@@ -227,6 +229,10 @@ const Navbar = () => {
                         : "hover:text-white transition-colors duration-300"
                     }
                     aria-label={item}
+                    onClick={(e) => {
+                      closeMenu();
+                      e.stopPropagation();
+                    }}
                   >
                     {item}
                   </NavLink>
@@ -270,6 +276,10 @@ const Navbar = () => {
                         isActive ? "text-white" : ""
                       }`
                     }
+                    onClick={(e) => {
+                      closeMenu();
+                      e.stopPropagation();
+                    }}
                   >
                     Admin
                   </NavLink>
@@ -294,6 +304,10 @@ const Navbar = () => {
                       isActive ? "text-white" : ""
                     }`
                   }
+                  onClick={(e) => {
+                    closeMenu();
+                    e.stopPropagation();
+                  }}
                 >
                   Dashboard
                 </NavLink>
@@ -309,6 +323,10 @@ const Navbar = () => {
                       isActive ? "text-white" : ""
                     }`
                   }
+                  onClick={(e) => {
+                    closeMenu();
+                    e.stopPropagation();
+                  }}
                 >
                   Resources
                 </NavLink>
@@ -324,6 +342,10 @@ const Navbar = () => {
                       isActive ? "text-white" : ""
                     }`
                   }
+                  onClick={(e) => {
+                    closeMenu();
+                    e.stopPropagation();
+                  }}
                 >
                   Code
                 </NavLink>
@@ -343,6 +365,10 @@ const Navbar = () => {
                       isActive ? "text-white" : ""
                     }`
                   }
+                  onClick={(e) => {
+                    closeMenu();
+                    e.stopPropagation();
+                  }}
                 >
                   Roadmaps
                 </NavLink>
@@ -362,6 +388,10 @@ const Navbar = () => {
                       isActive ? "text-white" : ""
                     }`
                   }
+                  onClick={(e) => {
+                    closeMenu();
+                    e.stopPropagation();
+                  }}
                 >
                   Hackathon
                 </NavLink>
@@ -381,6 +411,10 @@ const Navbar = () => {
                       isActive ? "text-white" : ""
                     }`
                   }
+                  onClick={(e) => {
+                    closeMenu();
+                    e.stopPropagation();
+                  }}
                 >
                   Hackmate
                 </NavLink>
@@ -399,6 +433,10 @@ const Navbar = () => {
                       isActive ? "text-white" : ""
                     }`
                   }
+                  onClick={(e) => {
+                    closeMenu();
+                    e.stopPropagation();
+                  }}
                 >
                   FAQs
                 </NavLink>
@@ -414,6 +452,10 @@ const Navbar = () => {
                       isActive ? "text-white" : ""
                     }`
                   }
+                  onClick={(e) => {
+                    closeMenu();
+                    e.stopPropagation();
+                  }}
                 >
                   Privacy Policy
                 </NavLink>
@@ -429,6 +471,10 @@ const Navbar = () => {
                       isActive ? "text-white" : ""
                     }`
                   }
+                  onClick={(e) => {
+                    closeMenu();
+                    e.stopPropagation();
+                  }}
                 >
                   Terms and Condition
                 </NavLink>

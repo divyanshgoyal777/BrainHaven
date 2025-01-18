@@ -1,6 +1,10 @@
 import React from "react";
+import Navbar from "../layout/Navbar/Navbar";
+import Footer from "../layout/Footer/Footer";
+import { useAuth } from "../../App";
 
 const FAQs = () => {
+  const { isAuthenticated } = useAuth();
   const faqs = [
     {
       question: "What is Brainwave?",
@@ -51,6 +55,7 @@ const FAQs = () => {
 
   return (
     <>
+      {!isAuthenticated && <Navbar />}
       <div className="min-h-screen bg-gray-900 text-white px-6 py-10">
         <div className="max-w-6xl mx-auto mt-20">
           <h1 className="text-5xl font-bold text-center mb-12">
@@ -73,6 +78,7 @@ const FAQs = () => {
           </div>
         </div>
       </div>
+      {!isAuthenticated && <Footer />}
     </>
   );
 };
