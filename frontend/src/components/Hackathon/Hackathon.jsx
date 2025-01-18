@@ -33,7 +33,7 @@ const Hackathon = () => {
 
   return (
     <div>
-      <div className="container mx-auto px-4 py-1 mt-24 mb-10">
+      <div className="container mx-auto px-4 py-1 mt-24 mb-10 ">
         <h2 className="bg-gradient-to-tl from-indigo-600 to-purple-600 bg-clip-text text-transparent text-3xl md:text-4xl font-extrabold text-center drop-shadow-lg my-10">
           Hackathons
         </h2>
@@ -41,7 +41,7 @@ const Hackathon = () => {
           {hackathons.map((hackathon) => (
             <div
               key={hackathon.id}
-              className="bg-gradient-to-r from-gray-800 via-gray-900 to-slate-950 text-white rounded-xl shadow-lg hover:shadow-2xl transition-all transform hover:scale-105 p-8"
+              className="bg-gradient-to-r from-slate-950 via-gray-900 to-gray-800 text-white rounded-xl shadow-lg hover:shadow-2xl transition-all transform hover:scale-105 p-8"
             >
               <h2 className="text-2xl font-semibold">{hackathon.name}</h2>
               <p className="text-sm text-gray-400 mt-2">

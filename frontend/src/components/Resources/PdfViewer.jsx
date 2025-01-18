@@ -20,13 +20,13 @@ const PdfViewer = () => {
         <h2 className="bg-gradient-to-tl from-indigo-600 to-purple-600 bg-clip-text text-transparent text-3xl md:text-4xl font-extrabold text-center drop-shadow-lg my-10">
           Resource PDF
         </h2>
-        <div className="flex flex-col items-center gap-5">
+        <div className="flex flex-col items-center gap-3 sm:gap-5">
           {pdfUrls.map((url, index) => (
-            <div key={index} className="w-full max-w-4xl">
+            <div key={index} className=" w-[90%] sm:w-full max-w-4xl">
               <img
                 src={url}
                 title={`Resource PDF - Page ${index + 1}`}
-                className="w-full h-auto rounded-lg shadow-lg"
+                className="w-full h-auto sm:h-auto rounded-lg shadow-lg"
               />
             </div>
           ))}

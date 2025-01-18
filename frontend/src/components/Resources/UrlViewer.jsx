@@ -24,12 +24,12 @@ const UrlViewer = () => {
         <h1 className="bg-gradient-to-tl from-indigo-600 to-purple-600 bg-clip-text text-transparent text-3xl md:text-4xl font-extrabold text-center drop-shadow-lg my-10">
           Tutorial Video Links
         </h1>
-        <div className="flex flex-col items-center gap-6">
+        <div className="flex flex-col items-center gap-12 sm:gap-10">
           {videoLinks.length > 0 ? (
             videoLinks.map((link, index) => (
               <div
                 key={index}
-                className="w-full max-w-3xl border border-gray-700 rounded-lg overflow-hidden shadow-lg"
+                className="sm:max-w-3xl w-[90%]  rounded-lg overflow-hidden shadow-lg"
               >
                 <iframe
                   src={link}
@@ -38,7 +38,7 @@ const UrlViewer = () => {
                   height="415"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
-                  className="rounded-lg"
+                  className="rounded-lg h-[200px] sm:h-[415px]"
                 ></iframe>
               </div>
             ))

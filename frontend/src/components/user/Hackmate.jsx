@@ -237,10 +237,10 @@ const Hackmate = () => {
   }
 
   return (
-    <div className="min-h-screen text-white rounded-lg px-4 py-8">
+    <div className="min-h-screen text-white rounded-lg px-2 sm:px-4 py-8">
       <div className="my-5">
-        <div className="flex justify-between items-center mb-10">
-          <h1 className="text-3xl font-bold mb-6">Your Hackmate</h1>
+        <div className="flex flex-col sm:flex-row justify-between items-center mb-10">
+          <h1 className="text-3xl font-bold mb-6">Your Created Hackmate</h1>
           <Link to="/hackmate/createTeam">
             <button className="px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-md hover:scale-105 hover:shadow-lg transform transition duration-300 ease-in-out">
               Create a Team
@@ -347,7 +347,7 @@ const Hackmate = () => {
             You have no team. Create a new one!
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {teams.map((team) => (
               <div
                 key={team._id}
@@ -404,14 +404,14 @@ const Hackmate = () => {
                 <div className="flex justify-between items-center">
                   <Link
                     to={`/hackmate/team/${team._id}`}
-                    className="bg-indigo-600 text-white px-4 py-2 rounded-md shadow-md hover:bg-indigo-500 transition-colors"
+                    className="bg-indigo-600 text-white px-2 sm:px-4 py-2 rounded-md shadow-md hover:bg-indigo-500 transition-colors"
                   >
                     View Details
                   </Link>
 
                   <Link
                     to={`/hackmate/chat/${team._id}`}
-                    className="bg-green-600 text-white px-4 py-2 rounded-md shadow-md hover:bg-green-500 transition-colors"
+                    className="bg-green-600 text-white px-2 sm:px-4 py-2 rounded-md shadow-md hover:bg-green-500 transition-colors"
                   >
                     Chat
                   </Link>
@@ -421,7 +421,7 @@ const Hackmate = () => {
                       setConfirm(true);
                       setTeamToDelete(team._id);
                     }}
-                    className="bg-red-600 text-white px-4 py-2 rounded-md shadow-md hover:bg-red-500 transition-colors"
+                    className="bg-red-600 text-white px-2 sm:px-4 py-2 rounded-md shadow-md hover:bg-red-500 transition-colors"
                   >
                     Delete Team
                   </button>
@@ -515,14 +515,14 @@ const Hackmate = () => {
                     <div className="flex justify-between items-center">
                       <Link
                         to={`/hackmate/team/${team._id}`}
-                        className="bg-indigo-600 text-white px-4 py-2 rounded-md shadow-md hover:bg-indigo-500 transition-colors"
+                        className="bg-indigo-600 text-white px-2 sm:px-4 py-2 rounded-md shadow-md hover:bg-indigo-500 transition-colors"
                       >
                         View Details
                       </Link>
 
                       <Link
                         to={`/hackmate/chat/${team._id}`}
-                        className="bg-green-600 text-white px-4 py-2 rounded-md shadow-md hover:bg-green-500 transition-colors"
+                        className="bg-green-600 text-white px-2 sm:px-4 py-2 rounded-md shadow-md hover:bg-green-500 transition-colors"
                       >
                         Chat
                       </Link>
@@ -531,7 +531,7 @@ const Hackmate = () => {
                         onClick={() => {
                           handleLeaveTeam(team._id);
                         }}
-                        className="bg-red-600 text-white px-4 py-2 rounded-md shadow-md hover:bg-red-500 transition-colors"
+                        className="bg-red-600 text-white px-2 sm:px-4 py-2 rounded-md shadow-md hover:bg-red-500 transition-colors"
                       >
                         Leave Team
                       </button>

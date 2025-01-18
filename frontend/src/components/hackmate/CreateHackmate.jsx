@@ -30,6 +30,20 @@ const CreateHackmate = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (
+      !hackmateData.title ||
+      !hackmateData.description ||
+      !hackmateData.maxSize ||
+      hackmateData.skillsRequired.length === 0 ||
+      !hackmateData.lookingFor ||
+      !hackmateData.teamNeeds ||
+      !formData.firstName ||
+      !formData.lastName
+    ) {
+      toast.error("Please fill out all the required fields!");
+      return;
+    }
+
     const combinedName = `${formData.firstName} ${formData.lastName}`;
     const payload = { ...hackmateData, name: combinedName };
 
@@ -116,6 +130,7 @@ const CreateHackmate = () => {
                 name="title"
                 value={hackmateData.title}
                 onChange={handleChange}
+                placeholder="Enter Team Title"
                 className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
@@ -132,6 +147,7 @@ const CreateHackmate = () => {
                 name="description"
                 value={hackmateData.description}
                 onChange={handleChange}
+                placeholder="Enter Team Description"
                 className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
@@ -174,6 +190,7 @@ const CreateHackmate = () => {
                       .map((skill) => skill.trim()),
                   })
                 }
+                placeholder="Enter Skills Required"
                 className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
@@ -190,6 +207,7 @@ const CreateHackmate = () => {
                 name="lookingFor"
                 value={hackmateData.lookingFor}
                 onChange={handleChange}
+                placeholder="Enter What You're Looking For"
                 className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
@@ -206,6 +224,7 @@ const CreateHackmate = () => {
                 name="teamNeeds"
                 value={hackmateData.teamNeeds}
                 onChange={handleChange}
+                placeholder="Enter Team Needs"
                 className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>

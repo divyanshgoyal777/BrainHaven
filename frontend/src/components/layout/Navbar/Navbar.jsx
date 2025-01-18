@@ -110,7 +110,7 @@ const Navbar = () => {
           <button onClick={toggleMenu} className="text-white">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className={`w-6 h-6 transition-transform duration-300 ${
+              className={`w-10 h-10 transition-transform duration-300 ${
                 isMenuOpen ? "rotate-90" : ""
               }`}
               fill="none"
