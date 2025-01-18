@@ -32,7 +32,7 @@ router.post("/signup", async (req, res) => {
     });
 
     await newUser.save();
-    sendMail(email, "Welcome to BrainWave!", "accountCreated", {
+    sendMail(email, "Welcome to BrainHaven!", "accountCreated", {
       firstName,
       lastName,
     });

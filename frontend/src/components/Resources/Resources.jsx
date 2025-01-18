@@ -9,7 +9,7 @@ const Resources = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = "BrainWave - Resource";
+    document.title = "BrainHaven - Resource";
   }, []);
 
   const [selectedOptions, setSelectedOptions] = useState({

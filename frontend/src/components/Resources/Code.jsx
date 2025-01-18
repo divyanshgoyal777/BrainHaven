@@ -12,6 +12,10 @@ const Code = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    document.title = "BrainHaven - Code";
+  }, []);
+
+  useEffect(() => {
     const fetchCategories = async () => {
       setIsFetchingCategories(true);
       try {

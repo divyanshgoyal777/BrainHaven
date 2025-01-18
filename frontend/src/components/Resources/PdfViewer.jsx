@@ -1,4 +1,5 @@
 import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 const PdfViewer = () => {
   const location = useLocation();
@@ -13,6 +14,10 @@ const PdfViewer = () => {
       </p>
     );
   }
+
+  useEffect(() => {
+    document.title = "BrainHaven - Resources Viewer";
+  }, []);
 
   return (
     <div>

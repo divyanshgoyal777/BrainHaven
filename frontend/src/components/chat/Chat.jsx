@@ -6,7 +6,7 @@ import io from "socket.io-client";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
-import BrainWaveFaviconNoBackground from "../../assets/img/BrainWaveFaviconNoBackground.png";
+import BrainHavenFaviconNoBackground from "../../assets/img/BrainHavenFaviconNoBackground.png";
 
 const socket = io(`${import.meta.env.VITE_API_BASE_URL}`);
 
@@ -133,12 +133,12 @@ const Chat = ({ isOpen, toggleChat }) => {
     >
       <div className="bg-gray-800 text-white p-4 flex items-center justify-between rounded-t-lg">
         <img
-          src={BrainWaveFaviconNoBackground}
-          alt="BrainWave Logo"
+          src={BrainHavenFaviconNoBackground}
+          alt="BrainHaven Logo"
           width={30}
         />
         <h3 className="text-lg font-bold bg-gradient-to-tl from-indigo-600 to-purple-600 bg-clip-text text-transparent ">
-          BrainWave Chat
+          BrainHaven Chat
         </h3>
         <IoMdClose
           size={24}

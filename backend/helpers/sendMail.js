@@ -10,7 +10,7 @@ const templates = {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome to BrainWave</title>
+  <title>Welcome to BrainHaven</title>
   <style>
     body {
       font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -85,26 +85,25 @@ const templates = {
 <body>
   <div class="email-container">
     <div class="header">
-      BrainWave
+      BrainHaven
     </div>
     <div class="content">
-      <h2>Welcome, {{firstName}}!</h2>
-      <p>Dear {{firstName}} {{lastName}},</p>
-      <p>
-        Your account on <strong>BrainWave – Ignite Your Tech Journey</strong> has been created successfully!
-        We're thrilled to have you join us on this exciting journey. Explore expertly curated coding roadmaps, stay updated on hackathons, and access a wealth of learning resources tailored for tech enthusiasts like you.
-      </p>
-      <p>If you have any questions, our support team is here to help.</p>
-      <a href="https://brainwave.example.com/login" class="cta-button">Login to Your Account</a>
-    </div>
-    <div class="footer">
-      <p>© 2025 BrainWave. All rights reserved.</p>
-      <p>
-        Visit our website: 
-        <a href="https://brainwave.example.com">BrainWave</a>
-      </p>
-    </div>
-  </div>
+  <h2>Welcome, {{firstName}}!</h2>
+  <p>Hi {{firstName}} {{lastName}},</p>
+  <p>
+    Your account on <strong>BrainHaven – Ignite Your Tech Journey</strong> is now live!
+    We're excited to have you on board as you dive into our vast library of coding resources, detailed roadmaps, hackathon updates, and more. Explore the tools that will elevate your tech journey and join like-minded innovators in our HackMate community, where you can create teams, collaborate, and chat with teammates.
+  </p>
+  <p>If you have any questions, our support team is always here to assist you.</p>
+  <a href="https://brainhaven.in/login" class="cta-button">Login and Start Exploring</a>
+</div>
+<div class="footer">
+  <p>© 2025 BrainHaven. All rights reserved.</p>
+  <p>
+    Discover more: 
+    <a href="https://brainhaven.in">BrainHaven</a>
+  </p>
+</div>
 </body>
 </html>
   `,
@@ -115,7 +114,7 @@ const transporter = nodemailer.createTransport({
   port: 465,
   secure: true,
   auth: {
-    user: "777divyanshgoyal@gmail.com",
+    user: "brainhaven777@gmail.com",
     pass: process.env.SMTP_EMAIL_PASS,
   },
 });
@@ -130,7 +129,7 @@ async function sendMail(to, subject, templateName, variables) {
   const html = template(variables);
 
   const info = await transporter.sendMail({
-    from: '"BrainWave" <777divyanshgoyal@gmail.com>',
+    from: '"BrainHaven" <brainhaven777@gmail.com>',
     to,
     subject,
     html,

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Roadmaps = () => {
   useEffect(() => {
-    document.title = "BrainWave - Roadmaps";
+    document.title = "BrainHaven - Roadmaps";
   }, []);
 
   const careerPaths = [

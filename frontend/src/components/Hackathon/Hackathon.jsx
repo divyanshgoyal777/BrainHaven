@@ -31,6 +31,11 @@ const Hackathon = () => {
     return `${day}-${month}-${year}`;
   };
 
+    useEffect(() => {
+      document.title = "BrainHaven - Hackathon";
+    }, []);
+
+
   return (
     <div>
       <div className="container mx-auto px-4 py-1 mt-24 mb-10 ">

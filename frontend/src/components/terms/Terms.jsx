@@ -15,7 +15,7 @@ const TermsAndConditions = () => {
           </h1>
           <div className="bg-gray-800 p-8 rounded-lg shadow-lg">
             <p className="text-lg mb-8">
-              By accessing and using Brainwave, you agree to comply with the
+              By accessing and using BrainHaven, you agree to comply with the
               following Terms and Conditions. Please read them carefully before
               using the platform.
             </p>
@@ -24,7 +24,7 @@ const TermsAndConditions = () => {
               1. Use of Service
             </h2>
             <p className="text-gray-300 leading-relaxed mb-6">
-              You agree to use Brainwave only for lawful purposes and in a
+              You agree to use BrainHaven only for lawful purposes and in a
               manner that does not infringe the rights of others or restrict
               their use of the platform. Prohibited activities include, but are
               not limited to:
@@ -41,22 +41,10 @@ const TermsAndConditions = () => {
             </p>
 
             <h2 className="text-3xl font-semibold mt-8 mb-4">
-              2. Intellectual Property
+              2. Limitation of Liability
             </h2>
             <p className="text-gray-300 leading-relaxed mb-6">
-              All content, including text, images, logos, and software, found on
-              Brainwave is owned by Brainwave or its licensors and is protected
-              by intellectual property laws. You are granted a limited,
-              non-exclusive license to access and use the platform solely for
-              personal, non-commercial purposes. Unauthorized reproduction,
-              distribution, or modification of content is prohibited.
-            </p>
-
-            <h2 className="text-3xl font-semibold mt-8 mb-4">
-              3. Limitation of Liability
-            </h2>
-            <p className="text-gray-300 leading-relaxed mb-6">
-              Brainwave is not responsible for any damages, including but not
+              BrainHaven is not responsible for any damages, including but not
               limited to, loss of data, business interruption, or any other
               indirect, incidental, special, or consequential damages arising
               from the use or inability to use the platform, even if we have
@@ -64,7 +52,7 @@ const TermsAndConditions = () => {
             </p>
 
             <h2 className="text-3xl font-semibold mt-8 mb-4">
-              4. Changes to Terms
+              3. Changes to Terms
             </h2>
             <p className="text-gray-300 leading-relaxed mb-6">
               We reserve the right to update or modify these Terms and
@@ -75,10 +63,10 @@ const TermsAndConditions = () => {
             </p>
 
             <h2 className="text-3xl font-semibold mt-8 mb-4">
-              5. Termination of Account
+              4. Termination of Account
             </h2>
             <p className="text-gray-300 leading-relaxed mb-6">
-              Brainwave reserves the right to suspend or terminate your account
+              BrainHaven reserves the right to suspend or terminate your account
               and access to the platform if you violate these Terms and
               Conditions. In the event of termination, you must immediately
               cease using the platform and any content you have downloaded or
@@ -86,31 +74,24 @@ const TermsAndConditions = () => {
             </p>
 
             <h2 className="text-3xl font-semibold mt-8 mb-4">
-              6. Privacy and Data Collection
+              5. Privacy and Data Collection
             </h2>
             <p className="text-gray-300 leading-relaxed mb-6">
-              Your use of Brainwave is also governed by our Privacy Policy,
+              Your use of BrainHaven is also governed by our Privacy Policy,
               which outlines how we collect, use, and protect your personal
               data. Please review our Privacy Policy for more details on how we
               handle your information.
             </p>
 
-            <h2 className="text-3xl font-semibold mt-8 mb-4">
-              7. Governing Law
-            </h2>
-            <p className="text-gray-300 leading-relaxed mb-6">
-              These Terms and Conditions shall be governed by and construed in
-              accordance with the laws of the jurisdiction in which Brainwave
-              operates. Any disputes arising from these terms shall be subject
-              to the exclusive jurisdiction of the courts in that jurisdiction.
-            </p>
-
-            <h2 className="text-3xl font-semibold mt-8 mb-4">8. Contact Us</h2>
+            <h2 className="text-3xl font-semibold mt-8 mb-4">6. Contact Us</h2>
             <p className="text-gray-300 leading-relaxed mb-6">
               If you have any questions regarding these Terms and Conditions,
               please contact us at{" "}
-              <a href="mailto:support@brainwave.com" className="text-blue-400">
-                support@brainwave.com
+              <a
+                href="mailto:brainhaven777@gmail.com"
+                className="text-blue-400"
+              >
+                brainhaven777@gmail.com
               </a>
               .
             </p>

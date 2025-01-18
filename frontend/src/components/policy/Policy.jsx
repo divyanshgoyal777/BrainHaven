@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "../layout/Navbar/Navbar";
 import Footer from "../layout/Footer/Footer";
 import { useAuth } from "../../App";
 
 const PrivacyPolicy = () => {
   const { isAuthenticated } = useAuth();
+
+  useEffect(() => {
+    document.title = "BrainHaven - Policy";
+  }, []);
+
   return (
     <>
       {!isAuthenticated && <Navbar />}
@@ -15,7 +20,7 @@ const PrivacyPolicy = () => {
           </h1>
           <div className="bg-gray-800 p-8 rounded-lg shadow-lg">
             <p className="text-lg mb-8">
-              Welcome to Brainwave! Your privacy is important to us. This
+              Welcome to BrainHaven! Your privacy is important to us. This
               Privacy Policy outlines how we collect, use, and protect your
               information.
             </p>
@@ -24,12 +29,9 @@ const PrivacyPolicy = () => {
               1. Information We Collect
             </h2>
             <p className="text-gray-300 leading-relaxed mb-6">
-              - **Personal Information:** When you sign up or use our platform,
-              we collect personal details such as your name, email address, and
-              account information. <br />- **Usage Data:** We also collect
-              non-personal information about how you interact with our platform,
-              such as browsing activity, IP addresses, device types, and
-              referring URLs.
+              Personal Information: When you sign up or use our platform, we
+              collect personal details such as your name, email address, and
+              account information.
             </p>
 
             <h2 className="text-3xl font-semibold mt-8 mb-4">
@@ -93,8 +95,40 @@ const PrivacyPolicy = () => {
             <p className="text-gray-300 leading-relaxed mb-6">
               If you have any questions, concerns, or requests regarding your
               privacy or this policy, please feel free to contact us at{" "}
-              <a href="mailto:support@brainwave.com" className="text-blue-400">
-                support@brainwave.com
+              <a
+                href="mailto:brainhaven777@gmail.com"
+                className="text-blue-400"
+              >
+                brainhaven777@gmail.com
+              </a>
+              .
+            </p>
+
+            <h2 className="text-3xl font-semibold mt-8 mb-4">
+              8. Third-Party Services
+            </h2>
+            <p className="text-gray-300 leading-relaxed mb-6">
+              We use third-party services, such as Google Analytics, to help us
+              analyze how users interact with our platform. These services may
+              collect information such as your IP address, browser type, and
+              device details. The information gathered by these services is used
+              to improve our platform's performance and user experience.
+            </p>
+            <h2 className="text-3xl font-semibold mt-8 mb-4">
+              9. Google Analytics
+            </h2>
+            <p className="text-gray-300 leading-relaxed mb-6">
+              Google Analytics is a web analytics service provided by Google,
+              Inc. Google Analytics uses cookies to collect data about your
+              usage of our platform. The information collected by these cookies
+              is anonymized and used to evaluate trends, track users’ movement
+              across the platform, and generate reports. You can learn more
+              about Google Analytics' data practices by visiting their{" "}
+              <a
+                href="https://www.google.com/analytics/learn/privacy.html"
+                className="text-blue-400"
+              >
+                Privacy Policy
               </a>
               .
             </p>
@@ -103,11 +137,10 @@ const PrivacyPolicy = () => {
               7. Changes to This Policy
             </h2>
             <p className="text-gray-300 leading-relaxed mb-6">
-              Brainwave reserves the right to update or modify this Privacy
-              Policy at any time. Any changes will be posted on this page, and
-              the "Last Updated" date will be revised accordingly. We encourage
-              you to review this page periodically to stay informed about how we
-              protect your data.
+              BrainHaven reserves the right to update or modify this Privacy
+              Policy at any time. Any changes will be posted on this page. We
+              encourage you to review this page periodically to stay informed
+              about how we protect your data.
             </p>
           </div>
         </div>

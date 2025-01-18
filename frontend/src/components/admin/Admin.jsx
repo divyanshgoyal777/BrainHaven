@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaUpload, FaHome, FaUsers, FaCode, FaTrash } from "react-icons/fa";
 import Home from "./home/Home";
 import AllUsers from "./user/AllUsers";
@@ -14,6 +14,10 @@ import gear from "../../assets/svg/gear.svg";
 
 const Admin = () => {
   const [activeSection, setActiveSection] = useState("home");
+
+  useEffect(() => {
+    document.title = "BrainHaven - Admin";
+  }, []);
 
   return (
     <div className="min-h-screen text-white mt-32">

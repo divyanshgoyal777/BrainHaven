@@ -110,6 +110,11 @@ const CreateHackmate = () => {
     fetchData();
   }, [userEmail]);
 
+    useEffect(() => {
+      document.title = "BrainHaven - Create Hackmate";
+    }, []);
+
+
   return (
     <>
       <div className="container mx-auto px-4 py-1 mt-24 mb-10">

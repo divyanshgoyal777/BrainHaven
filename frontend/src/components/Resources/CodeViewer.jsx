@@ -27,7 +27,7 @@ const CodeViewer = () => {
           }
         );
         setCodeData(response.data);
-
+        document.title = `BrainHaven - Code for ${response.data[0].primaryCategory + " " + response.data[0].subCategory}`;
         const initialSelectedLanguages = {};
         response.data.forEach((data) => {
           data.codeItems.forEach((codeItem) => {

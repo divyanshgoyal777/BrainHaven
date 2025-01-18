@@ -13,6 +13,10 @@ const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { userEmail } = useAuth();
 
+    useEffect(() => {
+      document.title = "BrainHaven - Dashboard";
+    }, []);
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     const fetchData = async () => {

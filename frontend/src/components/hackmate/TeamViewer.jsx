@@ -33,6 +33,7 @@ const TeamViewer = () => {
           }
         );
         setTeamData(response.data);
+        document.title = `BrainHaven - ${response.data.title}`;
         setAdminId(response.data.admin);
       } catch (error) {
         console.error("Error fetching team data:", error);

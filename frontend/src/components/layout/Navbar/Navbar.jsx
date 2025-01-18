@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { NavLink, Link } from "react-router-dom";
-import logo from "../../../assets/img/BrainWaveFaviconNoBackground.png";
+import logo from "../../../assets/img/BrainHavenFaviconNoBackground.png";
 import { useAuth } from "../../../App";
 import axios from "axios";
 import logOut from "../../../assets/svg/logout.svg";
@@ -500,7 +500,7 @@ const Navbar = () => {
             </ul>
             <div className="bg-gradient-to-r from-transparent via-white to-transparent w-full h-[1px] mt-6 my-4"></div>
             <div className="text-sm text-gray-400 text-center">
-              &copy; {new Date().getFullYear()} BrainWave, All rights reserved.
+              &copy; {new Date().getFullYear()} BrainHaven, All rights reserved.
             </div>
           </div>
         </>

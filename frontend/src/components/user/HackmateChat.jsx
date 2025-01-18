@@ -41,6 +41,10 @@ const HackmateChat = () => {
   };
 
   useEffect(() => {
+    document.title = "BrainHaven - Hackmate Chat";
+  }, []);
+
+  useEffect(() => {
     const fetchUserId = async () => {
       const token = localStorage.getItem("token");
       if (!userEmail || !token) return;

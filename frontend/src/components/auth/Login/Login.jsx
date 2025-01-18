@@ -42,8 +42,9 @@ const Login = () => {
       setLoading(false);
     }
   };
+  
   useEffect(() => {
-    document.title = "BrainWave - Log In";
+    document.title = "BrainHaven - Log In";
   }, []);
 
   return (

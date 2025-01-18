@@ -21,21 +21,29 @@ const UserProfile = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    axios
-      .get(`${import.meta.env.VITE_API_BASE_URL}/api/user/userProfile/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        setUser(res.data);
+    const fetchUserProfile = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_BASE_URL}/api/user/userProfile/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        setUser(response.data);
+        document.title = `BrainHaven - ${response.data.firstName} ${response.data.lastName}`;
         setLoading(false);
-      })
-      .catch(() => {
+      } catch (error) {
         setError("Failed to load user profile.");
         setLoading(false);
-      });
+        console.error("Error fetching user profile:", error);
+      }
+    };
+
+    fetchUserProfile();
   }, [id]);
 
   const generateInitials = (firstName) => {

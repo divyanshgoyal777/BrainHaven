@@ -56,6 +56,11 @@ const Hackmate = () => {
     setFilteredData(filteredTeams);
   };
 
+    useEffect(() => {
+      document.title = "BrainHaven - Hackmate";
+    }, []);
+
+
   return (
     <>
       <div className="container mx-auto px-4 py-1 mt-24 mb-10">

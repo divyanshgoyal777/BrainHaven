@@ -45,7 +45,7 @@ function Signup() {
   };
 
   useEffect(() => {
-    document.title = "BrainWave - Sign Up";
+    document.title = "BrainHaven - Sign Up";
   }, []);
 
   return (

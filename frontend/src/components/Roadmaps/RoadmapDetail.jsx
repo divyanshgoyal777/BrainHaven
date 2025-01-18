@@ -7,6 +7,10 @@ const RoadmapDetails = () => {
   const [roadmap, setRoadmap] = useState(null);
   const [error, setError] = useState(null);
 
+    useEffect(() => {
+      document.title = "BrainHaven - Roadmaps";
+    }, []);
+
   useEffect(() => {
     const fetchRoadmap = async () => {
       try {

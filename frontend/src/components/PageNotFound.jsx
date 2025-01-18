@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaHome } from "react-icons/fa";
 
 function PageNotFound() {
+
+useEffect(() => {
+  document.title = "BrainHaven - Page Not Found";
+}, []);
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-gray-100">
       <div className="text-center p-8">

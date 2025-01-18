@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { useLocation } from "react-router-dom";
 
 const UrlViewer = () => {
@@ -17,6 +17,10 @@ const UrlViewer = () => {
   } catch (error) {
     console.error("Invalid videoLinks format:", error);
   }
+
+    useEffect(() => {
+      document.title = "BrainHaven - URL Viewer";
+    }, []);
 
   return (
     <>
