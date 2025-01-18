@@ -215,6 +215,8 @@ const CodeUpload = () => {
       "Matrix Decomposition",
       "Hashing with Chaining",
       "Hashing with Open Addressing",
+      "Bank Management System",
+      "Library Management System",
     ],
     "Programming Languages": [
       "Python",
