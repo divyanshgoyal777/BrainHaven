@@ -189,6 +189,35 @@ const User = () => {
     e.preventDefault();
     const token = localStorage.getItem("token");
 
+    const incompleteProjects = formData.projects.some(
+      (project) =>
+        !project.title.trim() ||
+        !project.description.trim() ||
+        !project.link.trim()
+    );
+
+    const incompleteExperience = formData.experience.some(
+      (exp) =>
+        !exp.companyName.trim() ||
+        !exp.role.trim() ||
+        !exp.duration.trim() ||
+        !exp.description.trim()
+    );
+
+    if (incompleteProjects) {
+      toast.error(
+        "Please fill in all project details or remove incomplete projects."
+      );
+      return;
+    }
+
+    if (incompleteExperience) {
+      toast.error(
+        "Please fill in all experience details or remove incomplete experience."
+      );
+      return;
+    }
+
     const errors = validateForm();
     if (errors.length > 0) {
       errors.forEach((err) => toast.error(err));
@@ -405,14 +434,16 @@ const User = () => {
 
             <div className="bg-gradient-to-r from-transparent via-white to-transparent w-full h-[1px] my-4"></div>
 
-            <div className="p-4 bg-gray-800 rounded-lg shadow-lg text-sm space-y-4 md:text-base md:space-y-6 max-w-md mx-auto">
+            <div className="p-4 bg-gray-800 rounded-lg shadow-lg text-sm space-y-4 md:text-base md:space-y-6 w-full mx-auto">
               <h3 className="text-lg text-center font-semibold text-white md:text-xl">
                 Achievements
               </h3>
-              <ul className="list-disc pl-5 space-y-2 text-gray-300">
+              <ul className="list-disc pl-5 space-y-2 text-gray-300 w-full">
                 {userData.achievements && userData.achievements.length > 0
                   ? userData.achievements.map((achievement, index) => (
-                      <li key={index}>{achievement}</li>
+                      <li key={index} className="break-words">
+                        {achievement}
+                      </li>
                     ))
                   : "No achievements provided"}
               </ul>

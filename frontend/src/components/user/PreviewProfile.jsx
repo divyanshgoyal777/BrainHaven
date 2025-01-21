@@ -148,47 +148,23 @@ const PreviewProfile = ({ userId }) => {
 
         <section className="bg-gradient-to-r from-gray-800 to-gray-700 rounded-lg shadow-lg p-6 mb-8 transform transition-all duration-300 hover:scale-105 hover:shadow-xl">
           <h2 className="text-2xl font-bold border-b border-gray-600 pb-2 mb-4 text-purple-400 relative">
-            Social Links
+            Skills
             <span className="absolute inset-x-0 -bottom-1 h-1 bg-gradient-to-r from-purple-400 to-blue-500 rounded-full animate-pulse"></span>
           </h2>
-          {!user.socialLinks.instagram &&
-          !user.socialLinks.linkedIn &&
-          !user.socialLinks.github ? (
-            <p className="text-gray-300 italic">No social links provided</p>
-          ) : (
-            <div className="flex space-x-6 text-3xl">
-              {user.socialLinks.instagram && (
-                <a
-                  href={user.socialLinks.instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-pink-500 hover:text-white transition duration-300 transform hover:scale-110"
+          <div className="flex flex-wrap gap-2 text-gray-300">
+            {user.skills && user.skills.length > 0 ? (
+              user.skills.map((skill, index) => (
+                <span
+                  key={index}
+                  className="px-3 py-1 bg-gradient-to-r from-blue-500 to-purple-500 text-sm rounded-full text-white shadow-md hover:scale-105 transform transition-all duration-200"
                 >
-                  <FaInstagram />
-                </a>
-              )}
-              {user.socialLinks.linkedIn && (
-                <a
-                  href={user.socialLinks.linkedIn}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 hover:text-white transition duration-300 transform hover:scale-110"
-                >
-                  <FaLinkedin />
-                </a>
-              )}
-              {user.socialLinks.github && (
-                <a
-                  href={user.socialLinks.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-600 hover:text-white transition duration-300 transform hover:scale-110"
-                >
-                  <FaGithubSquare />
-                </a>
-              )}
-            </div>
-          )}
+                  {skill}
+                </span>
+              ))
+            ) : (
+              <p className="text-gray-400 italic">No skills provided</p>
+            )}
+          </div>
         </section>
 
         <section className="bg-gradient-to-r from-gray-800 to-gray-700 rounded-lg shadow-lg p-6 mb-8 transform transition-all duration-300 hover:scale-105 hover:shadow-xl">
@@ -205,7 +181,7 @@ const PreviewProfile = ({ userId }) => {
               user.achievements.map((achievement, index) => (
                 <li
                   key={index}
-                  className="hover:text-purple-300 transition-all duration-200 ease-in-out"
+                  className="hover:text-purple-300 transition-all duration-200 ease-in-out break-words"
                 >
                   {achievement}
                 </li>
@@ -276,23 +252,47 @@ const PreviewProfile = ({ userId }) => {
 
         <section className="bg-gradient-to-r from-gray-800 to-gray-700 rounded-lg shadow-lg p-6 mb-8 transform transition-all duration-300 hover:scale-105 hover:shadow-xl">
           <h2 className="text-2xl font-bold border-b border-gray-600 pb-2 mb-4 text-purple-400 relative">
-            Skills
+            Social Links
             <span className="absolute inset-x-0 -bottom-1 h-1 bg-gradient-to-r from-purple-400 to-blue-500 rounded-full animate-pulse"></span>
           </h2>
-          <div className="flex flex-wrap gap-2 text-gray-300">
-            {user.skills && user.skills.length > 0 ? (
-              user.skills.map((skill, index) => (
-                <span
-                  key={index}
-                  className="px-3 py-1 bg-gradient-to-r from-blue-500 to-purple-500 text-sm rounded-full text-white shadow-md hover:scale-105 transform transition-all duration-200"
+          {!user.socialLinks.instagram &&
+          !user.socialLinks.linkedIn &&
+          !user.socialLinks.github ? (
+            <p className="text-gray-300 italic">No social links provided</p>
+          ) : (
+            <div className="flex space-x-6 text-3xl">
+              {user.socialLinks.instagram && (
+                <a
+                  href={user.socialLinks.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-pink-500 hover:text-white transition duration-300 transform hover:scale-110"
                 >
-                  {skill}
-                </span>
-              ))
-            ) : (
-              <p className="text-gray-400 italic">No skills provided</p>
-            )}
-          </div>
+                  <FaInstagram />
+                </a>
+              )}
+              {user.socialLinks.linkedIn && (
+                <a
+                  href={user.socialLinks.linkedIn}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:text-white transition duration-300 transform hover:scale-110"
+                >
+                  <FaLinkedin />
+                </a>
+              )}
+              {user.socialLinks.github && (
+                <a
+                  href={user.socialLinks.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-600 hover:text-white transition duration-300 transform hover:scale-110"
+                >
+                  <FaGithubSquare />
+                </a>
+              )}
+            </div>
+          )}
         </section>
       </main>
     </div>
