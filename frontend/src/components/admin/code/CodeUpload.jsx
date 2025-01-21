@@ -560,7 +560,7 @@ const CodeUpload = () => {
                           handleCodeItemChange(index, "codeC", e.target.value)
                         }
                         className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        rows="3"
+                        rows="5"
                         placeholder="Enter C code here..."
                       />
                     </div>
@@ -574,7 +574,7 @@ const CodeUpload = () => {
                           handleCodeItemChange(index, "codeCpp", e.target.value)
                         }
                         className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        rows="3"
+                        rows="5"
                         placeholder="Enter C++ code here..."
                       />
                     </div>
@@ -592,7 +592,7 @@ const CodeUpload = () => {
                           )
                         }
                         className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        rows="3"
+                        rows="5"
                         placeholder="Enter Java code here..."
                       />
                     </div>
@@ -610,7 +610,7 @@ const CodeUpload = () => {
                           )
                         }
                         className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        rows="3"
+                        rows="5"
                         placeholder="Enter Python code here..."
                       />
                     </div>
@@ -630,7 +630,7 @@ const CodeUpload = () => {
                         )
                       }
                       className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      rows="3"
+                      rows="5"
                       placeholder="Enter code snippet..."
                       required
                     />
@@ -641,13 +641,14 @@ const CodeUpload = () => {
                   <label className="block text-sm font-medium mb-2">
                     Description
                   </label>
-                  <input
+                  <textarea
                     type="text"
                     value={item.description}
                     onChange={(e) =>
                       handleCodeItemChange(index, "description", e.target.value)
                     }
                     className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                    rows="4"
                     placeholder="Short description about the code"
                     required
                   />
