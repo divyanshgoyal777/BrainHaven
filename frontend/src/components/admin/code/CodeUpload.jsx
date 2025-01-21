@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 
@@ -27,80 +27,33 @@ const CodeUpload = () => {
       "SASS/SCSS",
       "jQuery",
       "GraphQL",
-      "Gatsby",
-      "Electron",
-      "WebAssembly",
       "Redux",
       "Three.js",
-      "D3.js",
-      "Vuex",
-      "Svelte",
-      "Nuxt.js",
-      "Meteor.js",
-      "Laravel (PHP)",
-      "Symfony (PHP)",
-      "Ember.js",
-      "Foundation",
       "Chakra UI",
       "Material-UI",
       "Ant Design",
-      "Semantic UI",
-      "Pug (Jade)",
-      "Handlebars",
-      "Mustache",
-      "WebPack",
-      "Parcel",
       "Vite",
-      "Rollup.js",
-      "Babel",
-      "ESLint",
-      "Prettier",
-      "Tailwind CSS",
       "CSS Grid",
       "CSS Flexbox",
       "Framer Motion",
       "Motion UI",
       "Socket.io",
       "PWA (Progressive Web Apps)",
-      "AMP (Accelerated Mobile Pages)",
       "Express Validator",
-      "Cypress (Testing)",
       "Jest (Testing)",
       "Mocha (Testing)",
-      "Chai (Testing)",
-      "JQuery UI",
-      "Storybook (UI Components)",
-      "TestCafe",
-      "Puppeteer",
       "React Native",
       "Flutter",
-      "Ionic",
-      "Cordova",
       "NextAuth.js",
-      "Socket.IO",
       "Prisma",
-      "Strapi (Headless CMS)",
-      "Contentful (Headless CMS)",
-      "Sanity (Headless CMS)",
       "Firebase",
       "Supabase",
-      "Appwrite",
-      "GraphQL Subscriptions",
       "WebRTC",
-      "Webpack Dev Server",
       "React Router",
       "React Query",
-      "Apollo Client",
-      "Redux-Saga",
-      "Redux-Thunk",
-      "Recoil",
-      "Zustand",
-      "RxJS",
       "Express.js Middleware",
       "Server-Side Rendering (SSR)",
       "Static Site Generation (SSG)",
-      "JAMstack",
-      "Cloudflare Workers",
       "Netlify",
       "Vercel",
       "Firebase Hosting",
@@ -140,9 +93,6 @@ const CodeUpload = () => {
       "B+ Tree",
       "Trie",
       "KMP Algorithm",
-      "Knuth-Morris-Pratt Algorithm",
-      "Rabin-Karp Algorithm",
-      "Manacher's Algorithm",
       "Floyd-Warshall Algorithm",
       "Bellman-Ford Algorithm",
       "Dijkstra's Algorithm",
@@ -150,72 +100,44 @@ const CodeUpload = () => {
       "Kruskal’s Algorithm",
       "Prim’s Algorithm",
       "Ford-Fulkerson Algorithm",
-      "Max Flow",
-      "Min Cut",
       "Sieve of Eratosthenes",
       "Divide and Conquer",
       "Bitwise Operations",
-      "Eulerian Path",
       "Hamiltonian Path",
       "Matrix Exponentiation",
       "Number Theory Algorithms",
-      "Morris Traversal",
-      "Bloom Filter",
       "Skip List",
       "Hash Map",
       "Circular Queue",
       "Deque",
       "Priority Search Trees",
-      "Persistent Data Structures",
       "Advanced Graph Traversal",
-      "Heavy-Light Decomposition",
       "Suffix Array",
       "Suffix Tree",
-      "LCA (Lowest Common Ancestor)",
       "Maximal Flow Algorithms",
       "Randomized Algorithms",
       "Linear Programming",
       "Knapsack Problem",
       "Subset Sum Problem",
-      "Longest Common Subsequence",
-      "Longest Increasing Subsequence",
-      "Longest Palindromic Subsequence",
       "Edit Distance",
       "Palindrome Partitioning",
       "String Matching Algorithms",
       "Wildcard Matching",
       "Matrix Chain Multiplication",
-      "Graph Isomorphism",
       "Top-Down Dynamic Programming",
       "Bottom-Up Dynamic Programming",
       "Sliding Window Technique",
       "Two Pointer Technique",
-      "Meet in the Middle",
-      "Game Theory Algorithms",
-      "Bellman-Ford Algorithm",
-      "Topological Sort",
-      "Euler Tour Technique",
-      "Merging Intervals",
       "Counting Sort",
       "Radix Sort",
       "Bucket Sort",
       "Quickselect",
       "Knapsack DP",
-      "Rod Cutting Problem",
-      "Fibonacci Heap",
       "Disjoint Set Union (DSU)",
-      "Kendall Tau Distance",
       "Trie Matching",
-      "Splay Tree",
-      "K-d Tree",
-      "R-tree",
-      "Fenwick Tree (Binary Indexed Tree)",
       "Fibonacci Numbers",
       "Bitwise DP",
       "Subarray Sum Problems",
-      "Matrix Decomposition",
-      "Hashing with Chaining",
-      "Hashing with Open Addressing",
       "Bank Management System",
       "Library Management System",
     ],
@@ -233,22 +155,8 @@ const CodeUpload = () => {
       "Swift",
       "PHP",
       "Rust",
-      "R",
-      "MATLAB",
-      "Perl",
-      "Lua",
-      "Scala",
-      "Elixir",
-      "Haskell",
-      "Julia",
-      "Dart",
-      "SQL",
-      "VHDL",
-      "Solidity",
-      "F#",
-      "TypeScript",
     ],
-    Databases: [
+    "Databases": [
       "MySQL",
       "PostgreSQL",
       "MongoDB",
@@ -256,15 +164,6 @@ const CodeUpload = () => {
       "Firebase",
       "Redis",
       "Oracle",
-      "MariaDB",
-      "Cassandra",
-      "Elasticsearch",
-      "CouchDB",
-      "Neo4j",
-      "GraphQL Databases",
-      "InfluxDB",
-      "CockroachDB",
-      "ArangoDB",
     ],
     "Cloud Computing": [
       "AWS",
@@ -276,10 +175,6 @@ const CodeUpload = () => {
       "Docker",
       "Kubernetes",
       "Serverless Computing",
-      "CloudFormation",
-      "CloudFront",
-      "GCP App Engine",
-      "Cloud Functions",
     ],
     "Mobile Development": [
       "Android",
@@ -316,7 +211,7 @@ const CodeUpload = () => {
       "MLOps",
       "AI for Edge Computing",
     ],
-    DevOps: [
+    "DevOps": [
       "CI/CD",
       "Jenkins",
       "GitLab CI",
@@ -355,7 +250,7 @@ const CodeUpload = () => {
       "Cryptography Algorithms",
       "Consensus Mechanisms",
     ],
-    Cybersecurity: [
+    "Cybersecurity": [
       "Ethical Hacking",
       "Penetration Testing",
       "OWASP Top 10",
@@ -409,6 +304,10 @@ const CodeUpload = () => {
     ],
   };
 
+  useEffect(() => {
+    setSubCategory("");
+  }, [primaryCategory]);
+
   const handleAddCodeItem = () => {
     setCodeItems([...codeItems, { title: "", code: "", description: "" }]);
   };
@@ -434,17 +333,28 @@ const CodeUpload = () => {
       let codeObject = [];
 
       if (primaryCategory === "Data Structures and Algorithms (DSA)") {
-        codeObject.push(
-          { language: "C", snippet: String(item.codeC || "") },
-          { language: "C++", snippet: String(item.codeCpp || "") },
-          { language: "Java", snippet: String(item.codeJava || "") },
-          { language: "Python", snippet: String(item.codePython || "") }
-        );
+        if (item.codeC) {
+          codeObject.push({ language: "C", snippet: String(item.codeC) });
+        }
+        if (item.codeCpp) {
+          codeObject.push({ language: "C++", snippet: String(item.codeCpp) });
+        }
+        if (item.codeJava) {
+          codeObject.push({ language: "Java", snippet: String(item.codeJava) });
+        }
+        if (item.codePython) {
+          codeObject.push({
+            language: "Python",
+            snippet: String(item.codePython),
+          });
+        }
       } else {
-        codeObject.push({
-          language: subCategory,
-          snippet: String(item.codeNormal || ""),
-        });
+        if (item.codeNormal) {
+          codeObject.push({
+            language: subCategory,
+            snippet: String(item.codeNormal),
+          });
+        }
       }
 
       return {
@@ -498,7 +408,7 @@ const CodeUpload = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
- 
+
     if (!primaryCategory) return toast.error("Select a primary category");
     if (!subCategory) return toast.error("Select a subcategory");
     if (!topic) return toast.error("Enter the topic of the code");
@@ -595,11 +505,13 @@ const CodeUpload = () => {
               >
                 <option value="">Select Subcategory</option>
                 {primaryCategory &&
-                  categories[primaryCategory].map((subcategory) => (
-                    <option key={subcategory} value={subcategory}>
-                      {subcategory}
-                    </option>
-                  ))}
+                  [...new Set(categories[primaryCategory])].map(
+                    (subcategory) => (
+                      <option key={subcategory} value={subcategory}>
+                        {subcategory}
+                      </option>
+                    )
+                  )}
               </select>
             </div>
 
@@ -608,13 +520,13 @@ const CodeUpload = () => {
                 Topic
               </label>
               <input
-              type="text" 
-              className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
-              placeholder="Enter the topic of the code"
-              value={topic}
-              onChange={(e) => setTopic(e.target.value)}
-              required
-              disabled={!subCategory}
+                type="text"
+                className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                placeholder="Enter the topic of the code"
+                value={topic}
+                onChange={(e) => setTopic(e.target.value)}
+                required
+                disabled={!subCategory}
               />
             </div>
 
