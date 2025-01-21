@@ -70,6 +70,7 @@ const CodeUpload = () => {
       "Stacks",
       "Queues",
       "Trees",
+      "Trees Algorithms",
       "Graphs",
       "Hashing",
       "Sorting Algorithms",
@@ -93,13 +94,6 @@ const CodeUpload = () => {
       "B+ Tree",
       "Trie",
       "KMP Algorithm",
-      "Floyd-Warshall Algorithm",
-      "Bellman-Ford Algorithm",
-      "Dijkstra's Algorithm",
-      "A* Search Algorithm",
-      "Kruskal’s Algorithm",
-      "Prim’s Algorithm",
-      "Ford-Fulkerson Algorithm",
       "Sieve of Eratosthenes",
       "Divide and Conquer",
       "Bitwise Operations",
@@ -156,7 +150,7 @@ const CodeUpload = () => {
       "PHP",
       "Rust",
     ],
-    "Databases": [
+    Databases: [
       "MySQL",
       "PostgreSQL",
       "MongoDB",
@@ -211,7 +205,7 @@ const CodeUpload = () => {
       "MLOps",
       "AI for Edge Computing",
     ],
-    "DevOps": [
+    DevOps: [
       "CI/CD",
       "Jenkins",
       "GitLab CI",
@@ -250,7 +244,7 @@ const CodeUpload = () => {
       "Cryptography Algorithms",
       "Consensus Mechanisms",
     ],
-    "Cybersecurity": [
+    Cybersecurity: [
       "Ethical Hacking",
       "Penetration Testing",
       "OWASP Top 10",
