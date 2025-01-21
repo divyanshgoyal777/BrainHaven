@@ -138,7 +138,7 @@ function AppRoutes() {
       />
       <Route path="/code" element={<RouteGuard element={<Code />} />} />
       <Route
-        path="/codes/:primaryCategory/:subCategory"
+        path="/codes/:primaryCategory/:subCategory/:topic"
         element={<RouteGuard element={<CodeViewer />} />}
       />
       <Route path="/roadmaps" element={<RouteGuard element={<Roadmaps />} />} />

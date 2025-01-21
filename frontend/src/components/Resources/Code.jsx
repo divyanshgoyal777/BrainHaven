@@ -7,6 +7,7 @@ const Code = () => {
   const [categories, setCategories] = useState({});
   const [primaryCategory, setPrimaryCategory] = useState("");
   const [subCategory, setSubCategory] = useState("");
+  const [topic, setTopic] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isFetchingCategories, setIsFetchingCategories] = useState(false);
   const navigate = useNavigate();
@@ -46,8 +47,8 @@ const Code = () => {
   }, []);
 
   const handleFetchCode = async () => {
-    if (!primaryCategory || !subCategory) {
-      toast.error("Please select both Primary Category and Subcategory.");
+    if (!primaryCategory || !subCategory || !topic) {
+      toast.error("Please select all the categories.");
       return;
     }
 
@@ -62,12 +63,12 @@ const Code = () => {
       const response = await axios.get(
         `${import.meta.env.VITE_API_BASE_URL}/api/code/codeSearch`,
         {
-          params: { primaryCategory, subCategory },
+          params: { primaryCategory, subCategory , topic},
           headers: { Authorization: `Bearer ${token}` },
         }
       );
 
-      navigate(`/codes/${primaryCategory}/${subCategory}`, {
+      navigate(`/codes/${primaryCategory}/${subCategory}/${topic}`, {
         state: { codeData: response.data },
       });
     } catch (error) {
@@ -127,21 +128,51 @@ const Code = () => {
                 required
               >
                 <option value="">Select Subcategory</option>
-                {(categories[primaryCategory] || []).map((subcategory) => (
+
+                {/* Ensure subCategories exist for the selected primaryCategory */}
+                {categories[primaryCategory]?.subCategories?.map((subcategory) => (
                   <option key={subcategory} value={subcategory}>
                     {subcategory}
                   </option>
                 ))}
               </select>
+
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-2">
+                Topic
+              </label>
+              <select
+                value={topic}
+                onChange={(e) => setTopic(e.target.value)}
+                className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                required
+                disabled={!subCategory}
+              >
+                <option value="">Select Topic</option>
+
+                {/* Show topics only for the selected subCategory */}
+                {categories[primaryCategory]?.subCategoryMap[subCategory]?.map((topic, index) => (
+                  <option key={index} value={topic}>
+                    {topic}
+                  </option>
+                ))}
+
+                {/* Show a fallback option if no topics are available */}
+                {categories[primaryCategory]?.subCategoryMap[subCategory]?.length === 0 && (
+                  <option disabled>No topics available</option>
+                )}
+              </select>
+
             </div>
 
             <div className="text-center">
               <button
                 type="button"
                 onClick={handleFetchCode}
-                className={`px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-lg rounded-lg ${
-                  isLoading ? "opacity-50 cursor-not-allowed" : ""
-                }`}
+                className={`px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-lg rounded-lg ${isLoading ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
               >
                 {isLoading ? "Loading..." : "Fetch Code"}
               </button>

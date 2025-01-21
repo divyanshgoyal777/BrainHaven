@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 
 const CodeViewer = () => {
-  const { primaryCategory, subCategory } = useParams();
+  const { primaryCategory, subCategory , topic} = useParams();
   const [codeData, setCodeData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedLanguages, setSelectedLanguages] = useState({});
@@ -23,10 +23,11 @@ const CodeViewer = () => {
           `${import.meta.env.VITE_API_BASE_URL}/api/code/codeSearch`,
           {
             headers: { Authorization: `Bearer ${token}` },
-            params: { primaryCategory, subCategory },
+            params: { primaryCategory, subCategory , topic},
           }
         );
         setCodeData(response.data);
+        console.log(response.data);
         document.title = `BrainHaven - Code for ${response.data[0].primaryCategory + " " + response.data[0].subCategory}`;
         const initialSelectedLanguages = {};
         response.data.forEach((data) => {

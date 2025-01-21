@@ -5,6 +5,7 @@ import axios from "axios";
 const CodeUpload = () => {
   const [primaryCategory, setPrimaryCategory] = useState("");
   const [subCategory, setSubCategory] = useState("");
+  const [topic, setTopic] = useState("");
   const [codeItems, setCodeItems] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [codeExist, setCodeExist] = useState(false);
@@ -427,6 +428,7 @@ const CodeUpload = () => {
 
     formData.append("primaryCategory", primaryCategory);
     formData.append("subCategory", subCategory);
+    formData.append("topic", topic);
 
     const serializedCodeItems = codeItems.map((item) => {
       let codeObject = [];
@@ -481,6 +483,7 @@ const CodeUpload = () => {
           toast.success("Code replaced successfully!");
           setPrimaryCategory("");
           setSubCategory("");
+          setTopic("");
           setCodeItems([]);
           setCodeExist(false);
         }
@@ -495,9 +498,10 @@ const CodeUpload = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+ 
     if (!primaryCategory) return toast.error("Select a primary category");
     if (!subCategory) return toast.error("Select a subcategory");
+    if (!topic) return toast.error("Enter the topic of the code");
     if (codeItems.length === 0)
       return toast.error("Add at least one code item");
 
@@ -526,6 +530,7 @@ const CodeUpload = () => {
         toast.success("Code uploaded successfully!");
         setPrimaryCategory("");
         setSubCategory("");
+        setTopic("");
         setCodeItems([]);
         setCodeExist(false);
       }
@@ -596,6 +601,21 @@ const CodeUpload = () => {
                     </option>
                   ))}
               </select>
+            </div>
+
+            <div>
+              <label htmlFor="" className="block text-sm font-medium mb-2">
+                Topic
+              </label>
+              <input
+              type="text" 
+              className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+              placeholder="Enter the topic of the code"
+              value={topic}
+              onChange={(e) => setTopic(e.target.value)}
+              required
+              disabled={!subCategory}
+              />
             </div>
 
             {codeItems.map((item, index) => (

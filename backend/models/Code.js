@@ -9,6 +9,10 @@ const codeSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  topic:{
+    type: String,
+    required: true,
+  },
   codeItems: [
     {
       title: {
