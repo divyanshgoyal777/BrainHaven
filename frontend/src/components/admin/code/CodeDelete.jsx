@@ -27,20 +27,28 @@ const CodeDelete = () => {
   };
 
   const deleteCode = async (id) => {
-    try {
-      await axios.delete(
-        `${import.meta.env.VITE_API_BASE_URL}/api/admin/deleteCode/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      toast.success("Code deleted successfully");
-      setCodes(codes.filter((code) => code._id !== id));
-    } catch (error) {
-      console.error("Error deleting code:", error);
-      toast.error("Failed to delete code");
+    if (
+      window.confirm(
+        "Are you sure you want to delete the code"
+      )
+    ) {
+      try {
+        await axios.delete(
+          `${import.meta.env.VITE_API_BASE_URL}/api/admin/deleteCode/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        toast.success("Code deleted successfully");
+        setCodes(codes.filter((code) => code._id !== id));
+      } catch (error) {
+        console.error("Error deleting code:", error);
+        toast.error("Failed to delete code");
+      }
+    } else {
+      toast.error("Code deletion cancled");
     }
   };
 
@@ -84,6 +92,7 @@ const CodeDelete = () => {
                       <tr className="bg-gray-700 text-sm text-gray-300 uppercase">
                         <th className="px-4 py-3">Primary Category</th>
                         <th className="px-4 py-3">Sub Category</th>
+                        <th className="px-4 py-3">Topic</th>
                         <th className="px-4 py-3">Actions</th>
                       </tr>
                     </thead>
@@ -97,6 +106,7 @@ const CodeDelete = () => {
                         >
                           <td className="px-4 py-4">{code.primaryCategory}</td>
                           <td className="px-4 py-4">{code.subCategory}</td>
+                          <td className="px-4 py-4">{code.topic}</td>
                           <td className="px-4 py-4">
                             <button
                               onClick={() => deleteCode(code._id)}
@@ -120,8 +130,11 @@ const CodeDelete = () => {
                       <h3 className="text-xl font-semibold text-white">
                         {code.primaryCategory}
                       </h3>
-                      <p className="text-sm text-gray-300">
+                      <p className="text-sm text-gray-200">
                         Sub Category: {code.subCategory}
+                      </p>
+                      <p className="text-sm text-gray-200">
+                        Topic: {code.topic}
                       </p>
                       <button
                         onClick={() => deleteCode(code._id)}
