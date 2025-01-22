@@ -142,7 +142,6 @@ const Code = () => {
               >
                 <option value="">Select Subcategory</option>
 
-                {/* Ensure subCategories exist for the selected primaryCategory */}
                 {categories[primaryCategory]?.subCategories?.map(
                   (subcategory) => (
                     <option key={subcategory} value={subcategory}>
@@ -164,7 +163,6 @@ const Code = () => {
               >
                 <option value="">Select Topic</option>
 
-                {/* Show topics only for the selected subCategory */}
                 {categories[primaryCategory]?.subCategoryMap[subCategory]?.map(
                   (topic, index) => (
                     <option key={index} value={topic}>
@@ -173,7 +171,6 @@ const Code = () => {
                   )
                 )}
 
-                {/* Show a fallback option if no topics are available */}
                 {categories[primaryCategory]?.subCategoryMap[subCategory]
                   ?.length === 0 && (
                   <option disabled>No topics available</option>
