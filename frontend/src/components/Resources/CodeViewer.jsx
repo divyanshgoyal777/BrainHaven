@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { React, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
-import hljs from "highlight.js";
-import "highlight.js/styles/github-dark.css";
 
 const CodeViewer = () => {
   const { primaryCategory, subCategory, topic } = useParams();
@@ -29,10 +27,10 @@ const CodeViewer = () => {
           }
         );
         setCodeData(response.data);
+        console.log(response.data);
         document.title = `BrainHaven - Code for ${
-          response.data[0]?.primaryCategory || ""
-        } ${response.data[0]?.subCategory || ""}`;
-
+          response.data[0].primaryCategory + " " + response.data[0].subCategory
+        }`;
         const initialSelectedLanguages = {};
         response.data.forEach((data) => {
           data.codeItems.forEach((codeItem) => {
@@ -49,112 +47,159 @@ const CodeViewer = () => {
     };
 
     fetchCodes();
-  }, [primaryCategory, subCategory, topic]);
+  }, [primaryCategory, subCategory]);
 
   const copyToClipboard = (code) => {
     navigator.clipboard.writeText(code).then(
-      () => toast.success("Code copied to clipboard!"),
-      () => toast.error("Failed to copy code!")
+      () => {
+        toast.success("Code copied to clipboard!");
+      },
+      () => {
+        toast.error("Failed to copy code!");
+      }
     );
   };
 
   const handleLanguageSelect = (codeItemId, language) => {
-    setSelectedLanguages((prev) => ({ ...prev, [codeItemId]: language }));
+    setSelectedLanguages((prev) => ({
+      ...prev,
+      [codeItemId]: language,
+    }));
   };
 
-  useEffect(() => {
-    hljs.highlightAll();
-  }, [codeData]);
-
   return (
-    <div className="mt-32 px-4 md:px-8 w-full md:w-[80%] m-auto">
-      <h2 className="bg-gradient-to-tl from-indigo-600 to-purple-600 bg-clip-text text-transparent text-2xl md:text-4xl font-extrabold text-center drop-shadow-lg my-10">
-        Code Snippets for {primaryCategory} - {subCategory}
-      </h2>
+    <>
+      <div className="mt-32 px-4 md:px-8 w-full md:w-[80%] m-auto">
+        <h2 className="bg-gradient-to-tl from-indigo-600 to-purple-600 bg-clip-text text-transparent text-2xl md:text-4xl font-extrabold text-center drop-shadow-lg my-10">
+          Code Snippets for {primaryCategory} - {subCategory}
+        </h2>
 
-      {isLoading ? (
-        <p className="text-center text-lg text-gray-400">Loading...</p>
-      ) : codeData.length === 0 ? (
-        <p className="text-center text-lg text-gray-400">
-          No code snippets found
-        </p>
-      ) : (
-        <div className="space-y-6">
-          {codeData.map((data, index) => (
-            <div key={index} className="bg-gray-800 p-4 rounded-lg shadow-lg">
-              {data.codeItems.map((codeItem, idx) => (
-                <div
-                  key={idx}
-                  className="bg-gray-900 space-y-4 mb-8 p-5 rounded-lg"
-                >
-                  <h5 className="text-lg md:text-xl text-white font-semibold">
-                    Code Set {idx + 1}
-                  </h5>
-                  <h3 className="text-xl md:text-2xl text-white font-bold mb-4">
-                    {codeItem.title || "Code Title"}
-                  </h3>
+        {isLoading ? (
+          <p className="text-center text-lg text-gray-400">Loading...</p>
+        ) : codeData.length === 0 ? (
+          <p className="text-center text-lg text-gray-400">
+            No code snippets found
+          </p>
+        ) : (
+          <div className="space-y-6">
+            {codeData.map((data, index) => (
+              <div
+                key={index}
+                className=" bg-gray-800 p-4 rounded-lg shadow-lg"
+              >
+                {data.codeItems.map((codeItem, idx) => (
+                  <div
+                    key={idx}
+                    className=" bg-gray-900 space-y-4 mb-8 p-5 rounded-lg"
+                  >
+                    <h5 className="text-lg md:text-xl text-white font-semibold">
+                      Code Set {idx + 1}
+                    </h5>
+                    <h3 className="text-xl md:text-2xl text-white font-bold mb-4">
+                      {codeItem.title || "Code Title"}
+                    </h3>
 
-                  {primaryCategory ===
-                    "Data Structures and Algorithms (DSA)" && (
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {codeItem.code.map((codeSnippet) => (
-                        <button
-                          key={codeSnippet.language}
-                          onClick={() =>
-                            handleLanguageSelect(
-                              codeItem._id,
+                    {primaryCategory ===
+                      "Data Structures and Algorithms (DSA)" && (
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {codeItem.code?.map((codeSnippet) => (
+                          <button
+                            key={codeSnippet.language}
+                            onClick={() =>
+                              handleLanguageSelect(
+                                codeItem._id,
+                                codeSnippet.language
+                              )
+                            }
+                            className={`px-4 py-2 rounded-lg text-white font-semibold ${
+                              selectedLanguages[codeItem._id] ===
                               codeSnippet.language
+                                ? "bg-blue-500"
+                                : "bg-gray-700"
+                            } hover:bg-blue-600 transition duration-300`}
+                          >
+                            {codeSnippet.language}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+
+                    {primaryCategory !== "Data Structures and Algorithms (DSA)"
+                      ? codeItem.code?.map((codeSnippet) => (
+                          <div
+                            key={codeSnippet._id}
+                            className="relative bg-gray-950 text-white p-4 rounded-lg mb-4"
+                          >
+                            <div className=" w-full flex justify-end  sm:hidden mb-3">
+                              <button
+                                onClick={() =>
+                                  copyToClipboard(codeSnippet.snippet)
+                                }
+                                className="bg-gradient-to-r from-purple-500 to-indigo-600 text-white px-3 py-2 rounded-lg text-xs font-semibold shadow-lg hover:from-purple-600 hover:to-indigo-700 hover:shadow-xl transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-purple-400"
+                              >
+                                📋 Copy Code
+                              </button>
+                            </div>
+
+                            <button
+                              onClick={() =>
+                                copyToClipboard(codeSnippet.snippet)
+                              }
+                              className="hidden sm:block absolute top-3 right-3 bg-gradient-to-r from-purple-500 to-indigo-600 text-white px-3 py-2 rounded-lg text-xs font-semibold shadow-lg hover:from-purple-600 hover:to-indigo-700 hover:shadow-xl transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-purple-400"
+                            >
+                              📋 Copy Code
+                            </button>
+
+                            <pre className="overflow-auto text-sm md:text-base">
+                              <code>{codeSnippet.snippet}</code> f
+                            </pre>
+                          </div>
+                        ))
+                      : codeItem.code?.map(
+                          (codeSnippet) =>
+                            selectedLanguages[codeItem._id] ===
+                              codeSnippet.language && (
+                              <div
+                                key={codeSnippet._id}
+                                className="relative bg-gray-950 text-white p-4 rounded-lg mb-4"
+                              >
+                                <div className="w-full flex justify-end sm:hidden mb-3">
+                                  <button
+                                    onClick={() =>
+                                      copyToClipboard(codeSnippet.snippet)
+                                    }
+                                    className="bg-gradient-to-r from-purple-500 to-indigo-600 text-white px-3 py-2 rounded-lg text-xs font-semibold shadow-lg hover:from-purple-600 hover:to-indigo-700 hover:shadow-xl transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-purple-400"
+                                  >
+                                    📋 Copy Code
+                                  </button>
+                                </div>
+
+                                <button
+                                  onClick={() =>
+                                    copyToClipboard(codeSnippet.snippet)
+                                  }
+                                  className="hidden sm:block absolute top-3 right-3 bg-gradient-to-r from-purple-500 to-indigo-600 text-white px-3 py-2 rounded-lg text-xs font-semibold shadow-lg hover:from-purple-600 hover:to-indigo-700 hover:shadow-xl transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-purple-400"
+                                >
+                                  📋 Copy Code
+                                </button>
+
+                                <pre className="overflow-auto text-sm md:text-base">
+                                  <code>{codeSnippet.snippet}</code>
+                                </pre>
+                              </div>
                             )
-                          }
-                          className={`px-4 py-2 rounded-lg text-white font-semibold ${
-                            selectedLanguages[codeItem._id] ===
-                            codeSnippet.language
-                              ? "bg-blue-500"
-                              : "bg-gray-700"
-                          } hover:bg-blue-600 transition duration-300`}
-                        >
-                          {codeSnippet.language}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-
-                  {codeItem.code.map((codeSnippet) => (
-                    <div
-                      key={codeSnippet._id}
-                      className="relative rounded-lg mb-4"
-                    >
-                      <button
-                        onClick={() => copyToClipboard(codeSnippet.snippet)}
-                        className="absolute top-3 right-3 bg-gradient-to-r from-purple-500 to-indigo-600 text-white px-3 py-2 rounded-lg text-xs font-semibold shadow-lg hover:from-purple-600 hover:to-indigo-700 transition duration-300"
-                      >
-                        📋 Copy Code
-                      </button>
-                      <pre>
-                        <code
-                          className={`${
-                            selectedLanguages[codeItem._id] ===
-                            codeSnippet.language
-                              ? `language-${codeSnippet.language.toLowerCase()}`
-                              : ""
-                          }`}
-                        >
-                          {codeSnippet.snippet}
-                        </code>
-                      </pre>
-                    </div>
-                  ))}
-
-                  <h4 className="text-lg md:text-xl text-white font-medium mb-2">
-                    {codeItem.description || "Code Description"}
-                  </h4>
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
+                        )}
+                    <h4 className="text-base md:text-lg text-white font-medium pt-2">
+                      {codeItem.description || "Code Description"}
+                    </h4>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 
