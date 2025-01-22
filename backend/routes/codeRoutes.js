@@ -16,7 +16,8 @@ router.post(
   upload.none(),
   async (req, res) => {
     try {
-      const { primaryCategory, subCategory, topic, codeItems, overWrite } = req.body;
+      const { primaryCategory, subCategory, topic, codeItems, overWrite } =
+        req.body;
 
       if (!Array.isArray(JSON.parse(codeItems))) {
         return res.status(400).json({
@@ -95,12 +96,13 @@ router.post(
 );
 
 router.get("/codeSearch", authenticateToken, async (req, res) => {
-  const { primaryCategory, subCategory , topic} = req.query;
+  const { primaryCategory, subCategory, topic } = req.query;
   const query = {};
 
-  if (primaryCategory) query.primaryCategory = primaryCategory;
-  if (subCategory) query.subCategory = subCategory;
-  if (topic) query.topic = topic;
+  if (primaryCategory)
+    query.primaryCategory = decodeURIComponent(primaryCategory);
+  if (subCategory) query.subCategory = decodeURIComponent(subCategory);
+  if (topic) query.topic = decodeURIComponent(topic);
 
   try {
     const files = await Code.find(query);
@@ -120,42 +122,46 @@ router.get("/codeCategories", authenticateToken, async (req, res) => {
         $group: {
           _id: "$primaryCategory",
           subCategories: {
-            $addToSet: "$subCategory"
+            $addToSet: "$subCategory",
           },
-          // Collect topics by subcategory in an array of objects (subCategory: topics)
           topicsBySubCategory: {
             $push: {
               subCategory: "$subCategory",
-              topic: "$topic"
-            }
-          }
-        }
+              topic: "$topic",
+            },
+          },
+        },
       },
       {
         $project: {
           _id: 0,
           primaryCategory: "$_id",
           subCategories: 1,
-          topicsBySubCategory: 1
-        }
-      }
+          topicsBySubCategory: 1,
+        },
+      },
     ]);
 
     if (categories.length === 0) {
       return res.status(404).json({ message: "No categories found." });
     }
 
-    const categoryMap = categories.reduce((acc, { primaryCategory, subCategories, topicsBySubCategory }) => {
-      // Create a map where each subCategory has its topics
-      const subCategoryMap = topicsBySubCategory.reduce((subAcc, { subCategory, topic }) => {
-        if (!subAcc[subCategory]) subAcc[subCategory] = [];
-        subAcc[subCategory].push(topic);
-        return subAcc;
-      }, {});
+    const categoryMap = categories.reduce(
+      (acc, { primaryCategory, subCategories, topicsBySubCategory }) => {
+        const subCategoryMap = topicsBySubCategory.reduce(
+          (subAcc, { subCategory, topic }) => {
+            if (!subAcc[subCategory]) subAcc[subCategory] = [];
+            subAcc[subCategory].push(topic);
+            return subAcc;
+          },
+          {}
+        );
 
-      acc[primaryCategory] = { subCategories, subCategoryMap };
-      return acc;
-    }, {});
+        acc[primaryCategory] = { subCategories, subCategoryMap };
+        return acc;
+      },
+      {}
+    );
 
     res.status(200).json(categoryMap);
   } catch (error) {
@@ -165,7 +171,6 @@ router.get("/codeCategories", authenticateToken, async (req, res) => {
     });
   }
 });
-
 
 router.get("/allCode", authenticateToken, async (req, res) => {
   try {
