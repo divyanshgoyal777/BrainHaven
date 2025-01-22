@@ -60,21 +60,34 @@ const Code = () => {
         return;
       }
 
+      const encodedPrimaryCategory = encodeURIComponent(primaryCategory);
+      const encodedSubCategory = encodeURIComponent(subCategory);
+      const encodedTopic = encodeURIComponent(topic);
+
       const response = await axios.get(
         `${import.meta.env.VITE_API_BASE_URL}/api/code/codeSearch`,
         {
-          params: { primaryCategory, subCategory , topic},
+          params: {
+            primaryCategory: encodedPrimaryCategory,
+            subCategory: encodedSubCategory,
+            topic: encodedTopic,
+          },
           headers: { Authorization: `Bearer ${token}` },
         }
       );
 
-      navigate(`/codes/${primaryCategory}/${subCategory}/${topic}`, {
-        state: { codeData: response.data },
-      });
+      navigate(
+        `/codes/${encodedPrimaryCategory}/${encodedSubCategory}/${encodedTopic}`,
+        {
+          state: { codeData: response.data },
+        }
+      );
     } catch (error) {
       console.error("Error fetching code:", error);
       toast.error(
-        error.response?.data.message || "Failed to fetch code snippets."
+        error.response?.data?.message ||
+          error.message ||
+          "Failed to fetch code snippets."
       );
     } finally {
       setIsLoading(false);
@@ -130,19 +143,18 @@ const Code = () => {
                 <option value="">Select Subcategory</option>
 
                 {/* Ensure subCategories exist for the selected primaryCategory */}
-                {categories[primaryCategory]?.subCategories?.map((subcategory) => (
-                  <option key={subcategory} value={subcategory}>
-                    {subcategory}
-                  </option>
-                ))}
+                {categories[primaryCategory]?.subCategories?.map(
+                  (subcategory) => (
+                    <option key={subcategory} value={subcategory}>
+                      {subcategory}
+                    </option>
+                  )
+                )}
               </select>
-
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">
-                Topic
-              </label>
+              <label className="block text-sm font-medium mb-2">Topic</label>
               <select
                 value={topic}
                 onChange={(e) => setTopic(e.target.value)}
@@ -153,26 +165,29 @@ const Code = () => {
                 <option value="">Select Topic</option>
 
                 {/* Show topics only for the selected subCategory */}
-                {categories[primaryCategory]?.subCategoryMap[subCategory]?.map((topic, index) => (
-                  <option key={index} value={topic}>
-                    {topic}
-                  </option>
-                ))}
+                {categories[primaryCategory]?.subCategoryMap[subCategory]?.map(
+                  (topic, index) => (
+                    <option key={index} value={topic}>
+                      {topic}
+                    </option>
+                  )
+                )}
 
                 {/* Show a fallback option if no topics are available */}
-                {categories[primaryCategory]?.subCategoryMap[subCategory]?.length === 0 && (
+                {categories[primaryCategory]?.subCategoryMap[subCategory]
+                  ?.length === 0 && (
                   <option disabled>No topics available</option>
                 )}
               </select>
-
             </div>
 
             <div className="text-center">
               <button
                 type="button"
                 onClick={handleFetchCode}
-                className={`px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-lg rounded-lg ${isLoading ? "opacity-50 cursor-not-allowed" : ""
-                  }`}
+                className={`px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-lg rounded-lg ${
+                  isLoading ? "opacity-50 cursor-not-allowed" : ""
+                }`}
               >
                 {isLoading ? "Loading..." : "Fetch Code"}
               </button>
