@@ -151,7 +151,7 @@ const CodeViewer = () => {
                             </button>
 
                             <pre className="overflow-auto text-sm md:text-base">
-                              <code>{codeSnippet.snippet}</code> 
+                              <code>{codeSnippet.snippet}</code>
                             </pre>
                           </div>
                         ))
