@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
@@ -85,6 +85,8 @@ const ResourcesUpload = () => {
   const [option, setOption] = useState(false);
   const [yes, setYes] = useState(false);
   const [no, setNo] = useState(false);
+  const [category, setCategory] = useState([]);
+  const [subjectSuggestions, setSubjectSuggestions] = useState([]);
 
   const handleChange = (e) => {
     const { name, value, dataset } = e.target;
@@ -283,6 +285,51 @@ const ResourcesUpload = () => {
     setOption(false);
   };
 
+  const filterSuggestions = (input) => {
+    if (!input.trim()) {
+      setSubjectSuggestions([]);
+      return;
+    }
+    const allSubjects = [
+      ...category.map((cat) => cat.name),
+      ...Object.values(options.branches),
+    ];
+    const filtered = allSubjects.filter((subject) =>
+      subject.toLowerCase().includes(input.toLowerCase())
+    );
+    setSubjectSuggestions(filtered);
+  };
+
+  const selectSuggestion = (suggestion) => {
+    setFormData((prev) => ({
+      ...prev,
+      subject: suggestion,
+    }));
+    setSubjectSuggestions([]);
+  };
+
+  useEffect(() => {
+    const fetchCategory = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_BASE_URL}/api/resource/optionsResource`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response.data) {
+          setCategory(response.data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch categories:", error.message);
+      }
+    };
+    fetchCategory();
+  }, []);
+
   return (
     <div className="min-h-screen text-white">
       <div className="container mx-auto px-4 py-6">
@@ -344,23 +391,33 @@ const ResourcesUpload = () => {
             </div>
 
             <div>
-              <label
-                className="block text-sm font-medium mb-2"
-                htmlFor="subject"
-              >
-                Subject
-              </label>
-              <input
-                id="subject"
-                type="text"
-                name="subject"
-                value={formData.subject}
-                onChange={handleChange}
-                className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Enter Subject"
-                required
-              />
-            </div>
+            <label className="block text-sm font-medium mb-2" htmlFor="subject">
+              Subject
+            </label>
+            <input
+              id="subject"
+              type="text"
+              name="subject"
+              value={formData.subject}
+              onChange={handleChange}
+              className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              placeholder="Enter Subject"
+              required
+            />
+            {subjectSuggestions.length > 0 && (
+              <ul className="bg-gray-700 border border-gray-600 mt-2 rounded-lg">
+                {subjectSuggestions.map((suggestion, index) => (
+                  <li
+                    key={index}
+                    className="p-2 hover:bg-gray-600 cursor-pointer"
+                    onClick={() => selectSuggestion(suggestion)}
+                  >
+                    {suggestion}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
 
             <div>
               <label
