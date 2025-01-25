@@ -55,66 +55,75 @@ const Resources = () => {
       });
   }, []);
 
-  const handleSubmit = () => {
-    const { degree, branch, semester, subject, type } = selectedOptions;
-    if (!degree || !branch || !semester || !subject || !type) {
-      toast.error("Please fill in all the options.");
-      return;
-    }
-    const token = localStorage.getItem("token");
-    axios
-      .get(`${import.meta.env.VITE_API_BASE_URL}/api/resource/searchResource`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: selectedOptions,
-      })
-      .then((response) => {
-        if (type === "Tutorials") {
-          const videoLinks = response.data[0]?.videoLinks;
+ const [buttonDisabled, setButtonDisabled] = useState(false);
 
-          if (!videoLinks || videoLinks.length === 0) {
-            toast.error("No video links found.");
-            return;
-          }
+const handleSubmit = () => {
+  const { degree, branch, semester, subject, type } = selectedOptions;
+  if (!degree || !branch || !semester || !subject || !type) {
+    toast.error("Please fill in all the options.");
+    return;
+  }
 
-          const urlPath = `/resources/${degree}/${branch}/${semester}/${subject}/${type}/videos?videoLinks=${encodeURIComponent(
-            JSON.stringify(videoLinks)
-          )}`;
-          navigate(urlPath);
-        } else {
-          const cloudinaryUrl = response.data[0]?.cloudinary_url;
-          const pages = response.data[0]?.pages;
+  setButtonDisabled(true);
 
-          if (!cloudinaryUrl || !pages) {
-            toast.error("No valid PDF or pages information found.");
-            return;
-          }
+  const token = localStorage.getItem("token");
+  axios
+    .get(`${import.meta.env.VITE_API_BASE_URL}/api/resource/searchResource`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: selectedOptions,
+    })
+    .then((response) => {
+      if (type === "Tutorials") {
+        const videoLinks = response.data[0]?.videoLinks;
 
-          const modifiedUrls = [];
-          for (let i = 1; i <= pages; i++) {
-            const modifiedUrl = cloudinaryUrl.replace(
-              "/upload",
-              `/upload/f_auto/pg_${i}`
-            );
-            modifiedUrls.push(modifiedUrl);
-          }
-
-          const urlPath = `/resources/${degree}/${branch}/${semester}/${subject}/${type}?pdfUrls=${encodeURIComponent(
-            JSON.stringify(modifiedUrls)
-          )}&pdfPages=${pages}`;
-
-          navigate(urlPath);
-          setPdfUrl(modifiedUrls);
-          setPdfPages(pages);
-          setPdfShow(true);
+        if (!videoLinks || videoLinks.length === 0) {
+          toast.error("No video links found.");
+          setButtonDisabled(false);
+          return;
         }
-      })
-      .catch((error) => {
-        console.error("Error submitting search:", error);
-        toast.error("Failed to fetch resources.");
-      });
-  };
+
+        const urlPath = `/resources/${degree}/${branch}/${semester}/${subject}/${type}/videos?videoLinks=${encodeURIComponent(
+          JSON.stringify(videoLinks)
+        )}`;
+        navigate(urlPath);
+      } else {
+        const cloudinaryUrl = response.data[0]?.cloudinary_url;
+        const pages = response.data[0]?.pages;
+
+        if (!cloudinaryUrl || !pages) {
+          toast.error("No valid PDF or pages information found.");
+          setButtonDisabled(false);
+          return;
+        }
+
+        const modifiedUrls = [];
+        for (let i = 1; i <= pages; i++) {
+          const modifiedUrl = cloudinaryUrl.replace(
+            "/upload",
+            `/upload/f_auto/pg_${i}`
+          );
+          modifiedUrls.push(modifiedUrl);
+        }
+
+        const urlPath = `/resources/${degree}/${branch}/${semester}/${subject}/${type}?pdfUrls=${encodeURIComponent(
+          JSON.stringify(modifiedUrls)
+        )}&pdfPages=${pages}`;
+
+        navigate(urlPath);
+        setPdfUrl(modifiedUrls);
+        setPdfPages(pages);
+        setPdfShow(true);
+      }
+    })
+    .catch((error) => {
+      console.error("Error submitting search:", error);
+      toast.error("Failed to fetch resources.");
+      setButtonDisabled(false);
+    });
+};
+
 
   return (
     <GlobalOptionsContext.Provider
@@ -158,9 +167,14 @@ const Resources = () => {
                 )}
                 <button
                   onClick={handleSubmit}
-                  className="flex items-center px-6 py-3 text-sm md:text-base lg:text-lg cursor-pointer rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-lg"
+                  className={`flex items-center px-6 py-3 text-sm md:text-base lg:text-lg cursor-pointer rounded-lg transition-all duration-300 ${
+                    buttonDisabled
+                      ? "bg-gray-500 cursor-not-allowed"
+                      : "bg-indigo-600"
+                  } text-white shadow-lg`}
+                  disabled={buttonDisabled}
                 >
-                  Submit
+                  {buttonDisabled ? "Submitting..." : "Submit"}
                 </button>
               </div>
             </div>
@@ -200,7 +214,13 @@ const ResourceCategory = () => {
 
   const filteredBranches = dropdownData.branches[selectedOptions.degree] || [];
   const semesterKey = `${selectedOptions.degree}_${selectedOptions.branch}`;
-  const filteredSemesters = dropdownData.semesters[semesterKey] || [];
+const filteredSemesters = (dropdownData.semesters[semesterKey] || [])
+  .slice()
+  .sort((a, b) => {
+    const numA = parseInt(a, 10);
+    const numB = parseInt(b, 10);
+    return isNaN(numA) || isNaN(numB) ? a.localeCompare(b) : numA - numB;
+  });
   const subjectKey = `${semesterKey}_${selectedOptions.semester}`;
   const filteredSubjects = dropdownData.subjects[subjectKey] || [];
   const typeKey = `${subjectKey}_${selectedOptions.subject}`;

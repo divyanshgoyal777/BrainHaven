@@ -44,12 +44,21 @@ const ResourcesDelete = () => {
     }
   };
 
-  const filteredResources = resources.filter((resource) =>
-    Object.values(resource).some((val) => {
-      if (val == null) return false;
-      return val.toString().toLowerCase().includes(searchTerm.toLowerCase());
+  const filteredResources = resources
+    .slice()
+    .sort((a, b) => {
+      const semA = parseInt(a.semester, 10);
+      const semB = parseInt(b.semester, 10);
+      return isNaN(semA) || isNaN(semB)
+        ? a.semester.localeCompare(b.semester)
+        : semA - semB;
     })
-  );
+    .filter((resource) =>
+      Object.values(resource).some((val) => {
+        if (val == null) return false;
+        return val.toString().toLowerCase().includes(searchTerm.toLowerCase());
+      })
+    );
 
   useEffect(() => {
     fetchResources();
@@ -86,6 +95,7 @@ const ResourcesDelete = () => {
                       <th className="px-4 py-3">Degree</th>
                       <th className="px-4 py-3">Branch</th>
                       <th className="px-4 py-3">Semester</th>
+                      <th className="px-4 py-3">Type</th>
                       <th className="px-4 py-3">Actions</th>
                     </tr>
                   </thead>
@@ -101,6 +111,8 @@ const ResourcesDelete = () => {
                         <td className="px-4 py-4">{resource.degree}</td>
                         <td className="px-4 py-4">{resource.branch}</td>
                         <td className="px-4 py-4">{resource.semester}</td>
+                        <td className="px-4 py-4">{resource.type}</td>
+
                         <td className="px-4 py-4">
                           <button
                             onClick={() => deleteResource(resource._id)}
@@ -138,6 +150,7 @@ const ResourcesDelete = () => {
                   <p className="text-sm text-gray-300">
                     Semester: {resource.semester}
                   </p>
+                  <p className="text-sm text-gray-300">Type: {resource.type}</p>
                   <button
                     onClick={() => deleteResource(resource._id)}
                     className="mt-4 bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded-lg text-sm shadow-md"

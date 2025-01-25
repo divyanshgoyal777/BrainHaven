@@ -27,11 +27,11 @@ const PdfViewer = () => {
         </h2>
         <div className="flex flex-col items-center gap-3 sm:gap-5">
           {pdfUrls.map((url, index) => (
-            <div key={index} className=" w-[90%] sm:w-full max-w-4xl">
+            <div key={index} className=" w-[90%] sm:w-full max-w-4xl flex justify-center items-center">
               <img
                 src={url}
                 title={`Resource PDF - Page ${index + 1}`}
-                className="w-full h-auto sm:h-auto rounded-lg shadow-lg"
+                className="sm:w-[80%] w-full h-auto sm:h-auto rounded-lg shadow-lg"
               />
             </div>
           ))}
