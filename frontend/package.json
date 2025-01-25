@@ -13,6 +13,7 @@
     "axios": "^1.7.9",
     "date-fns": "^4.1.0",
     "dotenv": "^16.4.5",
+    "highlight.js": "^11.11.1",
     "jwt-decode": "^4.0.0",
     "pdfjs-dist": "^4.9.155",
     "react": "^18.3.1",
