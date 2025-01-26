@@ -55,6 +55,7 @@ const options = {
     QuestionPapers: "Previous Year Question Papers",
     E_Books: "E-Books",
     Video_Tutorials: "Video Tutorials",
+    Question_Banks: "Question Banks",
     MockTests: "Mock Tests",
     Exams: "Exam Preparation",
     Competitions: "Competitive Exams (e.g., GATE, GRE)",
