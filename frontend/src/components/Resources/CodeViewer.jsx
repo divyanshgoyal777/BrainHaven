@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
 import hljs from "highlight.js";
-import "highlight.js/styles/atom-one-dark.css"; // Dark theme
+import "highlight.js/styles/atom-one-dark.css";
 
 const CodeViewer = () => {
   const { primaryCategory, subCategory, topic } = useParams();
@@ -11,7 +11,6 @@ const CodeViewer = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedLanguages, setSelectedLanguages] = useState({});
 
-  // Fetch code data
   useEffect(() => {
     const fetchCodes = async () => {
       setIsLoading(true);
@@ -34,15 +33,12 @@ const CodeViewer = () => {
           response.data[0]?.primaryCategory || ""
         } - ${response.data[0]?.subCategory || ""}`;
 
-        // Initialize selected languages
         const initialSelectedLanguages = {};
         response.data.forEach((data) => {
           data.codeItems.forEach((codeItem) => {
             if (codeItem.code?.length > 1) {
-              // Default to "C" if multiple languages exist
               initialSelectedLanguages[codeItem._id] = "C";
             } else if (codeItem.code?.length === 1) {
-              // Auto-select the only language if only one exists
               initialSelectedLanguages[codeItem._id] =
                 codeItem.code[0].language;
             }
@@ -60,25 +56,40 @@ const CodeViewer = () => {
     fetchCodes();
   }, [primaryCategory, subCategory, topic]);
 
-  // Highlight code after DOM update
   useEffect(() => {
     const codeBlocks = document.querySelectorAll("pre code");
     codeBlocks.forEach((block) => hljs.highlightElement(block));
   }, [codeData, selectedLanguages]);
 
-  // Copy code snippet to clipboard
   const copyToClipboard = (code) => {
-    navigator.clipboard.writeText(code).then(
-      () => {
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(code).then(
+        () => {
+          toast.success("Code copied to clipboard!");
+        },
+        () => {
+          toast.error("Failed to copy code!");
+        }
+      );
+    } else {
+      const textarea = document.createElement("textarea");
+      textarea.value = code;
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      try {
+        document.execCommand("copy");
         toast.success("Code copied to clipboard!");
-      },
-      () => {
+      } catch (err) {
         toast.error("Failed to copy code!");
+      } finally {
+        document.body.removeChild(textarea);
       }
-    );
+    }
   };
 
-  // Handle language selection for a specific code item
   const handleLanguageSelect = (codeItemId, language) => {
     setSelectedLanguages((prev) => ({
       ...prev,
@@ -139,7 +150,6 @@ const CodeViewer = () => {
                     </div>
                   )}
 
-                  {/* Render Selected Code Snippet */}
                   {codeItem.code.map(
                     (codeSnippet) =>
                       selectedLanguages[codeItem._id] ===

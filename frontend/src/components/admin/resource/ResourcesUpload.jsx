@@ -1,10 +1,10 @@
-import React, { useState , useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
 const options = {
   degrees: {
-    BTech: { name: "B.Tech", semesters: 8 },
+    B_Tech: { name: "B.Tech", semesters: 8 },
     Diploma: { name: "Diploma", semesters: 6 },
     BSc: { name: "B.Sc", semesters: 6 },
     MSc: { name: "M.Sc", semesters: 4 },
@@ -53,8 +53,8 @@ const options = {
     Assignments: "Assignments",
     Projects: "Project Reports",
     QuestionPapers: "Previous Year Question Papers",
-    EBooks: "E-Books",
-    Tutorials: "Video Tutorials",
+    E_Books: "E-Books",
+    Video_Tutorials: "Video Tutorials",
     MockTests: "Mock Tests",
     Exams: "Exam Preparation",
     Competitions: "Competitive Exams (e.g., GATE, GRE)",
@@ -114,7 +114,7 @@ const ResourcesUpload = () => {
       ...prev,
       subject: suggestion,
     }));
-    setFilteredSuggestions([]); 
+    setFilteredSuggestions([]);
   };
 
   const handleFileChange = (e) => {
@@ -297,34 +297,34 @@ const ResourcesUpload = () => {
     setOption(false);
   };
 
-    useEffect(() => {
-       const fetchCategory = async () => {
-         try {
-           const token = localStorage.getItem("token");
-           const response = await axios.get(
-             `${import.meta.env.VITE_API_BASE_URL}/api/resource/optionsResource`,
-             {
-               headers: {
-                 Authorization: `Bearer ${token}`,
-               },
-             }
-           );
-     
-           if (response.data) {
-            const nestedSubjects = response.data.subjects || {};
-            const subjectsArray = Object.values(nestedSubjects).flat();
-              console.log(response.data.subjects);
-            setAllSubjects(subjectsArray);
-           } else {
-             console.warn("No categories found in response.");
-           }
-         } catch (error) {
-           console.error("Failed to fetch categories:", error.message);
-         }
-       };
-     
-       fetchCategory();
-     }, []);
+  useEffect(() => {
+    const fetchCategory = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_BASE_URL}/api/resource/optionsResource`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.data) {
+          const nestedSubjects = response.data.subjects || {};
+          const subjectsArray = Object.values(nestedSubjects).flat();
+          console.log(response.data.subjects);
+          setAllSubjects(subjectsArray);
+        } else {
+          console.warn("No categories found in response.");
+        }
+      } catch (error) {
+        console.error("Failed to fetch categories:", error.message);
+      }
+    };
+
+    fetchCategory();
+  }, []);
 
   return (
     <div className="min-h-screen text-white">
@@ -387,32 +387,35 @@ const ResourcesUpload = () => {
             </div>
 
             <div>
-        <label className="block text-sm font-medium mb-2" htmlFor="subject">
-          Subject
-        </label>
-        <input
-          id="subject"
-          type="text"
-          name="subject"
-          value={formData.subject}
-          onChange={handleChange}
-          className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          placeholder="Enter or select a subject"
-        />
-        {filteredSuggestions.length > 0 && (
-          <ul className="bg-gray-700 border border-gray-600 rounded-lg mt-2 max-h-40 overflow-y-auto">
-            {filteredSuggestions.map((suggestion, index) => (
-              <li
-                key={index}
-                onClick={() => handleSuggestionClick(suggestion)}
-                className="p-2 cursor-pointer hover:bg-gray-600"
+              <label
+                className="block text-sm font-medium mb-2"
+                htmlFor="subject"
               >
-                {suggestion}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+                Subject
+              </label>
+              <input
+                id="subject"
+                type="text"
+                name="subject"
+                value={formData.subject}
+                onChange={handleChange}
+                className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Enter or select a subject"
+              />
+              {filteredSuggestions.length > 0 && (
+                <ul className="bg-gray-700 border border-gray-600 rounded-lg mt-2 max-h-40 overflow-y-auto">
+                  {filteredSuggestions.map((suggestion, index) => (
+                    <li
+                      key={index}
+                      onClick={() => handleSuggestionClick(suggestion)}
+                      className="p-2 cursor-pointer hover:bg-gray-600"
+                    >
+                      {suggestion}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
 
             <div>
               <label
