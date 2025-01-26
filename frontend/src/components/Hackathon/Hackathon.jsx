@@ -31,10 +31,9 @@ const Hackathon = () => {
     return `${day}-${month}-${year}`;
   };
 
-    useEffect(() => {
-      document.title = "BrainHaven - Hackathon";
-    }, []);
-
+  useEffect(() => {
+    document.title = "BrainHaven - Hackathon";
+  }, []);
 
   return (
     <div>
@@ -61,17 +60,11 @@ const Hackathon = () => {
                 {hackathon.isOnline ? "Online" : hackathon.location}
               </p>
               <p className="mt-1 text-sm text-gray-300">
-                <strong>Prize:</strong> {hackathon.prizeMoney}
-              </p>
-              <p className="mt-1 text-sm text-gray-300">
                 <strong>Max Team Size:</strong> {hackathon.teamSizeMax}
               </p>
               <p className="mt-1 text-sm text-gray-300">
                 <strong>Register by:</strong>{" "}
                 {formatDate(hackathon.registerByDate)}
-              </p>
-              <p className="mt-1 text-sm text-gray-300">
-                <strong>Eligibility:</strong> {hackathon.eligibilityCriteria}
               </p>
               <div className="mt-3">
                 <p className="font-semibold text-sm text-gray-300">

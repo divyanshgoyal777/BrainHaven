@@ -10,12 +10,9 @@ const HackathonUpload = () => {
     endDate: "",
     isOnline: false,
     location: "",
-    timing: "",
-    prizeMoney: 0,
     teamSizeMax: 0,
     registerByDate: "",
     categories: [],
-    eligibilityCriteria: "",
     registrationLink: "",
   });
 
@@ -25,8 +22,7 @@ const HackathonUpload = () => {
     const { name, value } = e.target;
     setHackathonData({
       ...hackathonData,
-      [name]:
-        name === "prizeMoney" || name === "teamSizeMax" ? Number(value) : value,
+      [name]: name === "teamSizeMax" ? Number(value) : value,
     });
   };
 
@@ -42,9 +38,6 @@ const HackathonUpload = () => {
       newErrors.endDate = "End date must be after the start date.";
     if (!hackathonData.isOnline && !hackathonData.location)
       newErrors.location = "Location is required for offline events.";
-    if (!hackathonData.timing) newErrors.timing = "Timing is required.";
-    if (hackathonData.prizeMoney <= 0)
-      newErrors.prizeMoney = "Prize money must be greater than 0.";
     if (hackathonData.teamSizeMax <= 0)
       newErrors.teamSizeMax = "Team size must be greater than 0.";
     if (!hackathonData.registerByDate)
@@ -56,8 +49,6 @@ const HackathonUpload = () => {
         "Registration deadline must be before the start date.";
     if (hackathonData.categories.length === 0)
       newErrors.categories = "At least one category is required.";
-    if (!hackathonData.eligibilityCriteria)
-      newErrors.eligibilityCriteria = "Eligibility criteria is required.";
     if (!hackathonData.registrationLink)
       newErrors.registrationLink = "Registration link is required.";
     else if (!/^https?:\/\/.+/.test(hackathonData.registrationLink))
@@ -94,12 +85,9 @@ const HackathonUpload = () => {
         endDate: "",
         isOnline: false,
         location: "",
-        timing: "",
-        prizeMoney: 0,
         teamSizeMax: 0,
         registerByDate: "",
         categories: [],
-        eligibilityCriteria: "",
         registrationLink: "",
       });
     } catch (error) {
@@ -230,47 +218,6 @@ const HackathonUpload = () => {
         )}
 
         <div>
-          <label htmlFor="timing" className="block text-sm font-medium mb-2">
-            Timing
-          </label>
-          <input
-            type="text"
-            name="timing"
-            className={`w-full p-3 rounded-lg bg-gray-700 border ${
-              errors.timing ? "border-red-500" : "border-gray-600"
-            } focus:outline-none focus:ring-2 focus:ring-blue-500`}
-            value={hackathonData.timing}
-            onChange={handleChange}
-            placeholder="Enter Timing (e.g., 9 AM - 5 PM)"
-          />
-          {errors.timing && (
-            <p className="text-red-500 text-sm">{errors.timing}</p>
-          )}
-        </div>
-
-        <div>
-          <label
-            htmlFor="prizeMoney"
-            className="block text-sm font-medium mb-2"
-          >
-            Prize Money
-          </label>
-          <input
-            type="number"
-            name="prizeMoney"
-            className={`w-full p-3 rounded-lg bg-gray-700 border ${
-              errors.prizeMoney ? "border-red-500" : "border-gray-600"
-            } focus:outline-none focus:ring-2 focus:ring-blue-500`}
-            value={hackathonData.prizeMoney}
-            onChange={handleChange}
-            placeholder="Enter Prize Money Amount"
-          />
-          {errors.prizeMoney && (
-            <p className="text-red-500 text-sm">{errors.prizeMoney}</p>
-          )}
-        </div>
-
-        <div>
           <label
             htmlFor="teamSizeMax"
             className="block text-sm font-medium mb-2"
@@ -339,27 +286,6 @@ const HackathonUpload = () => {
           />
           {errors.categories && (
             <p className="text-red-500 text-sm">{errors.categories}</p>
-          )}
-        </div>
-
-        <div>
-          <label
-            htmlFor="eligibilityCriteria"
-            className="block text-sm font-medium mb-2"
-          >
-            Eligibility Criteria
-          </label>
-          <textarea
-            name="eligibilityCriteria"
-            className={`w-full p-3 rounded-lg bg-gray-700 border ${
-              errors.eligibilityCriteria ? "border-red-500" : "border-gray-600"
-            } focus:outline-none focus:ring-2 focus:ring-blue-500`}
-            value={hackathonData.eligibilityCriteria}
-            onChange={handleChange}
-            placeholder="Enter Eligibility Criteria"
-          />
-          {errors.eligibilityCriteria && (
-            <p className="text-red-500 text-sm">{errors.eligibilityCriteria}</p>
           )}
         </div>
 

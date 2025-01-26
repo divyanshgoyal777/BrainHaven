@@ -21,12 +21,9 @@ router.post("/uploadHackathon", authenticateToken, async (req, res) => {
     endDate: req.body.endDate,
     isOnline: req.body.isOnline,
     location: req.body.location,
-    timing: req.body.timing,
-    prizeMoney: req.body.prizeMoney,
     teamSizeMax: req.body.teamSizeMax,
     registerByDate: req.body.registerByDate,
     categories: req.body.categories,
-    eligibilityCriteria: req.body.eligibilityCriteria,
     registrationLink: req.body.registrationLink,
   });
 

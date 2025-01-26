@@ -2,24 +2,65 @@ const mongoose = require("mongoose");
 
 const hackathonSchema = new mongoose.Schema(
   {
-    name: { type: String, required: true },
-    description: { type: String, required: true },
-    startDate: { type: Date, required: true },
-    endDate: { type: Date, required: true },
-    isOnline: { type: Boolean, required: true },
-    location: {
+    name: {
       type: String,
-      required: function () {
-        return !this.isOnline;
+      trim: true,
+    },
+    description: {
+      type: String,
+      trim: true,
+    },
+    startDate: {
+      type: Date,
+    },
+    endDate: {
+      type: Date,
+      validate: {
+        validator: function (value) {
+          return value >= this.startDate;
+        },
+        message: "End date must be greater than or equal to start date",
       },
     },
-    timing: { type: String, required: true },
-    prizeMoney: { type: Number, required: true },
-    teamSizeMax: { type: Number, required: true },
-    registerByDate: { type: Date, required: true },
-    categories: { type: [String], required: true },
-    eligibilityCriteria: { type: String, required: true },
-    registrationLink: { type: String, required: true },
+    isOnline: {
+      type: Boolean,
+    },
+    location: {
+      type: String,
+      trim: true,
+      validate: {
+        validator: function (value) {
+          return this.isOnline || value?.length > 0;
+        },
+        message: "Location is required for offline events",
+      },
+    },
+    teamSizeMax: {
+      type: Number,
+      min: [1, "Team size must be at least 1"],
+    },
+    registerByDate: {
+      type: Date,
+      validate: {
+        validator: function (value) {
+          return value <= this.startDate;
+        },
+        message: "Registration closing date must be before the start date",
+      },
+    },
+    categories: {
+      type: [String],
+    },
+    registrationLink: {
+      type: String,
+      trim: true,
+      validate: {
+        validator: function (value) {
+          return /^https?:\/\/.+/.test(value);
+        },
+        message: "Registration link must be a valid URL",
+      },
+    },
   },
   { timestamps: true }
 );

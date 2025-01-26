@@ -13,12 +13,9 @@ const HackathonManage = () => {
     endDate: "",
     isOnline: false,
     location: "",
-    timing: "",
-    prizeMoney: 0,
     teamSizeMax: 0,
     registerByDate: "",
     categories: "",
-    eligibilityCriteria: "",
     registrationLink: "",
   });
 
@@ -70,6 +67,7 @@ const HackathonManage = () => {
 
   const saveHackathon = async () => {
     try {
+      const updatedHackathon = { ...selectedHackathon };
       const token = localStorage.getItem("token");
 
       if (!token) {
@@ -77,16 +75,11 @@ const HackathonManage = () => {
         return;
       }
 
-      if (!selectedHackathon || !selectedHackathon._id) {
-        toast.error("Selected hackathon is invalid or missing.");
-        return;
-      }
-
       const response = await axios.put(
         `${import.meta.env.VITE_API_BASE_URL}/api/hackathon/editHackathon/${
-          selectedHackathon._id
+          updatedHackathon._id
         }`,
-        selectedHackathon,
+        updatedHackathon,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -96,10 +89,6 @@ const HackathonManage = () => {
       );
 
       if (response.status === 200) {
-        if (!response.data || !response.data._id) {
-          toast.error("Hackathon not found");
-          return;
-        }
         toast.success("Hackathon edited successfully");
         setEdit(false);
         fetchHackathons();
@@ -108,12 +97,7 @@ const HackathonManage = () => {
       }
     } catch (error) {
       console.error("Error editing hackathon:", error);
-
-      if (error.response) {
-        toast.error(error.response.data.message || "Failed to edit hackathon");
-      } else {
-        toast.error("Failed to edit hackathon");
-      }
+      toast.error("Failed to edit hackathon");
     }
   };
 
@@ -284,40 +268,6 @@ const HackathonManage = () => {
                 />
               </div>
             )}
-
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-300">
-                Timing
-              </label>
-              <input
-                type="text"
-                value={selectedHackathon.timing}
-                onChange={(e) =>
-                  setSelectedHackathon({
-                    ...selectedHackathon,
-                    timing: e.target.value,
-                  })
-                }
-                className="w-full p-2 rounded-lg bg-gray-700 text-white"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-300">
-                Prize Money
-              </label>
-              <input
-                type="number"
-                value={selectedHackathon.prizeMoney}
-                onChange={(e) =>
-                  setSelectedHackathon({
-                    ...selectedHackathon,
-
-                    prizeMoney: e.target.value,
-                  })
-                }
-                className="w-full p-2 rounded-lg bg-gray-700 text-white"
-              />
-            </div>
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-300">
                 Team Size Max
@@ -368,26 +318,10 @@ const HackathonManage = () => {
             </div>
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-300">
-                Eligibility Criteria
-              </label>
-              <input
-                type="text"
-                value={selectedHackathon.eligibilityCriteria}
-                onChange={(e) =>
-                  setSelectedHackathon({
-                    ...selectedHackathon,
-                    eligibilityCriteria: e.target.value,
-                  })
-                }
-                className="w-full p-2 rounded-lg bg-gray-700 text-white"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-300">
                 Registration Link
               </label>
               <input
-                type="text"
+                type="url"
                 value={selectedHackathon.registrationLink}
                 onChange={(e) =>
                   setSelectedHackathon({
@@ -398,17 +332,16 @@ const HackathonManage = () => {
                 className="w-full p-2 rounded-lg bg-gray-700 text-white"
               />
             </div>
-
-            <div className="flex gap-4 mt-6">
+            <div className="mt-6 flex gap-4">
               <button
                 onClick={saveHackathon}
-                className="bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded-lg"
+                className="bg-green-600 hover:bg-green-500 px-4 py-2 rounded-lg text-white shadow-md"
               >
                 Save
               </button>
               <button
                 onClick={() => setEdit(false)}
-                className="bg-gray-600 hover:bg-gray-500 text-white px-4 py-2 rounded-lg"
+                className="bg-red-600 hover:bg-red-500 px-4 py-2 rounded-lg text-white shadow-md"
               >
                 Cancel
               </button>
