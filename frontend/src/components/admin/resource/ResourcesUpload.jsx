@@ -148,14 +148,14 @@ const ResourcesUpload = () => {
       videoLinks,
     } = formData;
 
-    if (type !== "Tutorials" && (isNaN(pages) || pages <= 0)) {
+    if (type !== "Video_Tutorials" && (isNaN(pages) || pages <= 0)) {
       setIsLoading(false);
       toast.error("Please enter a valid number of pages.");
       return;
     }
 
     if (
-      type !== "Tutorials" &&
+      type !== "Video_Tutorials" &&
       resourceFile &&
       resourceFile.type !== "application/pdf"
     ) {
@@ -468,7 +468,7 @@ const ResourcesUpload = () => {
               </select>
             </div>
 
-            {formData.type === "Tutorials" && (
+            {formData.type === "Video_Tutorials" && (
               <div>
                 <label
                   className="block text-sm font-medium mb-2"
@@ -499,7 +499,7 @@ const ResourcesUpload = () => {
               </div>
             )}
 
-            {formData.type !== "Tutorials" && (
+            {formData.type !== "Video_Tutorials" && (
               <>
                 <div>
                   <label
@@ -534,7 +534,7 @@ const ResourcesUpload = () => {
                     onChange={handleFileChange}
                     className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     accept=".pdf"
-                    disabled={formData.type === "Tutorials"}
+                    disabled={formData.type === "Video_Tutorials"}
                   />
                 </div>
               </>
