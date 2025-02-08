@@ -3,14 +3,13 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../App";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { set } from "date-fns";
+import Loader from "../loader/Loader";
 
 const Hackmate = () => {
   const [teams, setTeams] = useState([]);
   const [teams2, setTeams2] = useState([]);
   const [joinedTeams, setJoinedTeams] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [isLoading2, setIsLoading2] = useState(false);
   const [userId, setUserId] = useState("");
   const [error, setError] = useState("");
   const { userEmail } = useAuth();
@@ -18,6 +17,8 @@ const Hackmate = () => {
   const [teamToDelete, setTeamToDelete] = useState(null);
   const [edit, setEdit] = useState(false);
   const [selectedTeam, setSelectedTeam] = useState(null);
+  const [isUserLoading, setIsUserLoading] = useState(true);
+  const [isTeamsLoading, setIsTeamsLoading] = useState(true);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -48,6 +49,7 @@ const Hackmate = () => {
         console.error("Failed to fetch user details:", err);
       } finally {
         setIsLoading(false);
+        setIsUserLoading(false);
       }
     };
 
@@ -56,6 +58,7 @@ const Hackmate = () => {
 
   useEffect(() => {
     const fetchTeams = async () => {
+      setIsLoading(true);
       try {
         const token = localStorage.getItem("token");
 
@@ -78,7 +81,41 @@ const Hackmate = () => {
         console.error("Error fetching teams:", error);
         setError("Failed to load your teams. Please try again.");
       } finally {
-        setIsLoading(false);
+        setIsTeamsLoading(false);
+      }
+    };
+
+    fetchTeams();
+  }, [userId]);
+
+  useEffect(() => {
+    if (!userId) return;
+    const fetchTeams = async () => {
+      try {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+          toast.error("You must be logged in to view your teams!");
+          return;
+        }
+
+        const response = await axios.get(
+          `${
+            import.meta.env.VITE_API_BASE_URL
+          }/api/hackmate/joinedHackmate/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setTeams2(response.data);
+      } catch (error) {
+        if (error.response.status === 400) {
+          setJoinedTeams(true);
+        }
+        console.error("Error fetching teams:", error);
+        setError("Failed to load your teams. Please try again.");
       }
     };
 
@@ -137,7 +174,7 @@ const Hackmate = () => {
   };
 
   const handlesaveChanges = async (e) => {
-    setIsLoading2(true);
+    setIsLoading(true);
     e.preventDefault();
     const token = localStorage.getItem("token");
 
@@ -148,15 +185,12 @@ const Hackmate = () => {
         }`,
         formData,
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
       toast.success("Team updated successfully!");
       setEdit(false);
       setSelectedTeam(null);
-      setIsLoading2(false);
       setFormData({
         title: "",
         description: "",
@@ -173,42 +207,10 @@ const Hackmate = () => {
     } catch (error) {
       console.error("Error updating team:", error);
       toast.error("Failed to update team. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (!userId) return;
-    const fetchTeams = async () => {
-      try {
-        const token = localStorage.getItem("token");
-
-        if (!token) {
-          toast.error("You must be logged in to view your teams!");
-          return;
-        }
-
-        const response = await axios.get(
-          `${
-            import.meta.env.VITE_API_BASE_URL
-          }/api/hackmate/joinedHackmate/${userId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setTeams2(response.data);
-      } catch (error) {
-        if (error.response.status === 400) {
-          setJoinedTeams(true);
-        }
-        console.error("Error fetching teams:", error);
-        setError("Failed to load your teams. Please try again.");
-      }
-    };
-
-    fetchTeams();
-  }, [userId]);
 
   const handleLeaveTeam = async (teamId) => {
     try {
@@ -232,12 +234,8 @@ const Hackmate = () => {
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen text-white mt-14">
-        <h1 className="text-3xl">Loading your teams...</h1>
-      </div>
-    );
+  if (isUserLoading || isTeamsLoading) {
+    return <Loader />;
   }
 
   return (
@@ -342,7 +340,7 @@ const Hackmate = () => {
                 type="submit"
                 className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-800 transition-all"
               >
-                {isLoading2 ? "Saving..." : "Save Changes"}
+                {isLoading ? "Saving..." : "Save Changes"}
               </button>
             </div>
           </form>
