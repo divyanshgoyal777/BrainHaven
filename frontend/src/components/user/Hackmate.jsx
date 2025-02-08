@@ -14,7 +14,9 @@ const Hackmate = () => {
   const [error, setError] = useState("");
   const { userEmail } = useAuth();
   const [confirm, setConfirm] = useState(false);
+  const [confirm2, setConfirm2] = useState(false);
   const [teamToDelete, setTeamToDelete] = useState(null);
+  const [teamToLeave, setTeamToLeave] = useState(null);
   const [edit, setEdit] = useState(false);
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [isUserLoading, setIsUserLoading] = useState(true);
@@ -213,6 +215,7 @@ const Hackmate = () => {
   };
 
   const handleLeaveTeam = async (teamId) => {
+
     try {
       const token = localStorage.getItem("token");
       await axios.put(
@@ -226,8 +229,10 @@ const Hackmate = () => {
           },
         }
       );
+
       setTeams2((prevTeams) => prevTeams.filter((team) => team._id !== teamId));
       toast.success("Left team successfully!");
+      setConfirm2(false);
     } catch (error) {
       console.error("Error leaving team:", error);
       toast.error("Failed to leave team. Please try again.");
@@ -534,7 +539,8 @@ const Hackmate = () => {
                       </div>
                       <button
                         onClick={() => {
-                          handleLeaveTeam(team._id);
+                          setConfirm2(true);
+                          setTeamToLeave(team._id);
                         }}
                         className="bg-red-600 text-white px-2 w-full sm:px-4 py-2 rounded-md shadow-md hover:bg-red-500 transition-colors"
                       >
@@ -545,7 +551,31 @@ const Hackmate = () => {
                 ))}
             </div>
           )}
+            {confirm2 && teamToLeave && (
+          <div className="fixed m-auto inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+            <div className="bg-white p-4 rounded-lg shadow-lg">
+              <p className="text-gray-700">
+                Are you sure you want to leave this team?
+              </p>
+              <div className="flex justify-end mt-4">
+                <button
+                  onClick={() => setConfirm2(false)}
+                  className="bg-gray-400 text-white px-4 py-2 rounded-md mr-2"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => handleLeaveTeam(teamToLeave)}
+                  className="bg-red-600 text-white px-4 py-2 rounded-md"
+                >
+                  Leave
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
         </div>
+        
       ) : null}
     </div>
   );
