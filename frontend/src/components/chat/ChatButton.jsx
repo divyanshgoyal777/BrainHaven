@@ -13,7 +13,10 @@ const ChatButton = () => {
     <>
       <div
         onClick={toggleChat}
-        className="fixed bottom-8 right-6 sm:bottom-5 sm:right-5 bg-blue-500 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg cursor-pointer transform transition-transform hover:scale-110"
+        className="fixed bottom-8 sm:bottom-5 bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg cursor-pointer transform transition-transform hover:scale-110"
+        style={{
+          right: "10px",
+        }}
       >
         <IoMdChatboxes size={30} />
       </div>

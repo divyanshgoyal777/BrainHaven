@@ -35,6 +35,14 @@ const Hackathon = () => {
     document.title = "BrainHaven - Hackathon";
   }, []);
 
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const filteredHackathons = hackathons.filter((hackathon) => {
+    const registerByDate = new Date(hackathon.registerByDate);
+    return registerByDate >= today;
+  });
+
   return (
     <div>
       <div className="container mx-auto px-4 py-1 mt-24 mb-10 ">
@@ -42,7 +50,7 @@ const Hackathon = () => {
           Hackathons
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-10">
-          {hackathons.map((hackathon) => (
+          {filteredHackathons.map((hackathon) => (
             <div
               key={hackathon.id}
               className="bg-gradient-to-r from-slate-950 via-gray-900 to-gray-800 text-white rounded-xl shadow-lg hover:shadow-2xl transition-all transform hover:scale-105 p-8"

@@ -27,6 +27,7 @@ import User from "./components/user/Dashboard";
 import Admin from "./components/admin/Admin";
 import UrlViewer from "./components/Resources/UrlViewer";
 import ChatButton from "./components/chat/ChatButton";
+import TelegramButton from "./components/telegram/telegramButton";
 import UserProfile from "./components/user/UserProfile";
 import Code from "./components/Resources/Code";
 import CodeViewer from "./components/Resources/CodeViewer";
@@ -217,7 +218,12 @@ function App() {
           <Footer />
         )}
       </>
-      {isChatButtonVisible && <ChatButton />}
+      {isChatButtonVisible && (
+        <>
+          <ChatButton />
+          <TelegramButton />
+        </>
+      )}
     </>
   );
 }
