@@ -125,7 +125,6 @@ const CodeViewer = () => {
                     {codeItem.title || "Code Title"}
                   </h3>
 
-                  {/* Language Buttons */}
                   {codeItem.code?.length > 1 && (
                     <div className="flex flex-wrap gap-2 mb-4">
                       {codeItem.code.map((codeSnippet) => (
@@ -156,7 +155,7 @@ const CodeViewer = () => {
                         codeSnippet.language && (
                         <div
                           key={codeSnippet._id}
-                          className="relative bg-gray-950 text-white p-4 rounded-lg mb-4"
+                          className="relative text-white rounded-lg mb-4 p-1"
                         >
                           <button
                             onClick={() => copyToClipboard(codeSnippet.snippet)}
@@ -164,7 +163,7 @@ const CodeViewer = () => {
                           >
                             📋 Copy Code
                           </button>
-                          <pre className="overflow-auto text-sm md:text-base">
+                          <pre className="overflow-auto text-sm md:text-base rounded-lg">
                             <code
                               className={`language-${codeSnippet.language}`}
                             >

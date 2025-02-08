@@ -314,7 +314,6 @@ const ResourcesUpload = () => {
         if (response.data) {
           const nestedSubjects = response.data.subjects || {};
           const subjectsArray = Object.values(nestedSubjects).flat();
-          console.log(response.data.subjects);
           setAllSubjects(subjectsArray);
         } else {
           console.warn("No categories found in response.");
