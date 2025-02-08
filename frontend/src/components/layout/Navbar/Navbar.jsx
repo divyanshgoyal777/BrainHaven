@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, Link } from "react-router-dom";
-import logo from "../../../assets/img/BrainHavenFaviconNoBackground.png";
-import { useAuth } from "../../../App";
 import axios from "axios";
+import { NavLink, Link } from "react-router-dom";
+import { useAuth } from "../../../App";
+import { useLocation } from "react-router-dom";
+import logo from "../../../assets/img/BrainHavenFaviconNoBackground.png";
 import logOut from "../../../assets/svg/logout.svg";
 import admin from "../../../assets/svg/admin.svg";
 import profile from "../../../assets/svg/newAccount.svg";
@@ -21,7 +22,6 @@ const Navbar = () => {
   const [isLogoMenu, setIsLogoMenu] = useState(false);
   const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [newAccounts, setNewAccounts] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -41,7 +41,7 @@ const Navbar = () => {
       instagram: "",
     },
   });
-
+  const location = useLocation();
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
   const toggleLogoMenu = () => setIsLogoMenu((prev) => !prev);
 
@@ -84,7 +84,6 @@ const Navbar = () => {
             headers: { userEmail, Authorization: `Bearer ${token}` },
           }
         );
-
         setUserData(response.data);
         setFormData(response.data);
       } catch (err) {
@@ -95,7 +94,7 @@ const Navbar = () => {
     };
 
     fetchData();
-  }, [userEmail]);
+  }, [isAuthenticated, userEmail, location.pathname]);
 
   return (
     <nav className="fixed top-0 w-full py-5 px-8 bg-[#100924] z-50">
@@ -165,7 +164,15 @@ const Navbar = () => {
         </div>
 
         <div className="flex gap-4">
-          {!isAuthenticated ? (
+          {isAuthenticated ? (
+            isLoading ? (
+              <div className="w-14 h-14 rounded-full border-8 border-t-8 border-transparent border-t-purple-500 animate-spin shadow-[0_0_20px_rgba(128,0,128,0.8)]"></div>
+            ) : (
+              <span onClick={toggleLogoMenu} className="cursor-pointer">
+                {userProfileImage}
+              </span>
+            )
+          ) : (
             <>
               <NavLink to="/signup" aria-label="Sign Up">
                 <button className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium py-2 px-4 rounded-md shadow-md transition-all duration-300 hover:scale-105">
@@ -178,10 +185,6 @@ const Navbar = () => {
                 </button>
               </NavLink>
             </>
-          ) : (
-            <span onClick={toggleLogoMenu} className="cursor-pointer">
-              {userProfileImage}
-            </span>
           )}
         </div>
       </div>

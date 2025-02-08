@@ -238,7 +238,7 @@ const PreviewProfile = ({ userId }) => {
                     href={project.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-400 hover:text-blue-500 hover:underline transition-all duration-200"
+                    className="text-blue-400 hover:text-blue-500 hover:underline transition-all duration-200 break-words"
                   >
                     {project.link}
                   </a>
@@ -286,7 +286,7 @@ const PreviewProfile = ({ userId }) => {
                   href={user.socialLinks.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-600 hover:text-white transition duration-300 transform hover:scale-110"
+                  className="text-gray-300 hover:text-white transition duration-300 transform hover:scale-110"
                 >
                   <FaGithubSquare />
                 </a>

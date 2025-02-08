@@ -283,34 +283,42 @@ const User = () => {
 
             <div className="bg-gradient-to-r from-transparent via-white to-transparent w-full h-[1px] my-4"></div>
 
-            <div className="p-4 bg-gray-800 rounded-lg shadow-lg text-sm space-y-4 md:text-base md:space-y-6 max-w-md mx-auto">
-              <div className="flex items-center gap-2">
-                <FaPhoneAlt className="text-purple-400 text-lg" />
-                <span className="text-white font-semibold">Phone:</span>{" "}
-                <span className="text-gray-400">
-                  {userData.phoneNumber || "Not provided"}
-                </span>
+            <div className="p-4 bg-gray-800 rounded-lg shadow-lg text-sm md:text-base space-y-6 max-w-md mx-auto">
+              <div className="flex items-start gap-3">
+                <FaPhoneAlt className="text-purple-400 text-xl mt-1" />
+                <div>
+                  <span className="text-white font-semibold">Phone: </span>
+                  <span className="text-gray-400">
+                    {userData.phoneNumber || "Not provided"}
+                  </span>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <FaCalendarAlt className="text-yellow-400 text-lg" />
-                <span className="text-white font-semibold">DOB:</span>{" "}
-                <span className="text-gray-400">
-                  {userData.dateOfBirth || "Not provided"}
-                </span>
+              <div className="flex items-start gap-3">
+                <FaCalendarAlt className="text-yellow-400 text-xl mt-1" />
+                <div>
+                  <span className="text-white font-semibold">DOB: </span>
+                  <span className="text-gray-400">
+                    {userData.dateOfBirth || "Not provided"}
+                  </span>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <FaLocationDot className="text-green-400 text-lg" />
-                <span className="text-white font-semibold">Address:</span>{" "}
-                <span className="text-gray-400">
-                  {userData.address || "Not provided"}
-                </span>
+              <div className="flex items-start gap-3">
+                <FaLocationDot className="text-green-400 text-xl mt-1" />
+                <div>
+                  <span className="text-white font-semibold">Address: </span>
+                  <span className="text-gray-400 break-words">
+                    {userData.address || "Not provided"}
+                  </span>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <BiSolidUserDetail className="text-blue-400 text-xl" />
-                <span className="text-white font-semibold">Bio:</span>{" "}
-                <span className="text-gray-400">
-                  {userData.bio || "Not provided"}
-                </span>
+              <div className="flex items-start gap-3">
+                <BiSolidUserDetail className="text-blue-400 text-xl mt-1" />
+                <div>
+                  <span className="text-white font-semibold">Bio: </span>
+                  <span className="text-gray-400 break-words">
+                    {userData.bio || "Not provided"}
+                  </span>
+                </div>
               </div>
             </div>
 
@@ -512,7 +520,7 @@ const User = () => {
                 type="submit"
                 className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition duration-300"
               >
-             {isLoading2 ? "Applying..." : "Save Changes"}
+                {isLoading2 ? "Applying..." : "Save Changes"}
               </button>
             </div>
 

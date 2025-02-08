@@ -294,7 +294,7 @@ const UserProfile = () => {
                     href={user.socialLinks.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-gray-950 hover:text-white transition duration-300 transform hover:scale-110"
+                    className="text-gray-300 hover:text-white transition duration-300 transform hover:scale-110"
                   >
                     <FaGithubSquare />
                   </a>
