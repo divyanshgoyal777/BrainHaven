@@ -484,7 +484,7 @@ const User = () => {
 
             <div className="bg-gradient-to-r from-transparent via-white to-transparent w-full h-[1px] my-4"></div>
 
-            <div className="p-4 bg-gray-800 rounded-lg shadow-lg text-sm space-y-4 md:text-base md:space-y-6 max-w-md mx-auto">
+            <div className="p-4 bg-gray-800 rounded-lg shadow-lg text-sm space-y-4 md:text-base md:space-y-6 max-w-md w-full mx-auto">
               <h3 className="text-lg text-center font-semibold text-white md:text-xl">
                 Projects
               </h3>
@@ -492,15 +492,17 @@ const User = () => {
                 {userData.projects && userData.projects.length > 0
                   ? userData.projects.map((project, index) => (
                       <li key={index} className="bg-gray-900 p-3 rounded-lg">
-                        <h4 className="text-white font-semibold">
+                        <h4 className="text-white font-semibold break-words">
                           {project.title}
                         </h4>
-                        <p className="text-gray-400">{project.description}</p>
+                        <p className="text-gray-400 break-words">
+                          {project.description}
+                        </p>
                         <a
                           href={project.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-blue-400 hover:underline"
+                          className="text-blue-400 hover:underline break-words"
                         >
                           {project.link}
                         </a>
