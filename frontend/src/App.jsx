@@ -7,6 +7,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
+import { jwtDecode } from "jwt-decode";
 import ScrollToTop from "./components/ScrollToTop";
 import Loader from "./components/loader/Loader";
 import Signup from "./components/auth/Signup/Signup";
@@ -46,13 +47,28 @@ const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [combinedName, setCombinedName] = useState(null);
 
+  const isTokenExpired = (token) => {
+    if (!token) return true;
+    try {
+      const decoded = jwtDecode(token);
+      const currentTime = Date.now() / 1000;
+      return decoded.exp < currentTime;
+    } catch (error) {
+      return true;
+    }
+  };
+
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     const storedEmail = localStorage.getItem("email");
     if (storedToken && storedEmail) {
-      setIsAuthenticated(true);
-      setToken(storedToken);
-      setUserEmail(storedEmail);
+      if (isTokenExpired(storedToken)) {
+        logout();
+      } else {
+        setIsAuthenticated(true);
+        setToken(storedToken);
+        setUserEmail(storedEmail);
+      }
     }
     setLoading(false);
   }, []);
@@ -72,6 +88,7 @@ const AuthProvider = ({ children }) => {
     setToken(null);
     setUserEmail(null);
     setIsAuthenticated(false);
+    window.location.href = "/";
   };
 
   return (
