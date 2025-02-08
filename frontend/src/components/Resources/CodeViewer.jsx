@@ -163,7 +163,7 @@ const CodeViewer = () => {
                           >
                             📋 Copy Code
                           </button>
-                          <pre className="overflow-auto text-sm md:text-base rounded-lg">
+                          <pre className="bg-gray-950 p-4 overflow-auto text-sm md:text-base rounded-lg">
                             <code
                               className={`language-${codeSnippet.language}`}
                             >
