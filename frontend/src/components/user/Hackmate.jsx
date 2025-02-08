@@ -3,12 +3,14 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../App";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { set } from "date-fns";
 
 const Hackmate = () => {
   const [teams, setTeams] = useState([]);
   const [teams2, setTeams2] = useState([]);
   const [joinedTeams, setJoinedTeams] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoading2, setIsLoading2] = useState(false);
   const [userId, setUserId] = useState("");
   const [error, setError] = useState("");
   const { userEmail } = useAuth();
@@ -135,6 +137,7 @@ const Hackmate = () => {
   };
 
   const handlesaveChanges = async (e) => {
+    setIsLoading2(true);
     e.preventDefault();
     const token = localStorage.getItem("token");
 
@@ -153,6 +156,7 @@ const Hackmate = () => {
       toast.success("Team updated successfully!");
       setEdit(false);
       setSelectedTeam(null);
+      setIsLoading2(false);
       setFormData({
         title: "",
         description: "",
@@ -338,7 +342,7 @@ const Hackmate = () => {
                 type="submit"
                 className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-800 transition-all"
               >
-                Save Changes
+                {isLoading2 ? "Saving..." : "Save Changes"}
               </button>
             </div>
           </form>

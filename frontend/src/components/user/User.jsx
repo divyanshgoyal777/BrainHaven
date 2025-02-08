@@ -17,6 +17,7 @@ import { FaGraduationCap, FaBookOpen, FaUniversity } from "react-icons/fa";
 const User = () => {
   const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoading2, setIsLoading2] = useState(false);
   const [error, setError] = useState(null);
   const { userEmail } = useAuth();
   const [formData, setFormData] = useState({
@@ -188,6 +189,7 @@ const User = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
+    setIsLoading2(true);
 
     const incompleteProjects = formData.projects.some(
       (project) =>
@@ -234,6 +236,7 @@ const User = () => {
       );
 
       toast.success("Save Changes Successful");
+      setIsLoading2(false);
       setUserData((prevData) => ({
         ...prevData,
         ...formData,
@@ -509,7 +512,7 @@ const User = () => {
                 type="submit"
                 className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition duration-300"
               >
-                Save Changes
+             {isLoading2 ? "Applying..." : "Save Changes"}
               </button>
             </div>
 

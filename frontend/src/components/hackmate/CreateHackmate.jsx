@@ -5,6 +5,7 @@ import { useAuth } from "../../App";
 
 const CreateHackmate = () => {
   const { userEmail } = useAuth();
+  const [isLoading , setIsLoading] = useState(false);
   const [hackmateData, setHackmateData] = useState({
     title: "",
     description: "",
@@ -29,7 +30,7 @@ const CreateHackmate = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true);
     if (
       !hackmateData.title ||
       !hackmateData.description ||
@@ -63,6 +64,7 @@ const CreateHackmate = () => {
 
       if (response.status === 201) {
         toast.success("Hackmate created successfully!");
+        setIsLoading(false);
         setHackmateData({
           title: "",
           description: "",
@@ -238,7 +240,15 @@ const CreateHackmate = () => {
               type="submit"
               className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 rounded-lg"
             >
-              Create Team
+            
+            {isLoading ? (
+              <div className="flex justify-center items-center">
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                <span className="ml-2">Creating Hackmate...</span>
+              </div>
+            ) : (
+              "Create Hackmate"
+            )}
             </button>
           </form>
         </div>
