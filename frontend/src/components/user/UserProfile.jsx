@@ -246,7 +246,7 @@ const UserProfile = () => {
                       href={project.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-400 hover:text-blue-500 hover:underline transition-all duration-200"
+                      className="text-blue-400 hover:text-blue-500 hover:underline transition-all duration-200 break-words"
                     >
                       {project.link}
                     </a>

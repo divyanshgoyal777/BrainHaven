@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import Loader from "../loader/Loader";
 import axios from "axios";
 
 const Hackathon = () => {
   const [hackathons, setHackathons] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -17,6 +19,8 @@ const Hackathon = () => {
         setHackathons(response.data);
       } catch (error) {
         console.error("Failed to fetch hackathons:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -50,7 +54,14 @@ const Hackathon = () => {
           Hackathons
         </h2>
 
-        {filteredHackathons.length === 0 ? (
+        {loading ? (
+          <div className="flex justify-center items-center min-h-[300px]">
+            <p className="text-center text-lg text-gray-400 mt-10">
+              <Loader />
+              Loading hackathons...
+            </p>
+          </div>
+        ) : filteredHackathons.length === 0 ? (
           <p className="text-center text-gray-400 text-lg">
             No hackathons available at the moment. Please check back later!
           </p>

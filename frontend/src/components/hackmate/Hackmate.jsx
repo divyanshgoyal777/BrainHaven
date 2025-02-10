@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Loader from "../loader/Loader";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
@@ -56,10 +57,9 @@ const Hackmate = () => {
     setFilteredData(filteredTeams);
   };
 
-    useEffect(() => {
-      document.title = "BrainHaven - Hackmate";
-    }, []);
-
+  useEffect(() => {
+    document.title = "BrainHaven - Hackmate";
+  }, []);
 
   return (
     <>
@@ -90,7 +90,10 @@ const Hackmate = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-10">
           {isLoading ? (
-            <p className="text-center text-gray-400">Loading teams...</p>
+            <p className="text-center text-lg text-gray-400">
+              Loading teams...
+              <Loader />
+            </p>
           ) : filteredData.length > 0 ? (
             filteredData.map((team) => (
               <div

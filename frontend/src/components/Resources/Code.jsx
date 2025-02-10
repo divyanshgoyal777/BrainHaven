@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Loader from "../loader/Loader";
 import toast from "react-hot-toast";
 import axios from "axios";
 
@@ -103,6 +104,7 @@ const Code = () => {
 
         {isFetchingCategories ? (
           <p className="text-center text-lg text-gray-400">
+            <Loader />
             Loading categories...
           </p>
         ) : (
