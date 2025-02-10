@@ -62,7 +62,7 @@ const Hackathon = () => {
                 className="bg-gradient-to-r from-slate-950 via-gray-900 to-gray-800 text-white rounded-xl shadow-lg hover:shadow-2xl transition-all transform hover:scale-105 p-8"
               >
                 <h2 className="text-2xl font-semibold">{hackathon.name}</h2>
-                <p className="text-sm text-gray-400 mt-2">
+                <p className="text-sm text-gray-400 mt-2 whitespace-pre-line">
                   {hackathon.description}
                 </p>
                 <p className="mt-3 text-sm text-gray-300">
