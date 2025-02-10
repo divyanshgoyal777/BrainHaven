@@ -42,11 +42,6 @@ const HackathonUpload = () => {
       newErrors.teamSizeMax = "Team size must be greater than 0.";
     if (!hackathonData.registerByDate)
       newErrors.registerByDate = "Registration deadline is required.";
-    if (
-      new Date(hackathonData.registerByDate) >= new Date(hackathonData.endDate)
-    )
-      newErrors.registerByDate =
-        "Registration deadline must be before the end date.";
     if (hackathonData.categories.length === 0)
       newErrors.categories = "At least one category is required.";
     if (!hackathonData.registrationLink)
