@@ -86,6 +86,10 @@ const HackathonUpload = () => {
         registrationLink: "",
       });
     } catch (error) {
+      console.error(
+        "Error uploading hackathon:",
+        error.response || error.message
+      );
       toast.error("Failed to upload hackathon. Please try again.");
     }
   };

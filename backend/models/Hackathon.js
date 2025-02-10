@@ -5,13 +5,16 @@ const hackathonSchema = new mongoose.Schema(
     name: {
       type: String,
       trim: true,
+      required: [true, "Hackathon name is required"],
     },
     description: {
       type: String,
       trim: true,
+      required: [true, "Description is required"],
     },
     startDate: {
       type: Date,
+      required: [true, "Start date is required"],
     },
     endDate: {
       type: Date,
@@ -41,12 +44,6 @@ const hackathonSchema = new mongoose.Schema(
     },
     registerByDate: {
       type: Date,
-      validate: {
-        validator: function (value) {
-          return value <= this.startDate;
-        },
-        message: "Registration closing date must be before the start date",
-      },
     },
     categories: {
       type: [String],
@@ -54,6 +51,7 @@ const hackathonSchema = new mongoose.Schema(
     registrationLink: {
       type: String,
       trim: true,
+      required: [true, "Registration link is required"],
       validate: {
         validator: function (value) {
           return /^https?:\/\/.+/.test(value);
