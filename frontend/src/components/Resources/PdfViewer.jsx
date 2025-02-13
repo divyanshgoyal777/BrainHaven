@@ -125,6 +125,7 @@ const PdfViewer = () => {
                 <p className="text-gray-500">Loading...</p>
               </div>
             )}
+            <p className="text-black absolute bottom-2 right-[6.8rem] md:text-lg text-xs">{index + 1}</p>
             <img
               src={url}
               title={`Resource PDF - Page ${index + 1}`}
