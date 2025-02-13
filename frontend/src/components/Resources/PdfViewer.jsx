@@ -96,7 +96,7 @@ const PdfViewer = () => {
         Resource PDF
       </h2>
 
-      <div className="flex justify-center mb-10 pr-5">
+      {/* <div className="flex justify-center mb-10 pr-5">
         <button
           onClick={downloadPDF}
           className={`bg-gradient-to-tr from-indigo-600 to-purple-600 text-white px-5 py-3 rounded-xl shadow-lg transition-all transform hover:scale-105 ${
@@ -112,9 +112,9 @@ const PdfViewer = () => {
             ? "Preparing PDF..."
             : "Download PDF"}
         </button>
-      </div>
+      </div> */}
 
-      <div className="flex flex-col items-center gap-3 sm:gap-5">
+      <div className="flex flex-col items-center mt-10 gap-3 sm:gap-5">
         {pdfUrls.map((url, index) => (
           <div
             key={index}
