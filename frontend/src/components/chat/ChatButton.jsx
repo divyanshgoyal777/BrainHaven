@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 import { IoMdChatboxes } from "react-icons/io";
 import Chat from "./Chat";
+import { useNavigate } from "react-router-dom";
 
 const ChatButton = () => {
+  const navigate = useNavigate();
+  const email = localStorage.getItem("email");
   const [isChatOpen, setIsChatOpen] = useState(false);
 
   const toggleChat = () => {
+    if (!email) {
+      navigate("/login");
+      return;
+    }
     setIsChatOpen((prev) => !prev);
   };
 

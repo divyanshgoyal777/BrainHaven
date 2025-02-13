@@ -170,7 +170,7 @@ const Chat = ({ isOpen, toggleChat }) => {
                 }`}
               >
                 <p className="font-semibold text-sm">{msg.user}</p>
-                <p className="text-sm">{msg.msg}</p>
+                <p className="text-sm whitespace-pre-line">{msg.msg}</p>
                 <p className="text-xs text-gray-400 mt-1">
                   {format(new Date(msg.createdAt), "MMM dd, yyyy hh:mm a")}
                 </p>
