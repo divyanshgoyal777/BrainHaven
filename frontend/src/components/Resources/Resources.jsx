@@ -11,15 +11,15 @@ const Resources = () => {
 
   useEffect(() => {
     document.title = "BrainHaven - Resource";
-  }, []);
+   }, []);
 
-  const [selectedOptions, setSelectedOptions] = useState({
-    degree: "",
-    branch: "",
-    semester: "",
-    subject: "",
-    type: "",
+  const [selectedOptions, setSelectedOptions] = useState(() => {
+    const storedOptions = sessionStorage.getItem("submittedOptions");
+    return storedOptions
+      ? JSON.parse(storedOptions)
+      : { degree: "", branch: "", semester: "", subject: "", type: "" };
   });
+  
 
   const [dropdownData, setDropdownData] = useState({
     degrees: [],
@@ -64,7 +64,8 @@ const Resources = () => {
       toast.error("Please fill in all the options.");
       return;
     }
-
+    
+    sessionStorage.setItem("submittedOptions", JSON.stringify(selectedOptions));
     setButtonDisabled(true);
 
     const token = localStorage.getItem("token");

@@ -6,9 +6,9 @@ import axios from "axios";
 
 const Code = () => {
   const [categories, setCategories] = useState({});
-  const [primaryCategory, setPrimaryCategory] = useState("");
-  const [subCategory, setSubCategory] = useState("");
-  const [topic, setTopic] = useState("");
+  const [primaryCategory, setPrimaryCategory] = useState(sessionStorage.getItem("primaryCategory") || "");
+  const [subCategory, setSubCategory] = useState(sessionStorage.getItem("subCategory") || "");
+  const [topic, setTopic] = useState(sessionStorage.getItem("topic") || "");
   const [isLoading, setIsLoading] = useState(false);
   const [isFetchingCategories, setIsFetchingCategories] = useState(false);
   const navigate = useNavigate();
@@ -46,6 +46,18 @@ const Code = () => {
 
     fetchCategories();
   }, []);
+
+  useEffect(() => {
+    sessionStorage.setItem("primaryCategory", primaryCategory);
+  }, [primaryCategory]);
+
+  useEffect(() => {
+    sessionStorage.setItem("subCategory", subCategory);
+  }, [subCategory]);
+
+  useEffect(() => {
+    sessionStorage.setItem("topic", topic);
+  }, [topic]);
 
   const handleFetchCode = async () => {
     if (!primaryCategory || !subCategory || !topic) {
