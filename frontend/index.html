@@ -3,21 +3,52 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="./src/assets/img/BrainHavenFaviconNoBackground.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta property="og:title" content="BrainHaven" />
-  <meta property="og:description" content="Your ultimate platform for team collaboration and problem-solving." />
-  <meta property="og:image" content="./src/assets/img/BrainHavenFaviconNoBackground.png" />
+
+  <!-- SEO Meta Tags -->
+  <title>BrainHaven | Resources, Coding Snippets, Hackathons & Team Collaboration</title>
+  <meta name="description"
+    content="BrainHaven is the ultimate platform for learning, team collaboration, coding resources, and hackathon updates. Join now and boost your skills!" />
+  <meta name="keywords"
+    content="BrainHaven, coding resources, team collaboration, resources, coding snippets, hackathons, programming, learning platform" />
+  <meta name="author" content="BrainHaven Team" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <link rel="canonical" href="https://brainhaven.in/" />
+
+  <!-- Open Graph (Facebook, LinkedIn) -->
+  <meta property="og:title" content="BrainHaven - Learn, Collaborate, and Grow" />
+  <meta property="og:description"
+    content="Join BrainHaven for coding resources, structured roadmaps, and hackathon insights. Elevate your skills with community collaboration." />
+  <meta property="og:image" content="https://brainhaven.in/assets/BrainHavenFaviconNoBackground-ctWSohiX.png" />
   <meta property="og:url" content="https://brainhaven.in" />
+  <meta property="og:type" content="website" />
+
+  <!-- Twitter -->
+  <meta name="twitter:title" content="BrainHaven - Learn, Collaborate, and Grow" />
+  <meta name="twitter:description"
+    content="Get access to coding resources, team collaboration tools, and hackathon updates with BrainHaven!" />
+  <meta name="twitter:image" content="https://brainhaven.in/assets/BrainHavenFaviconNoBackground-ctWSohiX.png" />
+
+  <!-- Theme Color for Mobile Browsers -->
   <meta name="theme-color" content="#bd54b7" />
-  <link rel="icon" type="image/svg+xml" href="./src/assets/img/BrainHavenFaviconNoBackground.png" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml"
+    href="https://brainhaven.in/assets/BrainHavenFaviconNoBackground-ctWSohiX.png" />
+
+  <!-- Preconnect for Performance Optimization -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Normalize CSS for Consistent Styling -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css">
+
+  <!-- Google Fonts Optimized -->
   <link
     href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
     rel="stylesheet">
-  <title>BrainHaven</title>
+
+  <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-39P4332EK5"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -26,11 +57,37 @@
 
     gtag('config', 'G-39P4332EK5');
   </script>
+
+  <!-- Schema Markup for SEO (JSON-LD) -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "BrainHaven",
+      "url": "https://brainhaven.in/",
+      "logo": "https://brainhaven.in/assets/BrainHavenFaviconNoBackground-ctWSohiX.png",
+      "description": "BrainHaven is the ultimate platform for coding resources, collaboration, and hackathon insights.",
+      "founder": {
+        "@type": "Person",
+        "name": "BrainHaven Team"
+      },
+      "sameAs": [
+        "https://portfolioofdivyansh.netlify.app/",
+        "https://portfolioofanimesh.netlify.app/",
+        "https://www.linkedin.com/in/divyanshgoyal777/",
+        "https://github.com/divyanshgoyal777",
+        "https://t.me/brainhaven",
+        "https://leetcode.com/u/divyanshgoyal777/",
+        "http://linkedin.com/in/animesh-prakash-139b47309",
+      ]
+    }
+    </script>
 </head>
 
 <body>
   <div id="root"></div>
-  <script type="module" src="/src/main.jsx"></script>
+
+  <!-- NoScript Message for Users Without JavaScript -->
   <noscript>
     <style>
       body {
@@ -41,11 +98,15 @@
       <p>JavaScript is required to view this website. Please enable it in your browser settings.</p>
     </div>
   </noscript>
+
+  <!-- Security: Disable Right-Click, Copy, and Drag -->
   <script>
     document.addEventListener("contextmenu", (e) => e.preventDefault()); // Disable right-click
     document.addEventListener("copy", (e) => e.preventDefault()); // Disable copy
     document.addEventListener("dragstart", (e) => e.preventDefault()); // Disable drag
   </script>
+
+  <script type="module" src="/src/main.jsx"></script>
 </body>
 
 </html>
