@@ -27,11 +27,7 @@ const CodeDelete = () => {
   };
 
   const deleteCode = async (id) => {
-    if (
-      window.confirm(
-        "Are you sure you want to delete the code"
-      )
-    ) {
+    if (window.confirm("Are you sure you want to delete the code")) {
       try {
         await axios.delete(
           `${import.meta.env.VITE_API_BASE_URL}/api/admin/deleteCode/${id}`,
@@ -90,6 +86,7 @@ const CodeDelete = () => {
                   <table className="min-w-full bg-gray-800 rounded-lg shadow-lg">
                     <thead>
                       <tr className="bg-gray-700 text-sm text-gray-300 uppercase">
+                        <th className="px-4 py-3 hidden lg:block">Index</th>
                         <th className="px-4 py-3">Primary Category</th>
                         <th className="px-4 py-3">Sub Category</th>
                         <th className="px-4 py-3">Topic</th>
@@ -104,6 +101,9 @@ const CodeDelete = () => {
                             index % 2 === 0 ? "bg-gray-900" : "bg-gray-800"
                           } hover:bg-gray-700 transition-all`}
                         >
+                          <td className="px-4 py-4 hidden lg:block">
+                            {index + 1}
+                          </td>
                           <td className="px-4 py-4">{code.primaryCategory}</td>
                           <td className="px-4 py-4">{code.subCategory}</td>
                           <td className="px-4 py-4">{code.topic}</td>
@@ -122,13 +122,13 @@ const CodeDelete = () => {
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-8 md:hidden">
-                  {filteredCodes.map((code) => (
+                  {filteredCodes.map((code, index) => (
                     <div
                       key={code._id}
                       className="bg-gray-700 p-4 rounded-lg shadow-md hover:bg-gray-600 transition-all"
                     >
                       <h3 className="text-xl font-semibold text-white">
-                        {code.primaryCategory}
+                        {index + 1}. {code.primaryCategory}
                       </h3>
                       <p className="text-sm text-gray-200">
                         Sub Category: {code.subCategory}

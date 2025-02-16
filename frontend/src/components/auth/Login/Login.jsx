@@ -20,10 +20,7 @@ const Login = () => {
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_BASE_URL}/api/auth/login`,
-        {
-          email,
-          password,
-        }
+        { email, password }
       );
       const { success, token } = response.data;
       if (success) {
@@ -42,15 +39,17 @@ const Login = () => {
       setLoading(false);
     }
   };
-  
+
   useEffect(() => {
     document.title = "BrainHaven - Log In";
   }, []);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-gray-100 p-2">
-      <div className="max-w-md w-full bg-gray-700 p-8 rounded-lg shadow-2xl border-2 border-transparent bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-20 border-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
-        <h2 className="text-2xl font-semibold text-center mb-6">Login</h2>
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-gray-100 p-4">
+      <div className="max-w-md w-full bg-gray-800 p-8 rounded-xl shadow-2xl border border-gray-600 bg-opacity-20 backdrop-blur-lg">
+        <h2 className="text-3xl font-extrabold text-center mb-6 bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-500 text-transparent bg-clip-text">
+          Login
+        </h2>
         <form onSubmit={handleLogin}>
           <div className="relative mb-6">
             <label
@@ -60,7 +59,7 @@ const Login = () => {
               Email
             </label>
             <div className="flex items-center">
-              <span className="absolute left-3 top-9 text-gray-400">
+              <span className="absolute left-3 top-10 text-gray-400">
                 <FaEnvelope />
               </span>
               <input
@@ -68,7 +67,7 @@ const Login = () => {
                 id="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 block w-full pl-10 px-4 py-2 border border-gray-600 rounded-md bg-gray-700 text-gray-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="mt-1 block w-full pl-10 px-4 py-3 border border-gray-700 rounded-md bg-gray-900 text-gray-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 required
               />
             </div>
@@ -82,7 +81,7 @@ const Login = () => {
               Password
             </label>
             <div className="flex items-center">
-              <span className="absolute left-3 top-9 text-gray-400">
+              <span className="absolute left-3 top-10 text-gray-400">
                 <FaKey />
               </span>
               <input
@@ -90,11 +89,11 @@ const Login = () => {
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 block w-full pl-10 px-4 py-2 border border-gray-600 rounded-md bg-gray-700 text-gray-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="mt-1 block w-full pl-10 px-4 py-3 border border-gray-700 rounded-md bg-gray-900 text-gray-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 required
               />
               <span
-                className="absolute inset-y-0 right-0 pr-3 top-6 flex items-center text-lg cursor-pointer text-gray-400 hover:text-gray-200 transition-transform duration-200 transform hover:scale-110"
+                className="absolute inset-y-0 right-3 top-6 flex items-center text-lg cursor-pointer text-gray-400 hover:text-gray-200 transition-transform duration-200 transform hover:scale-110"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
@@ -104,7 +103,7 @@ const Login = () => {
 
           <button
             type="submit"
-            className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold py-2 px-4 rounded-md shadow-md hover:shadow-2xl hover:scale-105 transition-transform duration-300"
+            className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold py-3 px-4 rounded-lg shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300"
             disabled={loading}
           >
             {loading ? "Logging in..." : "Log In"}

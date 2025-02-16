@@ -87,10 +87,11 @@ const ResourcesDelete = () => {
                 Loading resources...
               </div>
             ) : filteredResources.length > 0 ? (
-              <div className="hidden md:block">
+              <div className="hidden lg:block">
                 <table className="min-w-full bg-gray-800 rounded-lg shadow-lg">
                   <thead>
                     <tr className="bg-gray-700 text-sm text-gray-300 uppercase">
+                      <th className="px-4 py-3 hidden lg:block">Index</th>
                       <th className="px-4 py-3">Subject</th>
                       <th className="px-4 py-3">Degree</th>
                       <th className="px-4 py-3">Branch</th>
@@ -107,6 +108,9 @@ const ResourcesDelete = () => {
                           index % 2 === 0 ? "bg-gray-900" : "bg-gray-800"
                         } hover:bg-gray-700 transition-all`}
                       >
+                        <td className="px-4 py-4 hidden lg:block">
+                          {index + 1}
+                        </td>
                         <td className="px-4 py-4">{resource.subject}</td>
                         <td className="px-4 py-4">{resource.degree}</td>
                         <td className="px-4 py-4">{resource.branch}</td>
@@ -132,14 +136,14 @@ const ResourcesDelete = () => {
               </p>
             )}
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-8 md:hidden">
-              {filteredResources.map((resource) => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-8 lg:hidden">
+              {filteredResources.map((resource, index) => (
                 <div
                   key={resource._id}
                   className="bg-gray-700 p-4 rounded-lg shadow-md hover:bg-gray-600 transition-all"
                 >
                   <h3 className="text-xl font-semibold text-white">
-                    {resource.subject}
+                    {index + 1}. {resource.subject}
                   </h3>
                   <p className="text-sm text-gray-300">
                     Degree: {resource.degree}

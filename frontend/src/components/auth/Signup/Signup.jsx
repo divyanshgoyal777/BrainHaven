@@ -1,46 +1,35 @@
 import React, { useState, useEffect } from "react";
-import { FaEye, FaEyeSlash, FaEnvelope, FaUser, FaKey } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaEnvelope, FaKey, FaUser } from "react-icons/fa";
 import toast from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function Signup() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+const Signup = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSignup = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const userData = {
-        firstName,
-        lastName,
-        email,
-        password,
-      };
+      const userData = { firstName, lastName, email, password };
       const response = await axios.post(
         `${import.meta.env.VITE_API_BASE_URL}/api/auth/signup`,
         userData
       );
+
       toast.success(response.data.message);
-      setLoading(false);
-      setFirstName("");
-      setLastName("");
-      setEmail("");
-      setPassword("");
-      window.location.href = "/login";
+      navigate("/login");
     } catch (error) {
+      toast.error(error.response?.data?.message || "Something went wrong.");
+    } finally {
       setLoading(false);
-      if (error.response) {
-        toast.error(error.response.data.message);
-      } else {
-        toast.error("An error occurred while signing up.");
-      }
     }
   };
 
@@ -49,13 +38,13 @@ function Signup() {
   }, []);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-gray-100 p-2">
-      <div className="max-w-md w-full bg-gray-800 p-8 rounded-lg shadow-2xl border-2 border-transparent bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-20 border-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
-        <h2 className="text-2xl font-semibold text-center mb-6">
-          Create New Account
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-gray-100 p-4">
+      <div className="max-w-md w-full bg-gray-800 p-8 rounded-xl shadow-2xl border border-gray-600 bg-opacity-20 backdrop-blur-lg">
+        <h2 className="text-3xl font-extrabold text-center mb-6 bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-500 text-transparent bg-clip-text">
+          Sign Up
         </h2>
         <form onSubmit={handleSignup}>
-          <div className="mb-6 flex gap-4">
+          <div className="flex gap-4 mb-6">
             <div className="relative w-1/2">
               <label
                 htmlFor="firstName"
@@ -63,17 +52,19 @@ function Signup() {
               >
                 First Name
               </label>
-              <span className="absolute left-3 top-9 text-gray-400">
-                <FaUser />
-              </span>
-              <input
-                type="text"
-                id="firstName"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-                className="mt-1 block w-full pl-10 px-4 py-2 border border-gray-600 rounded-md bg-gray-700 text-gray-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                required
-              />
+              <div className="flex items-center">
+                <span className="absolute left-3 top-10 text-gray-400">
+                  <FaUser />
+                </span>
+                <input
+                  type="text"
+                  id="firstName"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  className="mt-1 block w-full pl-10 px-4 py-3 border border-gray-700 rounded-md bg-gray-900 text-gray-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  required
+                />
+              </div>
             </div>
             <div className="relative w-1/2">
               <label
@@ -82,19 +73,22 @@ function Signup() {
               >
                 Last Name
               </label>
-              <span className="absolute left-3 top-9 text-gray-400">
-                <FaUser />
-              </span>
-              <input
-                type="text"
-                id="lastName"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-                className="mt-1 block w-full pl-10 px-4 py-2 border border-gray-600 rounded-md bg-gray-700 text-gray-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                required
-              />
+              <div className="flex items-center">
+                <span className="absolute left-3 top-10 text-gray-400">
+                  <FaUser />
+                </span>
+                <input
+                  type="text"
+                  id="lastName"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  className="mt-1 block w-full pl-10 px-4 py-3 border border-gray-700 rounded-md bg-gray-900 text-gray-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  required
+                />
+              </div>
             </div>
           </div>
+
           <div className="relative mb-6">
             <label
               htmlFor="email"
@@ -102,19 +96,21 @@ function Signup() {
             >
               Email
             </label>
-            <span className="absolute left-3 top-9 text-gray-400">
-              <FaEnvelope />
-            </span>
-            <input
-              type="email"
-              id="email"
-              autoComplete="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 block w-full pl-10 px-4 py-2 border border-gray-600 rounded-md bg-gray-700 text-gray-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              required
-            />
+            <div className="flex items-center">
+              <span className="absolute left-3 top-10 text-gray-400">
+                <FaEnvelope />
+              </span>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="mt-1 block w-full pl-10 px-4 py-3 border border-gray-700 rounded-md bg-gray-900 text-gray-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                required
+              />
+            </div>
           </div>
+
           <div className="relative mb-6">
             <label
               htmlFor="password"
@@ -122,33 +118,36 @@ function Signup() {
             >
               Password
             </label>
-            <span className="absolute left-3 top-9 text-gray-400">
-              <FaKey />
-            </span>
-            <input
-              type={showPassword ? "text" : "password"}
-              id="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 block w-full pl-10 px-4 py-2 border border-gray-600 rounded-md bg-gray-700 text-gray-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              required
-            />
-            <span
-              className="absolute inset-y-0 right-0 pr-3 top-6 flex items-center text-lg cursor-pointer text-gray-400 hover:text-gray-200 transition-transform duration-200 transform hover:scale-110"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? <FaEyeSlash /> : <FaEye />}
-            </span>
+            <div className="flex items-center">
+              <span className="absolute left-3 top-10 text-gray-400">
+                <FaKey />
+              </span>
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="mt-1 block w-full pl-10 px-4 py-3 border border-gray-700 rounded-md bg-gray-900 text-gray-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                required
+              />
+              <span
+                className="absolute inset-y-0 right-3 top-6 flex items-center text-lg cursor-pointer text-gray-400 hover:text-gray-200 transition-transform duration-200 transform hover:scale-110"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
+            </div>
           </div>
+
           <button
             type="submit"
-            className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold py-2 px-4 rounded-md shadow-md hover:shadow-2xl hover:scale-105 transition-transform duration-300"
+            className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold py-3 px-4 rounded-lg shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300"
             disabled={loading}
           >
             {loading ? "Creating Account..." : "Sign Up"}
           </button>
         </form>
+
         <p className="mt-6 text-center text-gray-400">
           Already have an account?{" "}
           <Link
@@ -161,6 +160,6 @@ function Signup() {
       </div>
     </div>
   );
-}
+};
 
 export default Signup;

@@ -25,6 +25,16 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({ storage });
 
+router.get("/resourceCount", async (req, res) => {
+  try {
+    const resources = await Resource.find();
+    res.json(resources.length);
+  } catch (error) {
+    console.error("Error fetching resources count:", error);
+    res.status(500).json({ error: "Failed to fetch resources count" });
+  }
+});
+
 router.post(
   "/uploadResource",
   authenticateToken,
