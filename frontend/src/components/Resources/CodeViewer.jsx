@@ -174,7 +174,7 @@ const CodeViewer = () => {
                       )
                   )}
 
-                  <h4 className="text-base md:text-lg text-white font-medium pt-2">
+                  <h4 className="text-base md:text-lg text-white font-medium pt-2 whitespace-pre-line">
                     {codeItem.description || "Code Description"}
                   </h4>
                 </div>
