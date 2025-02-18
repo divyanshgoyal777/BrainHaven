@@ -11,7 +11,7 @@ const Resources = () => {
 
   useEffect(() => {
     document.title = "BrainHaven - Resource";
-   }, []);
+  }, []);
 
   const [selectedOptions, setSelectedOptions] = useState(() => {
     const storedOptions = sessionStorage.getItem("submittedOptions");
@@ -19,7 +19,6 @@ const Resources = () => {
       ? JSON.parse(storedOptions)
       : { degree: "", branch: "", semester: "", subject: "", type: "" };
   });
-  
 
   const [dropdownData, setDropdownData] = useState({
     degrees: [],
@@ -64,7 +63,7 @@ const Resources = () => {
       toast.error("Please fill in all the options.");
       return;
     }
-    
+
     sessionStorage.setItem("submittedOptions", JSON.stringify(selectedOptions));
     setButtonDisabled(true);
 
@@ -166,15 +165,15 @@ const Resources = () => {
                   Loading categories...
                 </p>
               ) : (
-                <div className="flex flex-col bg-gray-800 p-6 rounded-lg items-center gap-16 py-5 w-[90%] lg:w-[60%] my-10 mx-auto">
+                <div className="flex flex-col text-white bg-gray-800/50 backdrop-blur-lg p-6 rounded-lg items-center gap-10 py-5 w-[90%] lg:w-[60%] my-10 mx-auto">
                   <ResourceCategory />
                   <button
                     onClick={handleSubmit}
-                    className={`flex items-center px-6 py-3 text-sm md:text-base lg:text-lg cursor-pointer rounded-lg transition-all duration-300 ${
+                    className={`px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-lg rounded-lg hover:scale-105 transition-all duration-300 ease-in-out ${
                       buttonDisabled
-                        ? "bg-gray-500 cursor-not-allowed"
-                        : "bg-indigo-600"
-                    } text-white shadow-lg`}
+                        ? "opacity-50 cursor-not-allowed"
+                        : "hover:shadow-lg hover:shadow-purple-500/50"
+                    }`}
                     disabled={buttonDisabled}
                   >
                     {buttonDisabled ? "Submitting..." : "Submit"}
@@ -274,7 +273,7 @@ const ResourceCategory = () => {
 
 const Dropdown = ({ label, options, value, onChange, disabled }) => (
   <div className="flex flex-col">
-    <label className="mb-2">{label}:</label>
+    <label className="mb-2">{label}</label>
     <select
       value={value}
       onChange={(e) => onChange(e.target.value)}

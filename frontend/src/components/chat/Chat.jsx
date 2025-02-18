@@ -93,12 +93,6 @@ const Chat = ({ isOpen, toggleChat }) => {
     scrollToBottom();
   };
 
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
-      handleSendMessage();
-    }
-  };
-
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({
       behavior: "smooth",
@@ -188,14 +182,13 @@ const Chat = ({ isOpen, toggleChat }) => {
 
       <div className="absolute bottom-0 left-0 right-0 p-4 bg-gray-800">
         <div className="flex items-center space-x-3">
-          <input
-            type="text"
+          <textarea
+            row={1}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            onKeyDown={handleKeyPress}
             placeholder="Type a message..."
             className="w-full p-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
-          />
+          ></textarea>
           <button
             onClick={handleSendMessage}
             className="p-2 bg-blue-600 text-white rounded-full hover:bg-blue-500 transition-all duration-300"

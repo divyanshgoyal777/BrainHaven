@@ -55,32 +55,27 @@ const Roadmaps = () => {
   ];
 
   return (
-    <div className="text-white">
-      <div className="mt-32 px-8">
-        <h1 className="bg-gradient-to-tl from-indigo-600 to-purple-600 bg-clip-text text-transparent text-3xl md:text-4xl font-extrabold text-center drop-shadow-lg">
+    <div className="text-white min-h-screen flex flex-col items-center">
+      <div className="mt-36 px-8 w-full">
+        <h1 className="bg-gradient-to-tl from-indigo-600 to-purple-600 bg-clip-text text-transparent text-3xl md:text-4xl font-extrabold text-center drop-shadow-lg animate-fade-in transition-all duration-500 ease-in-out">
           Discover Your Path in Tech
         </h1>
-        <div className="flex flex-col items-center gap-16 py-16 w-[90%] lg:w-[75%] mx-auto">
-          <RoadmapCategory title="Career Paths" items={careerPaths} link />
+        <div className="flex flex-col items-center gap-16 py-12 w-[90%] lg:w-[75%] mx-auto">
+          <RoadmapCategory title="Career Paths" items={careerPaths} />
           <RoadmapCategory
             title="Programming Languages"
             items={programmingLanguages}
-            link
           />
-          <RoadmapCategory
-            title="Technologies & Tools"
-            items={technologies}
-            link
-          />
+          <RoadmapCategory title="Technologies & Tools" items={technologies} />
         </div>
       </div>
     </div>
   );
 };
 
-const RoadmapCategory = ({ title, items, link }) => (
+const RoadmapCategory = ({ title, items }) => (
   <div className="w-full">
-    <h1 className="text-2xl sm:text-3xl font-bold text-center py-4 px-6 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300">
+    <h1 className="text-2xl sm:text-3xl font-bold text-center py-4 px-6 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:shadow-purple-500/50 duration-300">
       {title}
     </h1>
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mt-10 px-4">
@@ -91,7 +86,7 @@ const RoadmapCategory = ({ title, items, link }) => (
             .toLowerCase()
             .replace(/\s+/g, "-")
             .replace(/\//g, "-")}`}
-          className="px-6 py-4 bg-gradient-to-r from-gray-700 to-gray-900 hover:from-purple-600 hover:to-indigo-600 text-white text-center font-medium rounded-lg shadow-md hover:shadow-purple-500/50 transform hover:scale-105 transition-all duration-300"
+          className="px-6 py-4 bg-gradient-to-r from-gray-800 to-gray-900 hover:from-purple-700 hover:to-indigo-700 text-white text-center font-medium rounded-lg shadow-md hover:shadow-purple-500/50 transform hover:scale-105 transition-all duration-300 ease-in-out"
         >
           {item}
         </Link>

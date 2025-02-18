@@ -113,14 +113,13 @@ const Code = () => {
         <h2 className="bg-gradient-to-tl from-indigo-600 to-purple-600 bg-clip-text text-transparent text-3xl md:text-4xl font-extrabold text-center drop-shadow-lg my-10">
           Code
         </h2>
-
         {isFetchingCategories ? (
           <p className="text-center text-lg text-gray-400">
             <Loader />
             Loading categories...
           </p>
         ) : (
-          <form className="max-w-3xl mx-auto bg-gray-800 p-6 rounded-lg shadow-lg space-y-6 text-white">
+          <form className="max-w-3xl mx-auto bg-gray-800/50 backdrop-blur-lg p-6 rounded-lg shadow-2xl space-y-6 text-white">
             <div>
               <label className="block text-sm font-medium mb-2">
                 Primary Category
@@ -131,7 +130,7 @@ const Code = () => {
                   setPrimaryCategory(e.target.value);
                   setSubCategory("");
                 }}
-                className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 ease-in-out"
                 required
               >
                 <option value="">Select Primary Category</option>
@@ -142,7 +141,6 @@ const Code = () => {
                 ))}
               </select>
             </div>
-
             <div>
               <label className="block text-sm font-medium mb-2">
                 Subcategory
@@ -150,12 +148,11 @@ const Code = () => {
               <select
                 value={subCategory}
                 onChange={(e) => setSubCategory(e.target.value)}
-                className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-300 ease-in-out"
                 disabled={!primaryCategory}
                 required
               >
                 <option value="">Select Subcategory</option>
-
                 {categories[primaryCategory]?.subCategories?.map(
                   (subcategory) => (
                     <option key={subcategory} value={subcategory}>
@@ -165,18 +162,16 @@ const Code = () => {
                 )}
               </select>
             </div>
-
             <div>
               <label className="block text-sm font-medium mb-2">Topic</label>
               <select
                 value={topic}
                 onChange={(e) => setTopic(e.target.value)}
-                className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-300 ease-in-out"
                 required
                 disabled={!subCategory}
               >
                 <option value="">Select Topic</option>
-
                 {categories[primaryCategory]?.subCategoryMap[subCategory]?.map(
                   (topic, index) => (
                     <option key={index} value={topic}>
@@ -191,13 +186,14 @@ const Code = () => {
                 )}
               </select>
             </div>
-
             <div className="text-center">
               <button
                 type="button"
                 onClick={handleFetchCode}
-                className={`px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-lg rounded-lg ${
-                  isLoading ? "opacity-50 cursor-not-allowed" : ""
+                className={`px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-lg rounded-lg hover:scale-105 transition-all duration-300 ease-in-out ${
+                  isLoading
+                    ? "opacity-50 cursor-not-allowed"
+                    : "hover:shadow-lg hover:shadow-purple-500/50"
                 }`}
               >
                 {isLoading ? "Loading..." : "Fetch Code"}
