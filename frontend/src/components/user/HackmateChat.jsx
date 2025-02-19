@@ -23,12 +23,6 @@ const HackmateChat = () => {
     });
   };
 
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter" && newMessage.trim()) {
-      handleSendMessage();
-    }
-  };
-
   const formatDate = (date) => {
     const d = new Date(date);
     const day = String(d.getDate()).padStart(2, "0");
@@ -171,13 +165,13 @@ const HackmateChat = () => {
 
   return (
     <>
-      <div className="min-h-screen bg-gray-900 text-white p-6 mt-24">
-        <h1 className="text-3xl font-bold mb-4">Chat Room</h1>{" "}
-        <div className="bg-gray-800 p-4 rounded-lg mb-4 max-h-96 overflow-y-auto">
+      <div className="min-h-screen bg-gray-900 text-white p-6 mt-24 flex flex-col items-center">
+        <h1 className="text-3xl font-bold mb-4">Chat Room</h1>
+        <div className="bg-gray-800 p-4 rounded-lg mb-4 max-h-96 overflow-y-auto w-full max-w-md">
           {messages.map((msg, index) => (
             <div key={index} className="mb-2">
               <span className="text-green-400">{msg.senderName}:</span>{" "}
-              <span>{msg.message}</span>
+              <span className="whitespace-pre-line">{msg.message}</span>
               <div className="text-xs text-gray-400">
                 {formatDate(msg.timestamp)}
               </div>
@@ -185,17 +179,17 @@ const HackmateChat = () => {
           ))}
           <div ref={messagesEndRef} />
         </div>
-        <div className="flex gap-4">
-          <input
-            type="text"
+        <div className="flex gap-2 w-full max-w-md flex-wrap">
+          <textarea
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
-            onKeyDown={handleKeyPress}
-            className="flex-1 bg-gray-700 p-3 rounded-lg text-white"
-          />
+            className="flex-1 bg-gray-700 p-3 rounded-lg text-white w-full sm:w-auto"
+            placeholder="Type a message..."
+            rows={1}
+          ></textarea>
           <button
             onClick={handleSendMessage}
-            className="bg-blue-600 px-4 py-2 rounded-md hover:bg-blue-500"
+            className="bg-blue-600 px-4 py-2 rounded-md hover:bg-blue-500 w-full sm:w-auto"
             disabled={!newMessage.trim()}
           >
             Send

@@ -218,12 +218,17 @@ const TeamViewer = () => {
 
   return (
     <>
-      <div className="min-h-screen py-16 mt-24">
-        <div className="container mx-auto px-6 md:px-12 lg:px-16">
-          <div className="bg-gray-800 p-8 md:p-12 rounded-lg shadow-2xl">
-            <h2 className="text-4xl font-extrabold text-white mb-4">{title}</h2>
-            <p className="text-lg text-gray-300 mb-6">{description}</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="min-h-screen py-12 px-4 sm:px-6 md:px-12 lg:px-16 mt-24">
+        <div className="container mx-auto">
+          <div className="bg-gray-800 p-6 sm:p-8 md:p-12 rounded-lg shadow-2xl">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4">
+              {title}
+            </h2>
+            <p className="text-base sm:text-lg text-gray-300 mb-6">
+              {description}
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <p className="text-gray-400 mb-2">
                   <span className="font-medium text-gray-100">Admin:</span>{" "}
@@ -249,7 +254,7 @@ const TeamViewer = () => {
                   <span className="font-medium text-gray-100">
                     Skills Required:
                   </span>
-                  <div className="flex flex-wrap gap-3 mt-2">
+                  <div className="flex flex-wrap gap-2 mt-2">
                     {skillsRequired.map((skill, index) => (
                       <span
                         key={index}
@@ -262,8 +267,11 @@ const TeamViewer = () => {
                 </div>
               </div>
             </div>
+
             <div className="mt-6">
-              <h3 className="text-xl font-bold text-white mb-3">Members</h3>
+              <h3 className="text-lg sm:text-xl font-bold text-white mb-3">
+                Members
+              </h3>
               {members?.some((member) => member.userId === userId) ? (
                 <>
                   <p className="text-green-400 font-bold mb-4">
@@ -273,32 +281,24 @@ const TeamViewer = () => {
                     {members.map((member) => (
                       <li
                         key={member._id}
-                        className="bg-gray-700 p-3 rounded-lg shadow-sm flex items-center gap-4"
+                        className="bg-gray-700 p-3 rounded-lg shadow-sm flex flex-col sm:flex-row items-center sm:justify-between gap-4"
                       >
-                        <div className="flex items-center justify-between w-full">
-                          <div className="flex items-center gap-3">
-                            <div className="bg-indigo-500 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold"></div>
-
-                            <p className="font-semibold text-gray-300 hover:text-white">
-                              <Link to={`/user/${member.userId}`}>
-                                {member.userName}
-                              </Link>
-                            </p>
-                          </div>
-                          <div>
-                            {adminId === userId &&
-                              member.userId !== adminId && (
-                                <button
-                                  onClick={() =>
-                                    handleRemoveMember(member.userId)
-                                  }
-                                  className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg shadow-sm"
-                                >
-                                  Remove
-                                </button>
-                              )}
-                          </div>
+                        <div className="flex items-center gap-3">
+                          <div className="bg-indigo-500 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold"></div>
+                          <p className="font-semibold text-gray-300 hover:text-white">
+                            <Link to={`/user/${member.userId}`}>
+                              {member.userName}
+                            </Link>
+                          </p>
                         </div>
+                        {adminId === userId && member.userId !== adminId && (
+                          <button
+                            onClick={() => handleRemoveMember(member.userId)}
+                            className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg shadow-sm w-full sm:w-auto"
+                          >
+                            Remove
+                          </button>
+                        )}
                       </li>
                     ))}
                   </ul>
@@ -309,46 +309,46 @@ const TeamViewer = () => {
                 </p>
               )}
             </div>
+
             {pendingRequests.length > 0 && adminId === userId && (
               <div className="mt-6">
-                <h3 className="text-xl font-bold text-yellow-400 mb-3">
+                <h3 className="text-lg sm:text-xl font-bold text-yellow-400 mb-3">
                   Pending Requests
                 </h3>
                 <ul className="space-y-2">
                   {pendingRequests.map((request) => (
                     <li
                       key={request.userId}
-                      className="bg-gray-700 p-3 rounded-lg shadow-sm flex items-center gap-4"
+                      className="bg-gray-700 p-3 rounded-lg shadow-sm flex flex-col sm:flex-row sm:justify-between gap-4"
                     >
-                      <div className="flex items-center justify-between w-full">
-                        <div className="flex items-center gap-3">
-                          <div className="bg-yellow-500 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold"></div>
-                          <p className="font-semibold text-gray-300 hover:text-white">
-                            <Link to={`/user/${request.userId}`}>
-                              {request.userName}
-                            </Link>
-                          </p>
-                        </div>
-                        <div className="flex gap-2">
-                          <button
-                            onClick={() => handleAcceptRequest(request.userId)}
-                            className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg shadow-sm"
-                          >
-                            Accept
-                          </button>
-                          <button
-                            onClick={() => handleDeclineRequest(request.userId)}
-                            className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg shadow-sm"
-                          >
-                            Decline
-                          </button>
-                        </div>
+                      <div className="flex items-center gap-3">
+                        <div className="bg-yellow-500 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold"></div>
+                        <p className="font-semibold text-gray-300 hover:text-white">
+                          <Link to={`/user/${request.userId}`}>
+                            {request.userName}
+                          </Link>
+                        </p>
+                      </div>
+                      <div className="flex flex-col sm:flex-row gap-2">
+                        <button
+                          onClick={() => handleAcceptRequest(request.userId)}
+                          className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg shadow-sm w-full sm:w-auto"
+                        >
+                          Accept
+                        </button>
+                        <button
+                          onClick={() => handleDeclineRequest(request.userId)}
+                          className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg shadow-sm w-full sm:w-auto"
+                        >
+                          Decline
+                        </button>
                       </div>
                     </li>
                   ))}
                 </ul>
               </div>
             )}
+
             {adminId === userId ||
             members.some((member) => member.userId === userId) ? null : (
               <div className="mt-6">
@@ -358,7 +358,7 @@ const TeamViewer = () => {
                   </p>
                 ) : (
                   <button
-                    className="bg-indigo-500 hover:bg-indigo-600 text-white py-2 px-4 rounded-lg shadow-sm"
+                    className="bg-indigo-500 hover:bg-indigo-600 text-white py-2 px-4 rounded-lg shadow-sm w-full sm:w-auto"
                     onClick={handleJoinRequest}
                     disabled={isRequesting}
                   >
