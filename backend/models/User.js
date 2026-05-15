@@ -29,6 +29,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    profilePhotoFileId: {
+      type: String,
+      default: "",
+    },
     phoneNumber: {
       type: String,
       default: "",
@@ -115,7 +119,7 @@ const userSchema = new mongoose.Schema(
       },
     ],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const User = mongoose.model("User", userSchema);

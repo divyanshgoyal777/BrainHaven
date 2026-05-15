@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../App";
 import logo from "../../assets/img/BrainHavenFaviconNoBackground.png";
 import "./Home.css";
-import CountUp from "react-countup";
 import Navbar from "../layout/Navbar/Navbar";
 import Footer from "../layout/Footer/Footer";
 import FeaturedRoadmaps from "./Swiper";
@@ -16,8 +15,6 @@ const Home = () => {
     resources: 0,
     codeSnippets: 0,
   });
-
-  const [startCount, setStartCount] = useState(false);
 
   useEffect(() => {
     document.title = "BrainHaven - Home";
@@ -34,8 +31,8 @@ const Home = () => {
           ),
         ]);
         setStats({
-          resources: Number(resourcesRes.data) || 0,
-          codeSnippets: Number(snippetsRes.data) || 0,
+          resources: resourcesRes.data || 0,
+          codeSnippets: snippetsRes.data || 0,
         });
       } catch (error) {
         console.error("Error fetching statistics:", error);
@@ -45,12 +42,6 @@ const Home = () => {
 
     fetchStats();
   }, []);
-
-  useEffect(() => {
-    if (stats.resources > 0 || stats.codeSnippets > 0) {
-      setStartCount(true);
-    }
-  }, [stats]);
 
   return (
     <>
@@ -155,14 +146,7 @@ const Home = () => {
                 📚 Total Resources
               </h3>
               <p className="text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-500 animate-pulse">
-                {startCount && (
-                  <CountUp
-                    key={`res-${stats.resources}`}
-                    start={0}
-                    end={stats.resources}
-                    duration={15}
-                  />
-                )}
+                {stats.resources}
               </p>
             </div>
             <div className="bg-gradient-to-r from-green-900 to-teal-900 p-8 rounded-2xl shadow-2xl w-80 transform hover:scale-105 transition duration-300 ease-in-out">
@@ -170,14 +154,7 @@ const Home = () => {
                 💻 Code Snippets
               </h3>
               <p className="text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-teal-500 animate-pulse">
-                {startCount && (
-                  <CountUp
-                    key={`res-${stats.codeSnippets}`}
-                    start={0}
-                    end={stats.codeSnippets}
-                    duration={15}
-                  />
-                )}
+                {stats.codeSnippets}
               </p>
             </div>
           </div>

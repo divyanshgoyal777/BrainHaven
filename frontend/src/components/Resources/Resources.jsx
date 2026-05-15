@@ -29,9 +29,6 @@ const Resources = () => {
   });
 
   const [loading, setLoading] = useState(true);
-  const [pdfUrl, setPdfUrl] = useState(null);
-  const [pdfPages, setPdfPages] = useState(0);
-  const [pdfShow, setPdfShow] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -89,33 +86,22 @@ const Resources = () => {
             JSON.stringify(videoLinks)
           )}`;
           navigate(urlPath);
+          setButtonDisabled(false);
         } else {
-          const cloudinaryUrl = response.data[0]?.cloudinary_url;
-          const pages = response.data[0]?.pages;
+          const resourceUrl = response.data[0]?.resource_url;
 
-          if (!cloudinaryUrl || !pages) {
-            toast.error("No valid PDF or pages information found.");
+          if (!resourceUrl) {
+            toast.error("No valid PDF found.");
             setButtonDisabled(false);
             return;
           }
 
-          const modifiedUrls = [];
-          for (let i = 1; i <= pages; i++) {
-            const modifiedUrl = cloudinaryUrl.replace(
-              "/upload",
-              `/upload/f_auto/pg_${i}`
-            );
-            modifiedUrls.push(modifiedUrl);
-          }
-
-          const urlPath = `/resources/${degree}/${branch}/${semester}/${subject}/${type}?pdfUrls=${encodeURIComponent(
-            JSON.stringify(modifiedUrls)
-          )}&pdfPages=${pages}`;
+          const urlPath = `/resources/${degree}/${branch}/${semester}/${subject}/${type}?pdfUrl=${encodeURIComponent(
+            resourceUrl,
+          )}`;
 
           navigate(urlPath);
-          setPdfUrl(modifiedUrls);
-          setPdfPages(pages);
-          setPdfShow(true);
+          setButtonDisabled(false);
         }
       })
       .catch((error) => {
@@ -131,57 +117,34 @@ const Resources = () => {
     >
       <div className="text-white">
         <div className="mt-32 px-8">
-          {pdfShow ? (
-            pdfUrl && pdfUrl.length > 0 ? (
-              <div className="pdf-container mt-10 px-1">
-                <h2 className="bg-gradient-to-tl from-indigo-600 to-purple-600 bg-clip-text text-transparent text-3xl md:text-4xl font-extrabold text-center drop-shadow-lg my-10">
-                  Resource PDF
-                </h2>
-                <div className="flex flex-col items-center gap-5">
-                  {pdfUrl.map((url, index) => (
-                    <div key={index} className="w-full max-w-4xl">
-                      <img
-                        src={url}
-                        title={`Resource PDF - Page ${index + 1}`}
-                        className="w-full h-auto rounded-lg shadow-lg"
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ) : (
-              <p className="text-gray-400 text-center mt-4">
-                No PDF available to display.
+          <div>
+            <h1 className="bg-gradient-to-tl from-indigo-600 to-purple-600 bg-clip-text text-transparent text-3xl md:text-4xl font-extrabold text-center drop-shadow-lg">
+              Resources
+            </h1>
+
+            {loading ? (
+              <p className="text-center text-lg text-gray-400 mt-10">
+                <Loader />
+                Loading categories...
               </p>
-            )
-          ) : (
-            <div>
-              <h1 className="bg-gradient-to-tl from-indigo-600 to-purple-600 bg-clip-text text-transparent text-3xl md:text-4xl font-extrabold text-center drop-shadow-lg">
-                Resources
-              </h1>
-              {loading ? (
-                <p className="text-center text-lg text-gray-400 mt-10">
-                  <Loader />
-                  Loading categories...
-                </p>
-              ) : (
-                <div className="flex flex-col text-white bg-gray-800/50 backdrop-blur-lg p-6 rounded-lg items-center gap-10 py-5 w-[90%] lg:w-[60%] my-10 mx-auto">
-                  <ResourceCategory />
-                  <button
-                    onClick={handleSubmit}
-                    className={`px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-lg rounded-lg hover:scale-105 transition-all duration-300 ease-in-out ${
-                      buttonDisabled
-                        ? "opacity-50 cursor-not-allowed"
-                        : "hover:shadow-lg hover:shadow-purple-500/50"
-                    }`}
-                    disabled={buttonDisabled}
-                  >
-                    {buttonDisabled ? "Submitting..." : "Submit"}
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
+            ) : (
+              <div className="flex flex-col text-white bg-gray-800/50 backdrop-blur-lg p-6 rounded-lg items-center gap-10 py-5 w-[90%] lg:w-[60%] my-10 mx-auto">
+                <ResourceCategory />
+
+                <button
+                  onClick={handleSubmit}
+                  className={`px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-lg rounded-lg hover:scale-105 transition-all duration-300 ease-in-out ${
+                    buttonDisabled
+                      ? "opacity-50 cursor-not-allowed"
+                      : "hover:shadow-lg hover:shadow-purple-500/50"
+                  }`}
+                  disabled={buttonDisabled}
+                >
+                  {buttonDisabled ? "Submitting..." : "Submit"}
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </GlobalOptionsContext.Provider>

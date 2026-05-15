@@ -172,7 +172,7 @@ const ResourcesUpload = () => {
     formDataToSend.append("type", type);
     formDataToSend.append("pages", pages);
     formDataToSend.append("resourceFile", resourceFile);
-    formDataToSend.append("videoLinks", JSON.stringify(videoLinks));
+    formDataToSend.append("videoLinks", videoLinks.join(","));
 
     try {
       const token = localStorage.getItem("token");
@@ -202,7 +202,7 @@ const ResourcesUpload = () => {
         videoLinks: [""],
       });
     } catch (error) {
-      if (error.response.status === 400) {
+      if (error.response && error.response.status === 400) {
         setOption(true);
       }
       setIsLoading(false);
@@ -240,7 +240,7 @@ const ResourcesUpload = () => {
       formDataToSend.append("type", type);
       formDataToSend.append("pages", pages);
       formDataToSend.append("resourceFile", resourceFile);
-      formDataToSend.append("videoLinks", JSON.stringify(videoLinks));
+      formDataToSend.append("videoLinks", videoLinks.join(","));
 
       try {
         const response = await axios.post(

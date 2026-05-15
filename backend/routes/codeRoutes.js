@@ -12,8 +12,8 @@ router.use(express.json());
 
 router.get("/codeCount", async (req, res) => {
   try {
-    const code = await Code.find();
-    res.json(code.length);
+    const count = await Code.countDocuments();
+    res.json(count);
   } catch (error) {
     console.error("Error fetching code count:", error);
     res.status(500).json({ error: "Failed to fetch code count" });

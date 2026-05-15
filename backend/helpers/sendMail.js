@@ -95,13 +95,13 @@ const templates = {
     We're excited to have you on board as you dive into our vast library of coding resources, detailed roadmaps, hackathon updates, and more. Explore the tools that will elevate your tech journey and join like-minded innovators in our HackMate community, where you can create teams, collaborate, and chat with teammates.
   </p>
   <p>If you have any questions, our support team is always here to assist you.</p>
-  <a href="https://brainhaven.in/login" class="cta-button">Login and Start Exploring</a>
+  <a href="https://brainhaven.netlify.app/login" class="cta-button">Login and Start Exploring</a>
 </div>
 <div class="footer">
   <p>© 2025 BrainHaven. All rights reserved.</p>
   <p>
     Discover more: 
-    <a href="https://brainhaven.in">BrainHaven</a>
+    <a href="https://brainhaven.netlify.app">BrainHaven</a>
   </p>
 </div>
 </body>

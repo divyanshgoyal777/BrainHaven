@@ -2,11 +2,18 @@ const express = require("express");
 const router = express.Router();
 require("dotenv").config();
 const authenticateToken = require("../middleware/authenticateToken");
+const ImageKit = require("imagekit");
 const User = require("../models/User");
 const Resource = require("../models/Resource");
 const Code = require("../models/Code");
 const Hackathon = require("../models/Hackathon");
 const HackmateTeam = require("../models/HackmateTeam");
+
+const imagekit = new ImageKit({
+  publicKey: process.env.IMAGEKIT_PUBLIC_KEY,
+  privateKey: process.env.IMAGEKIT_PRIVATE_KEY,
+  urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT,
+});
 
 router.get("/allUsers", authenticateToken, async (req, res) => {
   try {
@@ -32,11 +39,24 @@ router.delete("/deleteUser/:id", authenticateToken, async (req, res) => {
 router.delete("/deleteResource/:id", authenticateToken, async (req, res) => {
   try {
     const resourceId = req.params.id;
-    await Resource.findByIdAndDelete(resourceId);
-    res.json({ message: "Resource deleted successfully" });
+    const resource = await Resource.findById(resourceId);
+    if (!resource) {
+      return res.status(404).json({
+        error: "Resource not found",
+      });
+    }
+    if (resource.fileId) {
+      await imagekit.deleteFile(resource.fileId);
+    }
+    await resource.deleteOne();
+    res.json({
+      message: "Resource deleted successfully",
+    });
   } catch (error) {
     console.error("Error deleting resource:", error);
-    res.status(500).json({ error: "Failed to delete resource" });
+    res.status(500).json({
+      error: "Failed to delete resource",
+    });
   }
 });
 

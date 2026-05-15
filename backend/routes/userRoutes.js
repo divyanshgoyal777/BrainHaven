@@ -4,15 +4,28 @@ const User = require("../models/User");
 const authenticateToken = require("../middleware/authenticateToken");
 require("dotenv").config();
 const multer = require("multer");
-const { v2: cloudinary } = require("cloudinary");
-const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const ImageKit = require("imagekit");
 const { v4: uuidv4 } = require("uuid");
-const path = require("path");
 
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
+const imagekit = new ImageKit({
+  publicKey: process.env.IMAGEKIT_PUBLIC_KEY,
+  privateKey: process.env.IMAGEKIT_PRIVATE_KEY,
+  urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT,
+});
+
+const storage = multer.memoryStorage();
+
+const upload = multer({
+  storage,
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
+
+    if (!allowedTypes.includes(file.mimetype)) {
+      return cb(new Error("Only image files are allowed"), false);
+    }
+
+    cb(null, true);
+  },
 });
 
 router.get("/userProfile", authenticateToken, async (req, res) => {
@@ -59,7 +72,7 @@ router.post("/userInformation", authenticateToken, async (req, res) => {
     const user = await User.findOneAndUpdate(
       { email: userData.email },
       userData,
-      { new: true, upsert: true }
+      { new: true, upsert: true },
     );
 
     res.status(201).json(user);
@@ -69,22 +82,6 @@ router.post("/userInformation", authenticateToken, async (req, res) => {
   }
 });
 
-const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: {
-    folder: "profile-pic",
-    format: async (req, file) => {
-      const ext = path.extname(file.originalname).toLowerCase();
-      return ext === ".png" || ext === ".jpeg" || ext === ".jpg"
-        ? "jpg"
-        : "png";
-    },
-    public_id: (req, file) => uuidv4(),
-  },
-});
-
-const upload = multer({ storage });
-
 router.post(
   "/uploadUserImage",
   authenticateToken,
@@ -92,19 +89,33 @@ router.post(
   async (req, res) => {
     try {
       if (!req.file) {
-        return res.status(400).send({ message: "No file uploaded" });
+        return res.status(400).json({
+          message: "No file uploaded",
+        });
       }
-      const imageUrl = req.file.path;
+      const uploadedFile = await imagekit.upload({
+        file: req.file.buffer,
+        fileName: `${uuidv4()}.jpg`,
+        folder: "/profile-pic",
+      });
+      const imageUrl = uploadedFile.url;
       await User.updateOne(
         { email: req.headers.email },
-        { profilePhoto: imageUrl }
+        {
+          profilePhoto: imageUrl,
+          profilePhotoFileId: uploadedFile.fileId,
+        },
       );
-      res.status(200).json({ url: imageUrl });
+      res.status(200).json({
+        url: imageUrl,
+      });
     } catch (error) {
       console.error("Error uploading image:", error);
-      res.status(500).json({ error: "Failed to upload image" });
+      res.status(500).json({
+        error: "Failed to upload image",
+      });
     }
-  }
+  },
 );
 
 module.exports = router;

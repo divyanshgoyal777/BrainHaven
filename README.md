@@ -64,13 +64,13 @@ Your ultimate platform for learning resources, codes, roadmaps, hackathon update
 - **MongoDB** with **Mongoose**
 
 ### **Hosting & Storage**
-- **Cloudinary** for image uploads and storage.
+- **ImageKit** for image uploads and storage.
 
 ---
 
 ## 📦 Dependencies
 - **bcryptjs**: Secure password hashing.
-- **cloudinary**: Image and file management.
+- **imagekit**: Image and file management.
 - **cors**: Cross-Origin Resource Sharing.
 - **dotenv**: Environment variable management.
 - **express**: Backend framework.
@@ -78,7 +78,7 @@ Your ultimate platform for learning resources, codes, roadmaps, hackathon update
 - **helmet**: Enhanced security.
 - **jsonwebtoken**: Authentication via JWT.
 - **mongoose**: MongoDB object modeling.
-- **multer & multer-storage-cloudinary**: File uploads and cloud storage.
+- **multer**: File uploads.
 - **nodemailer**: Email notifications.
 - **nodemon**: Development monitoring.
 - **socket.io**: Real-time communication.

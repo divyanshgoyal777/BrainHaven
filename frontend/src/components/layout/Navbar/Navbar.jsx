@@ -94,7 +94,7 @@ const Navbar = () => {
     };
 
     fetchData();
-  }, [isAuthenticated, userEmail, location.pathname]);
+  }, [isAuthenticated, userEmail,]);
 
   return (
     <nav className="fixed top-0 w-full py-5 px-8 bg-[#100924] z-50">
@@ -254,20 +254,20 @@ const Navbar = () => {
           />
           <div className="fixed top-[6%] right-[5%] sm:w-[350px] bg-[#100924] p-6 z-50 rounded-2xl overflow-y-auto max-h-[95vh]">
             <div className="flex justify-evenly items-center gap-1 ">
-              <Link to={`/user/${userData._id}`}>{userProfileImage}</Link>
+              <Link to={`/user/${userData?._id}`}>{userProfileImage}</Link>
               <div className="text-white flex flex-col justify-start text-center sm:text-start">
                 <div className="font-semibold">
-                  {userData.firstName} {userData.lastName}
+                  {userData?.firstName} {userData?.lastName}
                 </div>
                 <div className="text-[14px] sm:text-base">
-                  <Link to={`/user/${userData._id}`}>{userData.email}</Link>
+                  <Link to={`/user/${userData?._id}`}>{userData?.email}</Link>
                 </div>
               </div>
             </div>
             <div className="bg-gradient-to-r from-transparent via-white to-transparent w-full h-[1px] mt-6 my-4"></div>
             <ul className=" text-gray-400 flex  flex-col gap-3 my-5">
-              {(userEmail === "tonisha24680@gmail.com" ||
-                userEmail === "animeshp1607@gmail.com") && (
+              {(userEmail === `${import.meta.env.VITE_FIRST_ADMIN_EMAIL}` ||
+                userEmail === `${import.meta.env.VITE_SECOND_ADMIN_EMAIL}`) && (
                 <li className="flex gap-5 items-center">
                   <div>
                     <img src={admin} alt="" className="ml-1 w-6 min-w-[24px]" />

@@ -3,32 +3,34 @@ const router = express.Router();
 require("dotenv").config();
 const multer = require("multer");
 const authenticateToken = require("../middleware/authenticateToken");
-const { v2: cloudinary } = require("cloudinary");
-const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const { v4: uuidv4 } = require("uuid");
 const Resource = require("../models/Resource");
+const ImageKit = require("imagekit");
 
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_RESOURCES_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_RESOURCES_API_KEY,
-  api_secret: process.env.CLOUDINARY_RESOURCES_API_SECRET,
+const imagekit = new ImageKit({
+  publicKey: process.env.IMAGEKIT_PUBLIC_KEY,
+  privateKey: process.env.IMAGEKIT_PRIVATE_KEY,
+  urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT,
 });
 
-const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: {
-    folder: "resources",
-    format: async () => "pdf",
-    public_id: () => uuidv4(),
+const storage = multer.memoryStorage();
+const upload = multer({
+  storage,
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = ["application/pdf"];
+
+    if (!allowedTypes.includes(file.mimetype)) {
+      return cb(new Error("Only PDF files are allowed"), false);
+    }
+
+    cb(null, true);
   },
 });
 
-const upload = multer({ storage });
-
 router.get("/resourceCount", async (req, res) => {
   try {
-    const resources = await Resource.find();
-    res.json(resources.length);
+    const count = await Resource.countDocuments();
+    res.json(count);
   } catch (error) {
     console.error("Error fetching resources count:", error);
     res.status(500).json({ error: "Failed to fetch resources count" });
@@ -48,7 +50,7 @@ router.post(
       return res
         .status(400)
         .send(
-          "All Categories (degree, branch, semester, subject, type) are required."
+          "All Categories (degree, branch, semester, subject, type) are required.",
         );
     }
 
@@ -105,15 +107,22 @@ router.post(
         });
       }
 
-      if (!file || !file.path) {
+      if (!file) {
         return res
           .status(400)
           .send(
-            "No file uploaded. File is required for non-tutorial resources."
+            "No file uploaded. File is required for non-tutorial resources.",
           );
       }
 
-      const cloudinary_url = file.path;
+      const uploadedFile = await imagekit.upload({
+        file: file.buffer,
+        fileName: `${uuidv4()}.pdf`,
+        folder: "/resources",
+      });
+
+      const fileUrl = uploadedFile.url;
+      const fileId = uploadedFile.fileId;
 
       const existingResource = await Resource.findOne({
         degree,
@@ -137,7 +146,8 @@ router.post(
         subject,
         type,
         pages,
-        cloudinary_url,
+        resource_url: fileUrl,
+        fileId,
       });
 
       await newResource.save();
@@ -149,7 +159,7 @@ router.post(
       console.error(err);
       return res.status(500).send("Server error: Unable to save file.");
     }
-  }
+  },
 );
 
 router.post(
@@ -165,7 +175,7 @@ router.post(
       return res
         .status(400)
         .send(
-          "All categories (degree, branch, semester, subject, type) are required."
+          "All categories (degree, branch, semester, subject, type) are required.",
         );
     }
 
@@ -175,7 +185,7 @@ router.post(
         .send(
           `Pages and a file are required for non-tutorial resources. Missing: ${
             !pages ? "pages" : "file"
-          }.`
+          }.`,
         );
     }
 
@@ -195,6 +205,7 @@ router.post(
       });
 
       if (existingResource) {
+        await imagekit.deleteFile(existingResource.fileId);
         await existingResource.deleteOne();
       }
 
@@ -213,6 +224,15 @@ router.post(
         await newTutorial.save();
         res.status(200).send("Tutorial resource replaced successfully!");
       } else {
+        const uploadedFile = await imagekit.upload({
+          file: file.buffer,
+          fileName: `${uuidv4()}.pdf`,
+          folder: "/resources",
+        });
+
+        const fileUrl = uploadedFile.url;
+        const fileId = uploadedFile.fileId;
+
         const newResource = new Resource({
           degree,
           branch,
@@ -220,7 +240,8 @@ router.post(
           subject,
           type,
           pages,
-          cloudinary_url: file.path,
+          resource_url: fileUrl,
+          fileId,
         });
         await newResource.save();
         res.status(200).send("Non-tutorial resource replaced successfully!");
@@ -229,7 +250,7 @@ router.post(
       console.error("Error in replacing resource:", error);
       res.status(500).send("Failed to replace resource. Please try again.");
     }
-  }
+  },
 );
 
 router.get("/optionsResource", authenticateToken, async (req, res) => {
@@ -249,7 +270,7 @@ router.get("/optionsResource", authenticateToken, async (req, res) => {
 
     const branchesByDegree = branches.reduce(
       (acc, curr) => ({ ...acc, [curr._id]: curr.branches }),
-      {}
+      {},
     );
 
     const semesters =
@@ -277,7 +298,7 @@ router.get("/optionsResource", authenticateToken, async (req, res) => {
         ...acc,
         [`${curr._id.degree}_${curr._id.branch}`]: curr.semesters,
       }),
-      {}
+      {},
     );
 
     const subjects =
@@ -314,7 +335,7 @@ router.get("/optionsResource", authenticateToken, async (req, res) => {
         [`${curr._id.degree}_${curr._id.branch}_${curr._id.semester}`]:
           curr.subjects,
       }),
-      {}
+      {},
     );
 
     const types = await Resource.aggregate([

@@ -122,8 +122,8 @@ const RouteGuard = ({ element, authOnly }) => {
 const AdminRoute = ({ element }) => {
   const { userEmail } = useAuth();
   const location = useLocation();
-  const adminOne = "tonisha24680@gmail.com";
-  const adminTwo = "animeshp1607@gmail.com";
+  const adminOne = `${import.meta.env.VITE_FIRST_ADMIN_EMAIL}`;
+  const adminTwo = `${import.meta.env.VITE_SECOND_ADMIN_EMAIL}`;
   if (userEmail !== adminOne && userEmail !== adminTwo) {
     return <Navigate to={location.state?.from || "/"} replace />;
   }
